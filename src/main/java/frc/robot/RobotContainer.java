@@ -1,34 +1,24 @@
 package frc.robot;
 
-import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.event.BooleanEvent;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.generated.TunerConstants;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
-import frc.utils.Logger;
 import frc.utils.RobotPreferences;
-import frc.utils.Logger.LogLevel;
 import frc.robot.Constants.Drive;
 
 public class RobotContainer {
@@ -45,11 +35,8 @@ public class RobotContainer {
     private SendableChooser<Command> autoChooser; //TODO: Add auto chooser
     private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-    private Orchestra orchestra;
-
     public RobotContainer(EventLoop loop) {
         eventLoop = loop;
-        for (String k : Preferences.getKeys()) Logger.log(LogLevel.INFO, k); 
 
         // Configure auto chooser
         //autoChooser = AutoBuilder.buildAutoChooser("Basic_Auto"); 

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "/Preferences/Input Filter Type (True for curve, False for slew): ",
+    "type": "boolean",
+    "value": true,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/Curve Power (Only if IF is True): ",
+    "type": "double",
+    "value": 1.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/Field Oriented Drive: ",
+    "type": "boolean",
+    "value": false,
+    "properties": {
+      "persistent": true
+    }
+  }
+]

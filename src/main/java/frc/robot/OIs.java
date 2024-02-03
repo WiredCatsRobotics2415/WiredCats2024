@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.utils.Logger;
-import frc.utils.Logger.LogLevel;
 import frc.utils.RobotPreferences;
 
 public class OIs {
@@ -56,7 +54,6 @@ public class OIs {
                 isCurve = true;
                 curve = RobotPreferences.getCurvePower();
                 if (curve < 1) curve = 1; //Note: must include because fractional/negative powers will yield uncontrolable results
-                Logger.log(LogLevel.INFO, "OI: Using Curve at " + curve + " power.");
             } else {
                 //Slew
                 isCurve = false;
@@ -64,7 +61,6 @@ public class OIs {
                 if (slewRate < 0) slewRate = 1.0d; //Note: must include because negative rates will yield uncontrolable results
                 xLimiter = new SlewRateLimiter(slewRate);
                 yLimiter = new SlewRateLimiter(slewRate);
-                Logger.log(LogLevel.INFO, "OI: Using Slew at " + slewRate + " rate.");
             }
         }
 
