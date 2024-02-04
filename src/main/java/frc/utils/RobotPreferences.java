@@ -72,16 +72,6 @@ public class RobotPreferences {
     }
 
     /**
-     * Should the robot drive relative to itself or to the field?
-     * @return True if field oriented, false if robot oriented
-     */
-    public static boolean getFieldOriented() {
-        String key = "Field Oriented Drive: ";
-        ensureExistance(key, PrefTypes.BOOL, false);
-        return Preferences.getBoolean(key, true);
-    }
-
-    /**
      * What angle should the navX be offset by?
      * ie. set to 180 if the robot starts backwards
      * @return int of offset in degrees, default 0

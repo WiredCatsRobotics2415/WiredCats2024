@@ -10,43 +10,32 @@ import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.generated.TunerConstants;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
-import frc.utils.RobotPreferences;
 import frc.robot.Constants.Drive;
 
 public class RobotContainer {
-    private final CommandXboxController joystick = new CommandXboxController(0);
     //SWERVE
     private final SwerveDrive swerveDrive = TunerConstants.DriveTrain; //Use the already constructed instance
-    private boolean isFieldOriented = true; //TODO: Cache during teleopinit
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(Drive.kMaxDriveMeterS * 0.05).withRotationalDeadband(Drive.kMaxAngularRadS * 0.05) // Add a 2% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
     //OBJECTS
     private OIs.OI selectedOI;
-    private EventLoop eventLoop;
 
     //SMARTDASHBOARD
     private SendableChooser<Command> autoChooser; //TODO: Add auto chooser
-    private final SendableChooser<String> m_chooser = new SendableChooser<>();
     private final Field2d field = new Field2d();
 
-    public RobotContainer(EventLoop loop) {
-        eventLoop = loop;
-
+    public RobotContainer() {
         // Configure auto chooser
         //autoChooser = AutoBuilder.buildAutoChooser("Basic_Auto"); 
         //SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -66,7 +55,6 @@ public class RobotContainer {
     //Calls methods from subsystems to update from preferences
     private void configurePreferences() {
         selectedOI.setPreferences();
-        isFieldOriented = RobotPreferences.getFieldOriented();
     }
 
     public void teleopInit() {
