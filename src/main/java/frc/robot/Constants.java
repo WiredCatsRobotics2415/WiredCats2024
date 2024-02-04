@@ -7,6 +7,15 @@ package frc.robot;
 import frc.generated.TunerConstants;
 
 public final class Constants {
+    public static class Swerve {
+      public static final String[] ModuleNames = new String[] {
+        "FRONT_LEFT",
+        "FRONT_RIGHT",
+        "BACK_LEFT",
+        "BACK_RIGHT"
+      };
+    }
+
     public static class Drive {
       public static final double kMaxDriveMeterS = TunerConstants.kSpeedAt12VoltsMps;
       public static final double kMaxAngularRadS = Math.PI; //rad/second

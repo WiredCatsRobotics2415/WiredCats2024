@@ -40,9 +40,20 @@ public class RobotContainer {
         //autoChooser = AutoBuilder.buildAutoChooser("Basic_Auto"); 
         //SmartDashboard.putData("Auto Chooser", autoChooser);
 
+        //TELEMETRY SETUP
+        //Do type stuff ahead of time, to avoid constant resend
+        for (int i = 0; i < 4; i++) {
+            SmartDashboard.putString(Constants.Swerve.ModuleNames[i] + "/.type", "SwerveModuleState");
+        }
         swerveDrive.registerTelemetry((SwerveDrivetrain.SwerveDriveState state) -> {
             field.setRobotPose(state.Pose);
             SmartDashboard.putData("Field", field);
+            for (int i = 0; i < state.ModuleStates.length; i++) {
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/actualAngle", state.ModuleStates[i].angle.getDegrees());
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/actualSpeed", state.ModuleStates[i].speedMetersPerSecond);
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/setAngle", state.ModuleTargets[i].angle.getDegrees());
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/setSpeed", state.ModuleTargets[i].speedMetersPerSecond);
+            }
         });
     }
 
