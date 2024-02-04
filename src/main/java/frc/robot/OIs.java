@@ -67,7 +67,8 @@ public class OIs {
         public GulikitController() {
             controller = new CommandXboxController(0);
             binds = Map.of(
-                "navX Reset", controller.button(7) //Minus
+                "PigeonReset", controller.button(7), //Minus
+                "FixAll", controller.button(8) //TODO: verify this is plus
             );
         }
 

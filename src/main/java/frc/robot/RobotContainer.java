@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.commands.FixAll;
 import frc.generated.TunerConstants;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
@@ -22,6 +23,8 @@ import frc.subsystems.SwerveDrive;
 import frc.robot.Constants.Drive;
 
 public class RobotContainer {
+    private static RobotContainer instance;
+
     //SWERVE
     private final SwerveDrive swerveDrive = TunerConstants.DriveTrain; //Use the already constructed instance
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -30,22 +33,29 @@ public class RobotContainer {
 
     //OBJECTS
     private OIs.OI selectedOI;
+    public OIs.OI getSelectedOI() {
+        return selectedOI;
+    }
 
     //SMARTDASHBOARD
     private SendableChooser<Command> autoChooser; //TODO: Add auto chooser
     private final Field2d field = new Field2d();
 
-    public RobotContainer() {
+    //PUBLIC
+    public Pose2d robotPose;
+
+    private RobotContainer() {
         // Configure auto chooser
         //autoChooser = AutoBuilder.buildAutoChooser("Basic_Auto"); 
         //SmartDashboard.putData("Auto Chooser", autoChooser);
 
         //TELEMETRY SETUP
-        //Do type stuff ahead of time, to avoid constant resend
+        //Do .type ahead of time to avoid constant resend
         for (int i = 0; i < 4; i++) {
             SmartDashboard.putString(Constants.Swerve.ModuleNames[i] + "/.type", "SwerveModuleState");
         }
         swerveDrive.registerTelemetry((SwerveDrivetrain.SwerveDriveState state) -> {
+            robotPose = state.Pose;
             field.setRobotPose(state.Pose);
             SmartDashboard.putData("Field", field);
             for (int i = 0; i < state.ModuleStates.length; i++) {
@@ -57,10 +67,18 @@ public class RobotContainer {
         });
     }
 
+    public static RobotContainer getInstance() {
+        if (instance == null) {
+            instance = new RobotContainer();
+        }
+        return instance;
+    }
+
     private void configButtonBindings() {
-        selectedOI.binds.get("navX Reset").onTrue(new InstantCommand(() -> {
+        selectedOI.binds.get("PigeonReset").onTrue(new InstantCommand(() -> {
             swerveDrive.seedFieldRelative();
         }, swerveDrive));
+        selectedOI.binds.get("FixAll").whileTrue(new FixAll()); //TODO: may need reconstruction each time?
     }
 
     //Calls methods from subsystems to update from preferences
