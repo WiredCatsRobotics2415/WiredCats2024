@@ -11,7 +11,26 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/OI": "String Chooser"
+    }
+  },
+  "NetworkTables": {
+    "persistent": {
+      "Preferences": {
+        "open": true
+      }
+    },
+    "transitory": {
+      "Shuffleboard": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "Field": {
+          "open": true
+        },
+        "open": true
+      }
     }
   },
   "NetworkTables Info": {
