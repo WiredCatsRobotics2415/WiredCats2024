@@ -86,10 +86,12 @@ public class OIs {
                 newX = xLimiter.calculate(x);
                 newY = yLimiter.calculate(y);
             }
-            if (x < 0) newX*=-1;
+            if (x < 0) newX *= -1;
+            //if (y < 0) newY *= -1;
             if (Double.isNaN(newX)) newX = 0.0d;
             if (Double.isNaN(newY)) newY = 0.0d;
-            return new TwoDControllerInput(newX, newY);
+            return new TwoDControllerInput(x, y);
+            //return new TwoDControllerInput(newX, newY);
         }
 
         public double getRotation() { 

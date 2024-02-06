@@ -117,7 +117,7 @@ public class RobotContainer {
         return new PathPlannerAuto("Auto");
     }
 
-    /*
+    /**
     * Test pathfinding 
     * Robot starts at (1, 5) and ends at (3, 7): 2 x 2m
     */

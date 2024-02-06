@@ -25,6 +25,7 @@ public final class Constants {
 
     /**
      * Translations in terms of blue origin (https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html#always-blue-origin)
+     * (The same as 0,0 on the Field2D widget on shuffleboard)
      */
     public static class FieldConstants {
       public static final Translation2d BlueSpeakerLocation = new Translation2d(

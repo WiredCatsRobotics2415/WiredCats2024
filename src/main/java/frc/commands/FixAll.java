@@ -16,6 +16,11 @@ import frc.robot.Constants.Drive;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 
+/**
+ * The "FixAll" preset (FIX ALL subsystems to their ideal position for scoring).
+ * Instance can be reused (ie. you can construct this command once for a button binding).
+ * Automatically compensates for alliance.
+ */
 public class FixAll extends Command {
     //GENERAL
     private OI oi; //Cache instance
@@ -25,7 +30,7 @@ public class FixAll extends Command {
     private final SwerveRequest.FieldCentricFacingAngle driveHeading = new SwerveRequest.FieldCentricFacingAngle()
             .withDeadband(Drive.kMaxDriveMeterS * 0.05)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-    private PhoenixPIDController headingController = new PhoenixPIDController(50, 0, 0);
+    private PhoenixPIDController headingController = new PhoenixPIDController(50, 0, 0); //TODO: may need physical tuning + move to constants?
 
     private Translation2d speakerLocation;
 
@@ -43,9 +48,11 @@ public class FixAll extends Command {
 
     @Override
     public void initialize() {
+        //Cache instances of used objects
         robotContainer = RobotContainer.getInstance();
         oi = robotContainer.getSelectedOI();
 
+        //Do alliance preparations
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
             if (alliance.get() == Alliance.Blue)
@@ -56,6 +63,7 @@ public class FixAll extends Command {
             configBlue(); // Default to blue
         }
 
+        //Swerve preparations
         driveHeading.HeadingController = headingController;
         headingController.enableContinuousInput(-Math.PI, Math.PI);
     }
@@ -64,7 +72,8 @@ public class FixAll extends Command {
     public void execute() {
         // Heading alignment
         // let (x, y) be the difference of position between the speaker and the robot
-        // swerveheading = -1*(arctan(y/x)-90deg)
+        // swerveheading = (arctan(y/x))
+        //TODO: test with blue alliance
         Translation2d speakerDist = speakerLocation.minus(robotContainer.robotPose.getTranslation());
         Rotation2d heading = Rotation2d.fromRadians(
                 Math.atan(speakerDist.getY()/speakerDist.getX()));
