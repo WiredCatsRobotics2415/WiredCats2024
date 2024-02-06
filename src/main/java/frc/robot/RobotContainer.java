@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -9,50 +10,80 @@ import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.event.EventLoop;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.commands.FixAll;
 import frc.generated.TunerConstants;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
-import frc.utils.RobotPreferences;
 import frc.robot.Constants.Drive;
 
 public class RobotContainer {
+    private static RobotContainer instance;
+
     //SWERVE
     private final SwerveDrive swerveDrive = TunerConstants.DriveTrain; //Use the already constructed instance
-    private boolean isFieldOriented = true; //Cached during teleopinit
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(Drive.kMaxDriveMeterS * 0.02).withRotationalDeadband(Drive.kMaxAngularRadS * 0.02) // Add a 2% deadband
+      .withDeadband(Drive.kMaxDriveMeterS * 0.05).withRotationalDeadband(Drive.kMaxAngularRadS * 0.05) // Add a 2% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
+    //OBJECTS
     private OIs.OI selectedOI;
-    private EventLoop eventLoop;
+    public OIs.OI getSelectedOI() {
+        return selectedOI;
+    }
+
+    //SMARTDASHBOARD
     private SendableChooser<Command> autoChooser; //TODO: Add auto chooser
-    private final SendableChooser<String> m_chooser = new SendableChooser<>();
+    private final Field2d field = new Field2d();
 
-    public RobotContainer(EventLoop loop) {
-        eventLoop = loop;
+    //PUBLIC
+    public Pose2d robotPose;
 
+    private RobotContainer() {
         // Configure auto chooser
         //autoChooser = AutoBuilder.buildAutoChooser("Basic_Auto"); 
         //SmartDashboard.putData("Auto Chooser", autoChooser);
+
+        //TELEMETRY SETUP
+        //Do .type ahead of time to avoid constant resend
+        for (int i = 0; i < 4; i++) {
+            SmartDashboard.putString(Constants.Swerve.ModuleNames[i] + "/.type", "SwerveModuleState");
+        }
+        swerveDrive.registerTelemetry((SwerveDrivetrain.SwerveDriveState state) -> {
+            robotPose = state.Pose;
+            field.setRobotPose(state.Pose);
+            SmartDashboard.putData("Field", field);
+            for (int i = 0; i < state.ModuleStates.length; i++) {
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/actualAngle", state.ModuleStates[i].angle.getDegrees());
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/actualSpeed", state.ModuleStates[i].speedMetersPerSecond);
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/setAngle", state.ModuleTargets[i].angle.getDegrees());
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/setSpeed", state.ModuleTargets[i].speedMetersPerSecond);
+            }
+        });
+    }
+
+    public static RobotContainer getInstance() {
+        if (instance == null) {
+            instance = new RobotContainer();
+        }
+        return instance;
     }
 
     private void configButtonBindings() {
-        selectedOI.binds.get("navX Reset").onTrue(new InstantCommand(() -> {
+        selectedOI.binds.get("PigeonReset").onTrue(new InstantCommand(() -> {
             swerveDrive.seedFieldRelative();
         }, swerveDrive));
+        selectedOI.binds.get("FixAll").whileTrue(new FixAll()); //TODO: may need reconstruction each time?
     }
 
     //Calls methods from subsystems to update from preferences
     private void configurePreferences() {
         selectedOI.setPreferences();
-        isFieldOriented = RobotPreferences.getFieldOriented();
     }
 
     public void teleopInit() {
@@ -69,10 +100,11 @@ public class RobotContainer {
         configButtonBindings();
         swerveDrive.setDefaultCommand(swerveDrive.applyRequest(() -> {
             TwoDControllerInput input = selectedOI.getXY();
-            return drive.withVelocityX(input.x() * Drive.kMaxDriveMeterS) // Drive forward with
-                .withVelocityY(input.y() * Drive.kMaxDriveMeterS) // Drive left with negative X (left)
-                .withRotationalRate(selectedOI.getRotation() * Drive.kMaxAngularRadS); // Drive counterclockwise with negative X (left)
-        }));
+            return drive.withVelocityX(-input.x() * Drive.kMaxDriveMeterS) // Drive forward with
+                .withVelocityY(-input.y() * Drive.kMaxDriveMeterS) // Drive left with negative X (left)
+                .withRotationalRate(-selectedOI.getRotation() * Drive.kMaxAngularRadS); // Drive counterclockwise with negative X (left)
+            }
+        ));
     }
      
     public Command getAutonomousCommand() {
@@ -85,7 +117,7 @@ public class RobotContainer {
         return new PathPlannerAuto("Auto");
     }
 
-    /*
+    /**
     * Test pathfinding 
     * Robot starts at (1, 5) and ends at (3, 7): 2 x 2m
     */

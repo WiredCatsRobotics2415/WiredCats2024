@@ -4,10 +4,10 @@ import java.util.Map;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.utils.RobotPreferences;
 
 public class OIs {
@@ -25,7 +25,7 @@ public class OIs {
         //PROPERTIES
         public double DEADBAND;
 
-        public Map<String, JoystickButton> binds;
+        public Map<String, Trigger> binds;
 
         //JOYSTICKS
         public abstract TwoDControllerInput getXY();
@@ -37,7 +37,7 @@ public class OIs {
     }
     
     public static class GulikitController extends OI {
-        XboxController controller;
+        CommandXboxController controller;
 
         private boolean isCurve;
         private double curve;
@@ -65,16 +65,17 @@ public class OIs {
         }
 
         public GulikitController() {
-            controller = new XboxController(0);
+            controller = new CommandXboxController(0);
             binds = Map.of(
-                "navX Reset", new JoystickButton(controller, 7) //Minus
+                "PigeonReset", controller.button(7), //Minus
+                "FixAll", controller.button(8) //TODO: verify this is plus
             );
         }
 
         public TwoDControllerInput getXY() {
             double x = MathUtil.applyDeadband(controller.getRawAxis(1), DEADBAND);
             double y = MathUtil.applyDeadband(controller.getRawAxis(0), DEADBAND);
-            double newX, newY;
+            double newX, newY = 0.0d;
             if (isCurve) {
                 double angle = Math.atan(y/x);
                 double magInital = Math.sqrt(x*x + y*y);
@@ -85,7 +86,12 @@ public class OIs {
                 newX = xLimiter.calculate(x);
                 newY = yLimiter.calculate(y);
             }
-            return new TwoDControllerInput(newX, newY);
+            if (x < 0) newX *= -1;
+            //if (y < 0) newY *= -1;
+            if (Double.isNaN(newX)) newX = 0.0d;
+            if (Double.isNaN(newY)) newY = 0.0d;
+            return new TwoDControllerInput(x, y);
+            //return new TwoDControllerInput(newX, newY);
         }
 
         public double getRotation() { 
