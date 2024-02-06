@@ -30,7 +30,6 @@ public class FixAll extends Command {
     private final SwerveRequest.FieldCentricFacingAngle driveHeading = new SwerveRequest.FieldCentricFacingAngle()
             .withDeadband(Drive.kMaxDriveMeterS * 0.05)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-    private PhoenixPIDController headingController = new PhoenixPIDController(50, 0, 0); //TODO: may need physical tuning + move to constants?
 
     private Translation2d speakerLocation;
 
@@ -64,8 +63,7 @@ public class FixAll extends Command {
         }
 
         //Swerve preparations
-        driveHeading.HeadingController = headingController;
-        headingController.enableContinuousInput(-Math.PI, Math.PI);
+        driveHeading.HeadingController = Constants.Swerve.headingPIDController;
     }
 
     @Override
