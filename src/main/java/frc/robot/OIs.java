@@ -77,7 +77,7 @@ public class OIs {
             double y = MathUtil.applyDeadband(controller.getRawAxis(0), DEADBAND);
             double newX, newY = 0.0d;
             if (isCurve) {
-                double angle = Math.atan(y/x);
+                double angle = Math.atan2(y, x);
                 double magInital = Math.sqrt(x*x + y*y);
                 double magCurved = Math.pow(magInital, curve);
                 newX = Math.cos(angle) * magCurved;
@@ -86,12 +86,9 @@ public class OIs {
                 newX = xLimiter.calculate(x);
                 newY = yLimiter.calculate(y);
             }
-            if (x < 0) newX *= -1;
-            //if (y < 0) newY *= -1;
             if (Double.isNaN(newX)) newX = 0.0d;
             if (Double.isNaN(newY)) newY = 0.0d;
-            return new TwoDControllerInput(x, y);
-            //return new TwoDControllerInput(newX, newY);
+            return new TwoDControllerInput(newX, newY);
         }
 
         public double getRotation() { 

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import frc.generated.TunerConstants;
@@ -16,6 +18,11 @@ public final class Constants {
         "Back Left",
         "Back Right"
       };
+
+      public static final PhoenixPIDController headingPIDController = new PhoenixPIDController(10, 0, 0); //TODO: may need physical tuning
+      static {
+        headingPIDController.enableContinuousInput(-Math.PI, Math.PI);
+      }
     }
 
     public static class Drive {
