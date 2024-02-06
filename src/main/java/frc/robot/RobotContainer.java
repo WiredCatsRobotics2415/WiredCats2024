@@ -20,6 +20,7 @@ import frc.generated.TunerConstants;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
+import frc.subsystems.Intake;
 import frc.robot.Constants.Drive;
 
 public class RobotContainer {
@@ -36,6 +37,8 @@ public class RobotContainer {
     public OIs.OI getSelectedOI() {
         return selectedOI;
     }
+
+    private final Intake intake = Intake.getInstance();
 
     //SMARTDASHBOARD
     private SendableChooser<Command> autoChooser; //TODO: Add auto chooser
@@ -79,6 +82,7 @@ public class RobotContainer {
             swerveDrive.seedFieldRelative();
         }, swerveDrive));
         selectedOI.binds.get("FixAll").whileTrue(new FixAll()); //TODO: may need reconstruction each time?
+        selectedOI.binds.get("Intake").whileTrue(new InstantCommand(() -> intake.toggle()));
     }
 
     //Calls methods from subsystems to update from preferences

@@ -68,7 +68,8 @@ public class OIs {
             controller = new CommandXboxController(0);
             binds = Map.of(
                 "PigeonReset", controller.button(7), //Minus
-                "FixAll", controller.button(8) //TODO: verify this is plus
+                "FixAll", controller.button(8), //TODO: verify this is plus
+                "Intake", controller.button(2)
             );
         }
 
