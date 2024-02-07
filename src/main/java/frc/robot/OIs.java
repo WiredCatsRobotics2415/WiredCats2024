@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.Drive;
 import frc.utils.RobotPreferences;
 
 public class OIs {
@@ -68,9 +69,17 @@ public class OIs {
             controller = new CommandXboxController(0);
             binds = Map.of(
                 "PigeonReset", controller.button(7), //Minus
-                "FixAll", controller.button(8), //TODO: verify this is plus
+                "FixAll", controller.button(8), //Plus
                 "Intake", controller.button(2)
             );
+        }
+
+        private double deadbandCompensation(double r) {
+            return (r - DEADBAND)/(1 - DEADBAND);
+        }
+
+        private double minimumPowerCompensation(double r) {
+            return r * (1 - Drive.MinimumDrivePower) + Drive.MinimumDrivePower;
         }
 
         public TwoDControllerInput getXY() {
@@ -80,9 +89,10 @@ public class OIs {
             if (isCurve) {
                 double angle = Math.atan2(y, x);
                 double magInital = Math.sqrt(x*x + y*y);
-                double magCurved = Math.pow(magInital, curve);
-                newX = Math.cos(angle) * magCurved;
-                newY = Math.sin(angle) * magCurved;
+                double magCurved = Math.pow(deadbandCompensation(magInital), curve);
+                double powerCompensated = minimumPowerCompensation(magCurved);
+                newX = Math.cos(angle) * powerCompensated;
+                newY = Math.sin(angle) * powerCompensated;
             } else {
                 newX = xLimiter.calculate(x);
                 newY = yLimiter.calculate(y);

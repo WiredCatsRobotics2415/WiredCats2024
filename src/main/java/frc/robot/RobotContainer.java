@@ -31,21 +31,24 @@ public class RobotContainer {
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(Drive.kMaxDriveMeterS * 0.05).withRotationalDeadband(Drive.kMaxAngularRadS * 0.05) // Add a 2% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    
+    //SUBSYSTEMS
+    private final Intake intake = Intake.getInstance();
 
-    //OBJECTS
+    //PUBLIC OBJECTS
     private OIs.OI selectedOI;
     public OIs.OI getSelectedOI() {
         return selectedOI;
     }
 
-    private final Intake intake = Intake.getInstance();
+    private Pose2d robotPose;
+    public Pose2d getRobotPose() {
+        return robotPose;
+    }
 
     //SMARTDASHBOARD
     private SendableChooser<Command> autoChooser; //TODO: Add auto chooser
     private final Field2d field = new Field2d();
-
-    //PUBLIC
-    public Pose2d robotPose;
 
     private RobotContainer() {
         // Configure auto chooser

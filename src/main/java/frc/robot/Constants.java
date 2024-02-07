@@ -28,6 +28,7 @@ public final class Constants {
     public static class Drive {
       public static final double kMaxDriveMeterS = TunerConstants.kSpeedAt12VoltsMps;
       public static final double kMaxAngularRadS = Math.PI; //rad/second
+      public static final double MinimumDrivePower = 0.0d; //TODO: needs tuning
     }
 
     /**
