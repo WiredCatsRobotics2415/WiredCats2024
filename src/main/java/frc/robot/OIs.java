@@ -102,11 +102,13 @@ public class OIs {
             return new TwoDControllerInput(newX, newY);
         }
 
-        public double getRotation() { 
+        public double getRotation() {
+            double deadbandCompensated = deadbandCompensation(
+                MathUtil.applyDeadband(controller.getRawAxis(4), DEADBAND));
             if (isCurve) {
-                return Math.pow(MathUtil.applyDeadband(controller.getRawAxis(4), DEADBAND), curve);
+                return Math.pow(minimumPowerCompensation(deadbandCompensated), curve);
             } else {
-                return MathUtil.applyDeadband(controller.getRawAxis(4), DEADBAND);
+                return minimumPowerCompensation(deadbandCompensated);
             }
         }
     }
