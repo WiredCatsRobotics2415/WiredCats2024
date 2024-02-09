@@ -29,7 +29,7 @@ public class RobotContainer {
     //SWERVE
     private final SwerveDrive swerveDrive = TunerConstants.DriveTrain; //Use the already constructed instance
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(Drive.kMaxDriveMeterS * 0.05).withRotationalDeadband(Drive.kMaxAngularRadS * 0.05) // Add a 2% deadband
+      .withDeadband(Drive.kMaxDriveMeterS * 0.05).withRotationalDeadband(Drive.kMaxAngularRadS * 0.05) // Add a 5% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
     
     //SUBSYSTEMS
@@ -80,11 +80,16 @@ public class RobotContainer {
         return instance;
     }
 
+    private void putSmartDashboardWidgets() {
+        SmartDashboard.putData("Zero Pose", new InstantCommand(() -> swerveDrive.seedFieldRelative(
+            new Pose2d(0, 0, Rotation2d.fromDegrees(0)))).withName("Zero Pose"));
+    }
+
     private void configButtonBindings() {
         selectedOI.binds.get("PigeonReset").onTrue(new InstantCommand(() -> {
             swerveDrive.seedFieldRelative();
         }, swerveDrive));
-        selectedOI.binds.get("FixAll").whileTrue(new FixAll()); //TODO: may need reconstruction each time?
+        selectedOI.binds.get("FixAll").whileTrue(new FixAll());
         selectedOI.binds.get("Intake").whileTrue(new InstantCommand(() -> intake.toggle()));
     }
 
@@ -112,6 +117,7 @@ public class RobotContainer {
                 .withRotationalRate(-selectedOI.getRotation() * Drive.kMaxAngularRadS); // Drive counterclockwise with negative X (left)
             }
         ));
+        putSmartDashboardWidgets();
     }
      
     public Command getAutonomousCommand() {

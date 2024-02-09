@@ -172,4 +172,4 @@ out/
 *-window.json
 
 # Simulation files from CTRE
-ctre_sim/*
+ctre_sim/
