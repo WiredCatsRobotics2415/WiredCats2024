@@ -71,10 +71,9 @@ public class FixAll extends Command {
         // Heading alignment
         // let (x, y) be the difference of position between the speaker and the robot
         // swerveheading = (arctan(y/x))
-        //TODO: test with blue alliance
         Translation2d speakerDist = speakerLocation.minus(robotContainer.getRobotPose().getTranslation());
         Rotation2d heading = Rotation2d.fromRadians(
-                Math.atan2(speakerDist.getY(), speakerDist.getX()));
+                Math.atan2(speakerDist.getY(), speakerDist.getX())).plus(Rotation2d.fromDegrees(180));
 
         TwoDControllerInput input = oi.getXY();
         TunerConstants.DriveTrain.setControl(driveHeading

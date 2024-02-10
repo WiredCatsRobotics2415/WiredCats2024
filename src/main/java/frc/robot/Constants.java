@@ -20,7 +20,7 @@ public final class Constants {
         "Back Right"
       };
 
-      public static final PhoenixPIDController headingPIDController = new PhoenixPIDController(10, 0, 0); //TODO: may need physical tuning
+      public static final PhoenixPIDController headingPIDController = new PhoenixPIDController(10, 0, 0);
       static {
         headingPIDController.enableContinuousInput(-Math.PI, Math.PI);
       }
@@ -40,7 +40,7 @@ public final class Constants {
     public static class Drive {
       public static final double kMaxDriveMeterS = TunerConstants.kSpeedAt12VoltsMps;
       public static final double kMaxAngularRadS = Math.PI; //rad/second
-      public static final double MinimumDrivePower = 0.0d; //TODO: needs tuning
+      public static final double MinimumDrivePower = 0.05d;
     }
 
     /**
@@ -49,10 +49,10 @@ public final class Constants {
      */
     public static class FieldConstants {
       public static final Translation2d BlueSpeakerLocation = new Translation2d(
-        Units.inchesToMeters(46),
-        Units.inchesToMeters(236));
+        Units.inchesToMeters(0),
+        Units.inchesToMeters(207)); //TODO: may need fudge factoring
       public static final Translation2d RedSpeakerLocation = new Translation2d(
-        Units.inchesToMeters(662),
-        Units.inchesToMeters(236));
+        Units.inchesToMeters(651.598),
+        Units.inchesToMeters(207)); //TODO: may need fudge factoring
     }
 }

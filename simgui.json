@@ -12,7 +12,9 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/OI": "String Chooser"
+      "/SmartDashboard/InstantCommand": "Command",
+      "/SmartDashboard/OI": "String Chooser",
+      "/SmartDashboard/Zero Pose": "Command"
     }
   },
   "NetworkTables": {
