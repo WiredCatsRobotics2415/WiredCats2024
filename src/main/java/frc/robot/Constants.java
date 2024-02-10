@@ -8,6 +8,7 @@ import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.generated.TunerConstants;
 
 public final class Constants {
@@ -22,6 +23,17 @@ public final class Constants {
       public static final PhoenixPIDController headingPIDController = new PhoenixPIDController(10, 0, 0); //TODO: may need physical tuning
       static {
         headingPIDController.enableContinuousInput(-Math.PI, Math.PI);
+      }
+    }
+
+    public static class Climber {
+      public static final double ClimberGearRatio = 6.746031746031747; // Drive gear ratio - Testing  
+      public static final double ClimberMax = Conversions.rotations_to_meters(5) * ClimberGearRatio; // Rotations 
+    }
+
+    public static class Conversions {
+      public static double rotations_to_meters(int rotations) { // Needs to be completed once arm is finished
+        return rotations; 
       }
     }
 

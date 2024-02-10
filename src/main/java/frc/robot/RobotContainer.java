@@ -15,11 +15,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.commands.FixAll;
 import frc.generated.TunerConstants;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
+import frc.subsystems.Climber;
 import frc.subsystems.Intake;
 import frc.robot.Constants.Drive;
 
@@ -34,6 +36,7 @@ public class RobotContainer {
     
     //SUBSYSTEMS
     private final Intake intake = Intake.getInstance();
+    private final Climber climber = Climber.getInstance(); 
 
     //PUBLIC OBJECTS
     private OIs.OI selectedOI;
@@ -71,6 +74,13 @@ public class RobotContainer {
                 SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/setSpeed", state.ModuleTargets[i].speedMetersPerSecond);
             }
         });
+
+        ConfigSmartdashboard();
+    }
+
+    // Add all Smartdashboard widgets here 
+    private void ConfigSmartdashboard() {
+        climber.DisplayClimberPos(); 
     }
 
     public static RobotContainer getInstance() {
@@ -86,6 +96,8 @@ public class RobotContainer {
         }, swerveDrive));
         selectedOI.binds.get("FixAll").whileTrue(new FixAll()); //TODO: may need reconstruction each time?
         selectedOI.binds.get("Intake").whileTrue(new InstantCommand(() -> intake.toggle()));
+        selectedOI.binds.get("ReleaseClimber").whileTrue(climber.release()); 
+        selectedOI.binds.get("RetractClimber").onTrue(climber.retract()); 
     }
 
     //Calls methods from subsystems to update from preferences

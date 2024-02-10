@@ -46,7 +46,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     }
 
     private void configurePathPlanner() {
-        double driveBaseRadius = 0.54;
+        double driveBaseRadius = m_moduleLocations[0].getNorm();
         for (var moduleLocation : m_moduleLocations) {
             driveBaseRadius = Math.max(driveBaseRadius, moduleLocation.getNorm());
         }

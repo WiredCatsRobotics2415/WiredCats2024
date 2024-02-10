@@ -1,7 +1,19 @@
 package frc.robot;
 
 public class RobotMap {
-    public static final int INTAKE_MOTOR = 0; 
-    public static final int IR_SENSOR_1 = 0; 
-    public static final int IR_SENSOR_2 = 0;
+    public static final String CANBUS_NAME = "rio";
+
+    public static class subsystems {
+        public static final int INTAKE_MOTOR = 0; 
+        public static final int CLIMBER_MASTER = 1; // Drive motor - FR
+        public static final int CLIMBER_FOLLOWER = 4; // Drive motor - FL
+    }
+
+    public static class sensors {
+        public static final int IR_SENSOR_1 = 0; 
+        public static final int IR_SENSOR_2 = 0;
+    }
+
+
+
 }
