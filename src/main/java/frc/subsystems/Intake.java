@@ -8,7 +8,7 @@ public class Intake {
     private boolean state;
 
     public Intake() {
-        motor = new CANSparkMax(RobotMap.subsystems.INTAKE_MOTOR, CANSparkMax.MotorType.kBrushless);
+        motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR, CANSparkMax.MotorType.kBrushless);
         state = false;
     }
 

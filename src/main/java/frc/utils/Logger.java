@@ -54,10 +54,10 @@ public class Logger {
      * @param level: The severity level of your message
      * @param objects: The objects to print. If multiple, they will be seperated by a '|' symbol
      */
-    public static void log(LogLevel level, Object... objects) {
+    public static void log(Object sender, LogLevel level, Object... objects) {
         if (level.ordinal() >= selectedLogLevel.getSelected().ordinal()) {
             if (objects.length == 1) {
-                System.out.println(getTimeString() + objects[0]);
+                System.out.println(getTimeString() + "(" + sender.getClass().getSimpleName() + ") " + objects[0]);
                 return;
             }
             String toPrint = "";
@@ -65,7 +65,7 @@ public class Logger {
                 toPrint = toPrint.concat(objects[i].toString() + " | ");
             }
             toPrint = toPrint.concat(objects[objects.length-1].toString());
-            System.out.println(getTimeString() + toPrint);
+            System.out.println(getTimeString() + "(" + sender.getClass().getName() + ")" + toPrint);
         }
     }
 }

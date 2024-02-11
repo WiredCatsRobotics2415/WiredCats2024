@@ -1,10 +1,7 @@
 package frc.subsystems;
 
-import java.util.function.BooleanSupplier;
-
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -19,13 +16,14 @@ public class Climber extends SubsystemBase {
     // Initialize motors 
     private TalonFX right; 
     private TalonFX left; 
-    private PositionVoltage m_voltagePosition = new PositionVoltage(0, 0, true, 0, 0, false, false, false); 
+    private PositionVoltage positionOut = new PositionVoltage(0, 0, false, 0, 0, false, false, false); 
     // Guarantee only one instance of the Climber class exists 
-    private static Climber instance; 
+    private static Climber instance;
 
-    public Climber() {
-        right = new TalonFX(RobotMap.subsystems.CLIMBER_MASTER, RobotMap.CANBUS_NAME); // Initialize right motor - From the back of the robot
-        left = new TalonFX(RobotMap.subsystems.CLIMBER_FOLLOWER, RobotMap.CANBUS_NAME); // Initialize left motor - From the back of the robot
+    private Climber() {
+        //From the back of the robot
+        right = new TalonFX(RobotMap.Climber.CLIMBER_MASTER, RobotMap.CANBUS_NAME); // Initialize right motor
+        left = new TalonFX(RobotMap.Climber.CLIMBER_FOLLOWER, RobotMap.CANBUS_NAME); // Initialize left motor
         configClimberMotors();
     }
 
@@ -48,11 +46,11 @@ public class Climber extends SubsystemBase {
         /* Retry config apply up to 5 times, report if failure */
         StatusCode status = StatusCode.StatusCodeNotInitialized;
         for (int i = 0; i < 5; ++i) {
-        status = right.getConfigurator().apply(configs);
-        if (status.isOK()) break;
+            status = right.getConfigurator().apply(configs);
+            if (status.isOK()) break;
         }
         if(!status.isOK()) {
-        System.out.println("Could not apply configs, error code: " + status.toString());
+            System.out.println("Could not apply configs, error code: " + status.toString());
         }
 
         /* Make sure we start at 0 */
@@ -97,12 +95,13 @@ public class Climber extends SubsystemBase {
     }
 
     // Set motors to travel a certain number of rotations 
-    public void target(double left_goal, double right_goal) {
-        right.setControl(m_voltagePosition.withPosition(left_goal)); 
-        left.setControl(m_voltagePosition.withPosition(right_goal)); 
+    public void target(double leftGoal, double rightGoal) {
+        right.setControl(positionOut.withPosition(leftGoal)); 
+        left.setControl(positionOut.withPosition(rightGoal)); 
     }
 
-    public void DisplayClimberPos() {
+    @Override
+    public void periodic() {
         SmartDashboard.putNumber("Motor position", right.getRotorPosition().getValueAsDouble() / Constants.Climber.ClimberGearRatio);
     }
 }

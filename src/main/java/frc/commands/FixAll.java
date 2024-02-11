@@ -1,7 +1,6 @@
 package frc.commands;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -38,11 +37,11 @@ public class FixAll extends Command {
     }
 
     private void configBlue() {
-        speakerLocation = Constants.FieldConstants.BlueSpeakerLocation;
+        speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation;
     }
 
     private void configRed() {
-        speakerLocation = Constants.FieldConstants.RedSpeakerLocation;
+        speakerLocation = Constants.FieldMeasurements.RedSpeakerLocation;
     }
 
     @Override
@@ -71,7 +70,7 @@ public class FixAll extends Command {
         // Heading alignment
         // let (x, y) be the difference of position between the speaker and the robot
         // swerveheading = (arctan(y/x))
-        Translation2d speakerDist = speakerLocation.minus(robotContainer.getRobotPose().getTranslation());
+        Translation2d speakerDist = speakerLocation.minus(TunerConstants.DriveTrain.getRobotPose().getTranslation());
         Rotation2d heading = Rotation2d.fromRadians(
                 Math.atan2(speakerDist.getY(), speakerDist.getX())).plus(Rotation2d.fromDegrees(180));
 
