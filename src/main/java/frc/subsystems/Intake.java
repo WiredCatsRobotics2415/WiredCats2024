@@ -1,16 +1,45 @@
 package frc.subsystems;
 import com.revrobotics.CANSparkMax;
 import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Intake {
+public class Intake extends SubsystemBase {
     private CANSparkMax motor;
     private static Intake instance;
     private boolean state;
+    private DigitalInput topIR;
+    private DigitalInput bottomIR;
 
     public Intake() {
         motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR, CANSparkMax.MotorType.kBrushless);
+        topIR = new DigitalInput(RobotMap.Intake.TOP_IR);
+        bottomIR = new DigitalInput(RobotMap.Intake.BOTTOM_IR); 
         state = false;
     }
+
+    public Command off() {
+      return runOnce(
+        () -> {
+      motor_off();
+        });
+    }
+
+    public void motor_in() {
+        System.out.println("in");
+        motor.set(-1);
+    }
+
+    public void motor_off() {
+      System.out.println("off");
+      motor.set(0);
+  }
+
+  public void motor_out() {
+    System.out.println("out");
+    motor.set(1);
+}
 
     public static Intake getInstance() {
         if (instance == null) {
@@ -19,13 +48,33 @@ public class Intake {
         return instance;
       }
 
-      public void toggle() {
-        if (state == true) {
-            motor.set(0);
+      public Command toggle() {
+        return runOnce(
+        () -> {
+          System.out.println("Run");
+          if (state == true) {
+            motor_off();
             state = false;
         } else {
-            motor.set(1);
+            motor_in();
             state = true;
         }
+      });
+      }
+        
+
+      public boolean hasNote() {
+          return topIR.get();
+        }
+
+      public boolean inShooter() {
+        return bottomIR.get();
+      }
+
+      public Command intakeIn() {
+        return runOnce(
+        () -> {
+      motor_out();
+      });
       }
 }

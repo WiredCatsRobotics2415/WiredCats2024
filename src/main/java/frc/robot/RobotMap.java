@@ -10,7 +10,7 @@ public class RobotMap {
 
     public static class Intake {
         public static final int INTAKE_MOTOR = 0;
-        public static final int IR_SENSOR_1 = 0; 
-        public static final int IR_SENSOR_2 = 0;
+        public static final int TOP_IR = 1; 
+        public static final int BOTTOM_IR = 2; 
     }
 }

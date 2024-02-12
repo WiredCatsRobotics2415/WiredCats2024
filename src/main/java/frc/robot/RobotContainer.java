@@ -14,6 +14,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.commands.FixAll;
 import frc.generated.TunerConstants;
@@ -66,9 +67,17 @@ public class RobotContainer {
             swerveDrive.seedFieldRelative();
         }, swerveDrive));
         selectedOI.binds.get("FixAll").whileTrue(new FixAll());
-        selectedOI.binds.get("Intake").whileTrue(new InstantCommand(() -> intake.toggle()));
+        selectedOI.binds.get("Intake").whileTrue(intake.toggle());
         selectedOI.binds.get("ReleaseClimber").whileTrue(climber.release()); 
         selectedOI.binds.get("RetractClimber").onTrue(climber.retract()); 
+
+        new Trigger(intake::hasNote)
+        .onTrue(intake.off());
+
+        
+        new Trigger(intake::inShooter)
+        .onTrue(intake.intakeIn())
+        .onFalse(intake.off());
     }
 
     //Calls methods from subsystems to update from preferences
