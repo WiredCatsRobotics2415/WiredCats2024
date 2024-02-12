@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -10,17 +9,19 @@ import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.networktables.NetworkTableEvent;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.commands.FixAll;
 import frc.generated.TunerConstants;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
+import frc.utils.Logger;
+import frc.utils.Logger.LogLevel;
 import frc.subsystems.Climber;
 import frc.subsystems.Intake;
 import frc.robot.Constants.Drive;
@@ -44,43 +45,13 @@ public class RobotContainer {
         return selectedOI;
     }
 
-    private Pose2d robotPose;
-    public Pose2d getRobotPose() {
-        return robotPose;
-    }
-
-    //SMARTDASHBOARD
-    private SendableChooser<Command> autoChooser; //TODO: Add auto chooser
-    private final Field2d field = new Field2d();
+    //CHOOSERS
+    private SendableChooser<Command> autoChooser;
 
     private RobotContainer() {
         // Configure auto chooser
-        //autoChooser = AutoBuilder.buildAutoChooser("Basic_Auto"); 
-        //SmartDashboard.putData("Auto Chooser", autoChooser);
-
-        //TELEMETRY SETUP
-        //Do .type ahead of time to avoid constant resend
-        for (int i = 0; i < 4; i++) {
-            SmartDashboard.putString(Constants.Swerve.ModuleNames[i] + "/.type", "SwerveModuleState");
-        }
-        swerveDrive.registerTelemetry((SwerveDrivetrain.SwerveDriveState state) -> {
-            robotPose = state.Pose;
-            field.setRobotPose(state.Pose);
-            SmartDashboard.putData("Field", field);
-            for (int i = 0; i < state.ModuleStates.length; i++) {
-                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/actualAngle", state.ModuleStates[i].angle.getDegrees());
-                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/actualSpeed", state.ModuleStates[i].speedMetersPerSecond);
-                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/setAngle", state.ModuleTargets[i].angle.getDegrees());
-                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/setSpeed", state.ModuleTargets[i].speedMetersPerSecond);
-            }
-        });
-
-        ConfigSmartdashboard();
-    }
-
-    // Add all Smartdashboard widgets here 
-    private void ConfigSmartdashboard() {
-        climber.DisplayClimberPos(); 
+        autoChooser = AutoBuilder.buildAutoChooser("Basic_Auto"); 
+        SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
     public static RobotContainer getInstance() {
@@ -88,11 +59,6 @@ public class RobotContainer {
             instance = new RobotContainer();
         }
         return instance;
-    }
-
-    private void putSmartDashboardWidgets() {
-        SmartDashboard.putData("Zero Pose", new InstantCommand(() -> swerveDrive.seedFieldRelative(
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)))).withName("Zero Pose"));
     }
 
     private void configButtonBindings() {
@@ -129,7 +95,6 @@ public class RobotContainer {
                 .withRotationalRate(-selectedOI.getRotation() * Drive.kMaxAngularRadS); // Drive counterclockwise with negative X (left)
             }
         ));
-        putSmartDashboardWidgets();
     }
      
     public Command getAutonomousCommand() {

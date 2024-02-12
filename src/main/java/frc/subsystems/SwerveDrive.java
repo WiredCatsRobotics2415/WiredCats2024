@@ -12,12 +12,18 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.Constants;
 
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements subsystem
@@ -30,27 +36,53 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
-    public SwerveDrive(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
-        super(driveTrainConstants, OdometryUpdateFrequency, modules);
+    private Pose2d robotPose;
+    public Pose2d getRobotPose() {
+        return robotPose;
+    }
+
+    private final Field2d field = new Field2d();
+
+    //Has to be in its own function, because of the template code
+    private void intialization() {
         configurePathPlanner();
         if (Utils.isSimulation()) {
             startSimThread();
         }
+
+        //Telemetry
+        for (int i = 0; i < 4; i++) {
+            SmartDashboard.putString(Constants.Swerve.ModuleNames[i] + "/.type", "SwerveModuleState");
+        }
+        this.registerTelemetry((SwerveDrivetrain.SwerveDriveState state) -> {
+            robotPose = state.Pose;
+            field.setRobotPose(state.Pose);
+            SmartDashboard.putData("Field", field);
+            for (int i = 0; i < state.ModuleStates.length; i++) {
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/actualAngle", state.ModuleStates[i].angle.getDegrees());
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/actualSpeed", state.ModuleStates[i].speedMetersPerSecond);
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/setAngle", state.ModuleTargets[i].angle.getDegrees());
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/setSpeed", state.ModuleTargets[i].speedMetersPerSecond);
+            }
+        });
+
+        //Remote Commands
+        SmartDashboard.putData("Zero Pose", new InstantCommand(() -> this.seedFieldRelative(
+            new Pose2d(0, 0, Rotation2d.fromDegrees(0)))).withName("Zero Pose"));
+    }
+
+    public SwerveDrive(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
+        super(driveTrainConstants, OdometryUpdateFrequency, modules);
+        intialization();
     }
     public SwerveDrive(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
-        configurePathPlanner();
-        if (Utils.isSimulation()) {
-            startSimThread();
-        }
+        intialization();
     }
 
     private void configurePathPlanner() {
         double driveBaseRadius = m_moduleLocations[0].getNorm();
-        for (var moduleLocation : m_moduleLocations) {
-            driveBaseRadius = Math.max(driveBaseRadius, moduleLocation.getNorm());
-        }
-
+        
         // Configure AutoBuilder last
         AutoBuilder.configureHolonomic(
             ()->this.getState().Pose, // Supplier of current robot pose

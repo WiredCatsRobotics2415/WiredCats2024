@@ -8,7 +8,6 @@ import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.generated.TunerConstants;
 
 public final class Constants {
@@ -32,7 +31,7 @@ public final class Constants {
     }
 
     public static class Conversions {
-      public static double rotations_to_meters(int rotations) { // Needs to be completed once arm is finished
+      public static double rotationsToMeters(int rotations) { // Needs to be completed once arm is finished
         return rotations; 
       }
     }
@@ -47,7 +46,7 @@ public final class Constants {
      * Translations in terms of blue origin (https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html#always-blue-origin)
      * (The same as 0,0 on the Field2D widget on shuffleboard)
      */
-    public static class FieldConstants {
+    public static class FieldMeasurements {
       public static final Translation2d BlueSpeakerLocation = new Translation2d(
         Units.inchesToMeters(0),
         Units.inchesToMeters(207)); //TODO: may need fudge factoring
