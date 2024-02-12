@@ -81,7 +81,7 @@ public class Climber extends SubsystemBase {
         return new ConditionalCommand(
             run(
                 () -> {
-                    target(left.getRotorPosition().getValueAsDouble() + 1, right.getRotorPosition().getValueAsDouble() + 1); 
+                    target(left.getRotorPosition().getValueAsDouble() + 6, right.getRotorPosition().getValueAsDouble() + 6); 
                 }
             ), 
             run(

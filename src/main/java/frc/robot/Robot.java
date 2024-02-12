@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    // climber.DisplayClimberPos();
+    climber.DisplayClimberPos();
     CommandScheduler.getInstance().run();
   }
 }
