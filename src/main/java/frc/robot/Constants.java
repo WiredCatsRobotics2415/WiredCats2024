@@ -27,7 +27,7 @@ public final class Constants {
 
     public static class Climber {
       public static final double ClimberGearRatio = 6.746031746031747; // Drive gear ratio - Testing  
-      public static final double ClimberMax = Conversions.rotations_to_meters(1) * ClimberGearRatio; // Rotations 
+      public static final double ClimberMax = Conversions.rotationsToMeters(1) * ClimberGearRatio; // Rotations 
     }
 
     public static class Conversions {
