@@ -33,9 +33,9 @@ public final class Constants {
     }
 
     public static class Flywheel {
-      public static final double FLYWHEEL_SPEED = rpm_to_rps(2000);  // Flywheel only acceps input in rotations per second (rps) but we are more comfortable with rpms
+      public static final double FLYWHEEL_SPEED = rpmToRPS(2000);  // Flywheel only acceps input in rotations per second (rps) but we are more comfortable with rpms
  
-      public static double rpm_to_rps(double rpm) {
+      public static double rpmToRPS(double rpm) {
         return rpm / 60; 
       }
     }
