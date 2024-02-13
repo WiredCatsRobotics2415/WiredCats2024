@@ -1,8 +1,6 @@
 package frc.subsystems;
 
-import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -37,7 +35,7 @@ public class Arm extends ProfiledPIDSubsystem {
                 Constants.Arm.ACCEL_MAX)),
         0);
     
-    potentiometer = new AnalogPotentiometer(RobotMap.Arm.ANALOG_POT_PORT); //TO-DO
+    potentiometer = new AnalogPotentiometer(RobotMap.Arm.ANALOG_POT_PORT);
 
     FeedbackConfigs feedbackConfigs = new FeedbackConfigs()
       .withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor);
@@ -53,6 +51,8 @@ public class Arm extends ProfiledPIDSubsystem {
     if (Robot.isSimulation()) {
       SmartDashboard.setDefaultNumber("Sim Distance", 0.0d);
     }
+
+    System.out.println(potentiometer.get());
   }
 
   @Override

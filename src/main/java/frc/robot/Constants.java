@@ -6,10 +6,7 @@ package frc.robot;
 
 import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 
-import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import frc.generated.TunerConstants;
 
@@ -50,7 +47,7 @@ public final class Constants {
           ANALOG_POT,
           FALCON_ROTOR
       }
-      public static final EncoderOption ENCODER_TO_USE = EncoderOption.FALCON_ROTOR;
+      public static final EncoderOption ENCODER_TO_USE = EncoderOption.ANALOG_POT;
   
       public static final double POT_OFFSET = 0.0d; //In DEGREES (added before reading is converted to rotations)
   
@@ -63,13 +60,6 @@ public final class Constants {
   
       public static final float KG_PROPORTION = 0.005f; //How much to modify KG by;
       //applied KG = (Proportion * angle in degrees) * KG 
-  
-      // public static final float KS = -0.028267f;
-      // public static final float KV = 0.031364f;
-      // public static final float KA = 0.0028159f;
-      // public static final float KG = 0.12297f;
-      // public static final float KP = 0.02122f;
-      // public static final float KD = 0.00044669f;
   
       public static final float VELO_MAX = 0.5f; //No more than 45 deg per second
       public static final float ACCEL_MAX = 0.25f;

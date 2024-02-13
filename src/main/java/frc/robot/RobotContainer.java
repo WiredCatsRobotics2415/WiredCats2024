@@ -9,12 +9,9 @@ import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.NetworkTableEvent;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.commands.FixAll;
@@ -22,8 +19,6 @@ import frc.generated.TunerConstants;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
-import frc.utils.Logger;
-import frc.utils.Logger.LogLevel;
 import frc.subsystems.Climber;
 import frc.subsystems.Intake;
 import frc.robot.Constants.Drive;
@@ -63,7 +58,7 @@ public class RobotContainer {
         return instance;
     }
 
-    private void configButtonBindings() {
+    private void configureButtonBindings() {
         selectedOI.binds.get("PigeonReset").onTrue(new InstantCommand(() -> {
             swerveDrive.seedFieldRelative();
         }, swerveDrive));
@@ -73,10 +68,11 @@ public class RobotContainer {
         selectedOI.binds.get("RetractClimber").onTrue(climber.retract()); 
         //selectedOI.binds.get("ReleaseClimber").whileTrue(new StartEndCommand(() -> climber.runUntil(), () -> climber.stop(), climber));
         selectedOI.binds.get("ReleaseClimber").whileTrue(climber.runUntil()).onFalse(climber.stop());
+    }
 
+    private void configureTriggers() {
         new Trigger(intake::hasNote)
         .onTrue(intake.off());
-
         
         new Trigger(intake::inShooter)
         .onTrue(intake.intakeIn());
@@ -99,7 +95,8 @@ public class RobotContainer {
               break;
         }
         configurePreferences();
-        configButtonBindings();
+        configureButtonBindings();
+        configureTriggers();
         swerveDrive.setDefaultCommand(swerveDrive.applyRequest(() -> {
             TwoDControllerInput input = selectedOI.getXY();
             return drive.withVelocityX(-input.x() * Drive.kMaxDriveMeterS) // Drive forward with
