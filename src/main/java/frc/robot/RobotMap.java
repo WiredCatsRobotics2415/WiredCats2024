@@ -19,4 +19,9 @@ public class RobotMap {
         public static final int RIGHT_MOTOR_PORT = 9; //TO CHANGE
         public static final int ANALOG_POT_PORT = 0; //TO CHANGE
     }
+
+    public static class Flywheel {
+        public static final int LEFT_FLYWHEEL = 0; 
+        public static final int RIGHT_FLYWHEEL = 0; 
+    }
 }

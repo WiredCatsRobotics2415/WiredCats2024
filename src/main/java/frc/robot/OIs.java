@@ -4,8 +4,10 @@ import java.util.Map;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Drive;
@@ -39,6 +41,7 @@ public class OIs {
     
     public static class GulikitController extends OI {
         CommandXboxController controller;
+        CommandJoystick numpad; 
 
         private boolean isCurve;
         private double curve;
@@ -67,12 +70,16 @@ public class OIs {
 
         public GulikitController() {
             controller = new CommandXboxController(0);
+            numpad = new CommandJoystick(1);
             binds = Map.of(
                 "PigeonReset", controller.button(7), // Minus
                 "FixAll", controller.button(8), // Plus
                 "Intake", controller.button(2), // A
                 "ReleaseClimber", controller.button(3), // Y
-                "RetractClimber", controller.button(1) // B 
+                "RetractClimber", controller.button(1), // B 
+                "FlywheelOn", numpad.button(7, null), // 7 
+                "FlywheelOff", numpad.button(8, null) // 8
+
             );
         }
 

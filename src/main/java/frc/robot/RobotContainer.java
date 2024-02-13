@@ -20,6 +20,7 @@ import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
 import frc.subsystems.Climber;
+import frc.subsystems.Flywheel;
 import frc.subsystems.Intake;
 import frc.robot.Constants.Drive;
 
@@ -35,6 +36,7 @@ public class RobotContainer {
     //SUBSYSTEMS
     private final Intake intake = Intake.getInstance();
     private final Climber climber = Climber.getInstance(); 
+    private final Flywheel flywheel = Flywheel.getInstance(); 
 
     //PUBLIC OBJECTS
     private OIs.OI selectedOI;
@@ -68,6 +70,8 @@ public class RobotContainer {
         selectedOI.binds.get("RetractClimber").onTrue(climber.retract()); 
         //selectedOI.binds.get("ReleaseClimber").whileTrue(new StartEndCommand(() -> climber.runUntil(), () -> climber.stop(), climber));
         selectedOI.binds.get("ReleaseClimber").whileTrue(climber.runUntil()).onFalse(climber.stop());
+        selectedOI.binds.get("FlywheelOn").onTrue(flywheel.on());
+        selectedOI.binds.get("FlywheelOff").onTrue(flywheel.off()); 
     }
 
     private void configureTriggers() {

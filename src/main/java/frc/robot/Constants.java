@@ -11,6 +11,8 @@ import edu.wpi.first.math.util.Units;
 import frc.generated.TunerConstants;
 
 public final class Constants {
+    public static final String CANBusName = "rio"; 
+
     public static class Swerve {
       public static final String[] ModuleNames = new String[] {
         "Front Left",
@@ -28,6 +30,14 @@ public final class Constants {
     public static class Climber {
       public static final double ClimberGearRatio = 6.746031746031747; // Drive gear ratio - Testing  
       public static final double ClimberMax = Conversions.rotationsToMeters(1) * ClimberGearRatio; // Rotations 
+    }
+
+    public static class Flywheel {
+      public static final double FLYWHEEL_SPEED = rpm_to_rps(2000);  // Flywheel only acceps input in rotations per second (rps) but we are more comfortable with rpms
+ 
+      public static double rpm_to_rps(double rpm) {
+        return rpm / 60; 
+      }
     }
 
     public static class Conversions {
