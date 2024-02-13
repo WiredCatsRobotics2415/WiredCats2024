@@ -10,7 +10,7 @@
   {
     "name": "/Preferences/Curve Power (Only if IF is True): ",
     "type": "double",
-    "value": 1.0,
+    "value": 3.0,
     "properties": {
       "persistent": true
     }

@@ -5,12 +5,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
   private RobotContainer robot;
   private Command auto;
+  private static EventLoop eventLoop = new EventLoop();
+
+  public static EventLoop getEventLoop() {
+    return eventLoop;
+  }
 
   @Override
   public void robotInit() {
@@ -36,6 +42,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    eventLoop.poll();
     CommandScheduler.getInstance().run();
   }
 }

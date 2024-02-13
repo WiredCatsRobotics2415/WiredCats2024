@@ -18,12 +18,10 @@ public class Vision extends SubsystemBase {
     private LimelightResults cachedIntakeTargetResults;
 
     private static Vision instance;
-    private SwerveDrive swerveInstance;
 
     private Vision() {
         if (Robot.isSimulation()) {
             SmartDashboard.setDefaultNumber("Note detection Y", 0.0d);
-            swerveInstance = TunerConstants.DriveTrain;
         }
     }
 
@@ -43,7 +41,7 @@ public class Vision extends SubsystemBase {
 
     public Pose2d getBotPose2d() {
         if (Robot.isSimulation()) {
-            return swerveInstance.getRobotPose();
+            return TunerConstants.DriveTrain.getRobotPose();
         }
         return cachedBackPose2d;
     }
