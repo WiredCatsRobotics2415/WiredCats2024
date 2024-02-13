@@ -22,8 +22,8 @@ public class Climber extends SubsystemBase {
 
     private Climber() {
         //From the back of the robot
-        right = new TalonFX(RobotMap.Climber.CLIMBER_MASTER, RobotMap.CANBUS_NAME); // Initialize right motor
-        left = new TalonFX(RobotMap.Climber.CLIMBER_FOLLOWER, RobotMap.CANBUS_NAME); // Initialize left motor
+        right = new TalonFX(2, RobotMap.CANBUS_NAME); // Initialize right motor
+        left = new TalonFX(4, RobotMap.CANBUS_NAME); // Initialize left motor
         configClimberMotors();
     }
 
@@ -72,6 +72,30 @@ public class Climber extends SubsystemBase {
         return runOnce(
             () -> {
                 target(0, 0);
+            });
+    }
+
+    public Command runUntil() {
+        return runOnce(
+            () -> {
+                System.out.println("Run until");
+                if (notMax()) {
+                    System.out.println("Not max");
+                    left.set(0.25);
+                    right.set(0.25);
+                } else {
+                    left.set(0);
+                    right.set(0);
+                    System.out.println("Hit max");
+                }
+            });
+    }
+
+    public Command stop() {
+        return runOnce(
+            () -> {
+                left.set(0);
+                right.set(0);
             });
     }
 

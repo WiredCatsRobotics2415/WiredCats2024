@@ -14,6 +14,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.commands.FixAll;
@@ -68,8 +69,10 @@ public class RobotContainer {
         }, swerveDrive));
         selectedOI.binds.get("FixAll").whileTrue(new FixAll());
         selectedOI.binds.get("Intake").whileTrue(intake.toggle());
-        selectedOI.binds.get("ReleaseClimber").whileTrue(climber.release()); 
+        //selectedOI.binds.get("ReleaseClimber").whileTrue(climber.release()); 
         selectedOI.binds.get("RetractClimber").onTrue(climber.retract()); 
+        //selectedOI.binds.get("ReleaseClimber").whileTrue(new StartEndCommand(() -> climber.runUntil(), () -> climber.stop(), climber));
+        selectedOI.binds.get("ReleaseClimber").whileTrue(climber.runUntil()).onFalse(climber.stop());
 
         new Trigger(intake::hasNote)
         .onTrue(intake.off());
