@@ -74,7 +74,7 @@ public final class Constants {
       public static final float VELO_MAX = 0.5f; //No more than 45 deg per second
       public static final float ACCEL_MAX = 0.25f;
   
-      public static final float ROTOR_TO_ARM_GEAR_RATIO = 100/1; //(# encoder rotations per 1 full rotation)
+      public static final float ROTOR_TO_ARM_GEAR_RATIO = 280/1; //(# encoder rotations per 1 full rotation)
   
       public static final double MAX_ROTATIONS = 120/360.0; //Max angle of arm
       public static final double MIN_ROTATIONS = 0/360.0; //Min angle of arm

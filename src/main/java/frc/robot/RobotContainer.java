@@ -72,6 +72,7 @@ public class RobotContainer {
         selectedOI.binds.get("ReleaseClimber").whileTrue(climber.runUntil()).onFalse(climber.stop());
         selectedOI.binds.get("FlywheelOn").onTrue(flywheel.on());
         selectedOI.binds.get("FlywheelOff").onTrue(flywheel.off()); 
+        selectedOI.binds.get("ManualOuttake").whileTrue(intake.out()).onFalse(intake.off());
     }
 
     private void configureTriggers() {

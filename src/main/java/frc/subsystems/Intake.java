@@ -27,6 +27,13 @@ public class Intake extends SubsystemBase {
         });
     }
 
+    public Command out() {
+       return runOnce(
+        () -> {
+      motor.set(1);
+        });
+    }
+
     public void motor_in() {
         System.out.println("in");
         motor.set(-1);
