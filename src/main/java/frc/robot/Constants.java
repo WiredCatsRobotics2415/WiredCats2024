@@ -42,6 +42,49 @@ public final class Constants {
       public static final double MinimumDrivePower = 0.05d;
     }
 
+    public static final class Arm {
+      public static enum EncoderOption {
+          ANALOG_POT,
+          FALCON_ROTOR
+      }
+      public static final EncoderOption ENCODER_TO_USE = EncoderOption.FALCON_ROTOR;
+  
+      public static final double POT_OFFSET = 0.0d; //In DEGREES (added before reading is converted to rotations)
+  
+      public static final float KS = 0.3159f;
+      public static final float KV = 8.06f;
+      public static final float KA = 0.09f;
+      public static final float KG = 0.383f;
+      public static final float KP = 3.2f;
+      public static final float KD = 1.5f;
+  
+      public static final float KG_PROPORTION = 0.005f; //How much to modify KG by;
+      //applied KG = (Proportion * angle in degrees) * KG 
+  
+      // public static final float KS = -0.028267f;
+      // public static final float KV = 0.031364f;
+      // public static final float KA = 0.0028159f;
+      // public static final float KG = 0.12297f;
+      // public static final float KP = 0.02122f;
+      // public static final float KD = 0.00044669f;
+  
+      public static final float VELO_MAX = 0.5f; //No more than 45 deg per second
+      public static final float ACCEL_MAX = 0.25f;
+  
+      public static final float ROTOR_TO_ARM_GEAR_RATIO = 100/1; //(# encoder rotations per 1 full rotation)
+  
+      public static final double MAX_ROTATIONS = 120/360.0; //Max angle of arm
+      public static final double MIN_ROTATIONS = 0/360.0; //Min angle of arm
+      
+      public static double rotationsToFalcon(double rotations) {
+        return rotations * ROTOR_TO_ARM_GEAR_RATIO;
+      }
+  
+      public static double falconToRotations(double rotations) {
+        return rotations / ROTOR_TO_ARM_GEAR_RATIO;
+      }
+    }
+
     /**
      * Translations in terms of blue origin (https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html#always-blue-origin)
      * (The same as 0,0 on the Field2D widget on shuffleboard)
