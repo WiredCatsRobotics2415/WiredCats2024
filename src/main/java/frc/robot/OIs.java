@@ -72,7 +72,8 @@ public class OIs {
                 "FixAll", controller.button(8), // Plus
                 "Intake", controller.button(2), // A
                 "ReleaseClimber", controller.button(3), // Y
-                "RetractClimber", controller.button(1) // B 
+                "RetractClimber", controller.button(1), // B 
+                "ManualOuttake", controller.button(4) // X
             );
         }
 

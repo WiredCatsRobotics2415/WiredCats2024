@@ -68,6 +68,7 @@ public class RobotContainer {
         selectedOI.binds.get("RetractClimber").onTrue(climber.retract()); 
         //selectedOI.binds.get("ReleaseClimber").whileTrue(new StartEndCommand(() -> climber.runUntil(), () -> climber.stop(), climber));
         selectedOI.binds.get("ReleaseClimber").whileTrue(climber.runUntil()).onFalse(climber.stop());
+        selectedOI.binds.get("ManualOuttake").whileTrue(intake.out()).onFalse(intake.off());
     }
 
     private void configureTriggers() {
