@@ -50,11 +50,11 @@ public class Flywheel extends SubsystemBase {
         /* Retry config apply up to 5 times, report if failure */
         StatusCode status = StatusCode.StatusCodeNotInitialized;
         for (int i = 0; i < 5; ++i) {
-        status = left.getConfigurator().apply(configs);
-        if (status.isOK()) break;
+            status = left.getConfigurator().apply(configs);
+            if (status.isOK()) break;
         }
         if(!status.isOK()) {
-        System.out.println("Could not apply configs, error code:] " + status.toString());
+            System.out.println("Could not apply configs, error code:] " + status.toString());
         }
 
         right.setControl(new Follower(left.getDeviceID(), false)); // Set right motor to follow left 

@@ -78,15 +78,12 @@ public class Climber extends SubsystemBase {
     public Command runUntil() {
         return runOnce(
             () -> {
-                System.out.println("Run until");
                 if (notMax()) {
-                    System.out.println("Not max");
                     left.set(0.25);
                     right.set(0.25);
                 } else {
                     left.set(0);
                     right.set(0);
-                    System.out.println("Hit max");
                 }
             });
     }
