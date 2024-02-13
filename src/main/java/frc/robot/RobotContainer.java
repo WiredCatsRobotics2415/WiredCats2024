@@ -85,6 +85,7 @@ public class RobotContainer {
     //Calls methods from subsystems to update from preferences
     private void configurePreferences() {
         selectedOI.setPreferences();
+        swerveDrive.setPreferences();
     }
 
     public void teleopInit() {

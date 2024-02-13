@@ -58,8 +58,8 @@ public class RobotPreferences {
     */
     public static double getCurvePower() {
         String key = "Curve Power (Only if IF is True): ";
-        ensureExistance(key, PrefTypes.DOUBLE, 1.0d);
-        return Preferences.getDouble(key, 1.0d);
+        ensureExistance(key, PrefTypes.DOUBLE, 3.0d);
+        return Preferences.getDouble(key, 3.0d);
     }
 
     /**
@@ -72,44 +72,11 @@ public class RobotPreferences {
     }
 
     /**
-     * What angle should the navX be offset by?
-     * ie. set to 180 if the robot starts backwards
-     * @return int of offset in degrees, default 0
+     * @return true if should use limelight
      */
-    public static int getNavXOffset() {
-        String key = "navX angle offset";
-        ensureExistance(key, PrefTypes.INT, 0);
-        return Preferences.getInt(key, 0);
-    }
-
-    /**
-      * What angle should the navX be offset by?
-      * ie. set to 180 if the robot starts backwards
-      * @param offset offset in degrees
-    */
-    public static void setNavXOffset(int offset) {
-        String key = "navX angle offset";
-        ensureExistance(key, PrefTypes.INT, offset);
-        Preferences.setInt(key, offset);
-    }
-
-    /**
-      * Automatically set the internal encoder to the external encoder?
-      * @return status
-     */
-    public static boolean getAutoAzimuthSync() {
-        String key = "Auto azimuth sync";
+    public static boolean shouldUseLimelight() {
+        String key = "Use Limelight";
         ensureExistance(key, PrefTypes.BOOL, true);
         return Preferences.getBoolean(key, true);
-    }
-
-     /**
-      * Automatically set the internal encoder to the external encoder?
-      * @param status
-     */
-    public static void setAutoAzimuthSync(boolean enable) {
-        String key = "Auto azimuth sync";
-        ensureExistance(key, PrefTypes.BOOL, enable);
-        Preferences.setBoolean(key, enable);
     }
 }

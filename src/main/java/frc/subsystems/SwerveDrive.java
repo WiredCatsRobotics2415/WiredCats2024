@@ -18,12 +18,15 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
+import frc.utils.LimelightHelpers;
+import frc.utils.RobotPreferences;
 
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements subsystem
@@ -33,9 +36,10 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
-
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
+    private Vision vision; 
+    private boolean shouldUseLimelight = true;
     private Pose2d robotPose;
     public Pose2d getRobotPose() {
         return robotPose;
@@ -69,6 +73,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
         //Remote Commands
         SmartDashboard.putData("Zero Pose", new InstantCommand(() -> this.seedFieldRelative(
             new Pose2d(0, 0, Rotation2d.fromDegrees(0)))).withName("Zero Pose"));
+        
+        vision = Vision.getInstance();
     }
 
     public SwerveDrive(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
@@ -132,5 +138,17 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
             updateSimState(deltaTime, RobotController.getBatteryVoltage());
         });
         m_simNotifier.startPeriodic(kSimLoopPeriod);
+    }
+
+    public void setPreferences() {
+        shouldUseLimelight = RobotPreferences.shouldUseLimelight();
+    }
+
+    @Override
+    public void periodic() {
+        if (shouldUseLimelight) {
+            addVisionMeasurement(vision.getBotPose2d(),
+                Timer.getFPGATimestamp());
+        }
     }
 }
