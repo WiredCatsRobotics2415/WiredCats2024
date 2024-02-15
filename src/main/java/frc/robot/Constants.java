@@ -52,6 +52,11 @@ public final class Constants {
       public static final double MinimumDrivePower = 0.05d;
     }
 
+    public static class Intake {
+      public static final double IntakeSpeed = 0.5; 
+      public static final double IRThreshold = 200; 
+    }
+
     public static final class Arm {
       public static enum EncoderOption {
           ANALOG_POT,

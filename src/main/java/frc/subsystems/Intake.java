@@ -1,6 +1,9 @@
 package frc.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import frc.robot.Constants;
 import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -9,14 +12,14 @@ public class Intake extends SubsystemBase {
     private TalonFX motor;
     private static Intake instance;
     private boolean state;
-    private DigitalInput topIR;
-    private DigitalInput bottomIR;
+    private AnalogInput topIR;
+    private AnalogInput bottomIR;
 
     public Intake() {
         //motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR, CANSparkMax.MotorType.kBrushless);
         motor = new TalonFX(0);
-        topIR = new DigitalInput(RobotMap.Intake.TOP_IR);
-        bottomIR = new DigitalInput(RobotMap.Intake.BOTTOM_IR); 
+        topIR = new AnalogInput(RobotMap.Intake.TOP_IR);
+        bottomIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR); 
         state = false;
     }
 
@@ -30,13 +33,13 @@ public class Intake extends SubsystemBase {
     public Command out() {
        return runOnce(
         () -> {
-      motor.set(1);
+      motor.set(Constants.Intake.IntakeSpeed);
         });
     }
 
     public void motor_in() {
         System.out.println("in");
-        motor.set(-1);
+        motor.set(-Constants.Intake.IntakeSpeed);
     }
 
     public void motor_off() {
@@ -46,7 +49,7 @@ public class Intake extends SubsystemBase {
 
   public void motor_out() {
     System.out.println("out");
-    motor.set(1);
+    motor.set(Constants.Intake.IntakeSpeed);
 }
 
     public static Intake getInstance() {
@@ -72,11 +75,11 @@ public class Intake extends SubsystemBase {
         
 
       public boolean hasNote() {
-          return topIR.get();
+          return topIR.getValue() > Constants.Intake.IRThreshold;
         }
 
       public boolean inShooter() {
-        return bottomIR.get();
+        return bottomIR.getValue() > Constants.Intake.IRThreshold;
       }
 
       public Command intakeIn() {
