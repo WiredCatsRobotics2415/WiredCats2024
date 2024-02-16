@@ -21,7 +21,7 @@ public class RobotMap {
     }
 
     public static class Flywheel {
-        public static final int LEFT_FLYWHEEL = 0; 
-        public static final int RIGHT_FLYWHEEL = 0; 
+        public static final int LEFT_FLYWHEEL = 20; 
+        public static final int RIGHT_FLYWHEEL = 16; 
     }
 }
