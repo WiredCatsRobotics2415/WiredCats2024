@@ -38,7 +38,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
     private Vision vision; 
-    private boolean shouldUseLimelight = true;
+    private boolean shouldUseLimelight = false;
     private Pose2d robotPose;
     public Pose2d getRobotPose() {
         return robotPose;

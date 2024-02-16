@@ -1,19 +1,22 @@
 package frc.subsystems;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.utils.Logger;
+import frc.utils.Logger.LogLevel;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
-    private TalonFX motor;
-    private static Intake instance;
-    private boolean state;
-    private AnalogInput topIR;
-    private AnalogInput bottomIR;
+  private TalonFX motor;
+  private static Intake instance;
+  private AnalogInput topIR;
+  private AnalogInput bottomIR;
+
+  private boolean state = false;
 
     public Intake() {
         //motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR, CANSparkMax.MotorType.kBrushless);
@@ -60,10 +63,22 @@ public class Intake extends SubsystemBase {
         return instance;
       }
 
-      public Command toggle() {
-        return runOnce(
+  //COMMANDS
+  public Command off() {
+    return runOnce(() -> motorOff());
+  }
+
+  public Command out() {
+    return runOnce(() -> motorOut());
+  }
+
+  public Command in() {
+    return runOnce(() -> motorIn());
+  }
+
+  public Command toggleIntake() {
+    return runOnce(
         () -> {
-          System.out.println("Run");
           if (state == true) {
             motor_off();
             state = false;
@@ -79,14 +94,7 @@ public class Intake extends SubsystemBase {
           return topIR.getValue() > Constants.Intake.IRThreshold;
         }
 
-      public boolean inShooter() {
-        return bottomIR.getValue() > Constants.Intake.IRThreshold;
-      }
-
-      public Command intakeIn() {
-        return runOnce(
-        () -> {
-        motor_in();
-        });
-      }
+  public boolean inShooter() {
+    return bottomIR.getValue() > Constants.Intake.IRThreshold;
+  }
 }

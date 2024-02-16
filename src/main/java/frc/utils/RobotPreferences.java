@@ -76,7 +76,7 @@ public class RobotPreferences {
      */
     public static boolean shouldUseLimelight() {
         String key = "Use Limelight";
-        ensureExistance(key, PrefTypes.BOOL, true);
-        return Preferences.getBoolean(key, true);
+        ensureExistance(key, PrefTypes.BOOL, false);
+        return Preferences.getBoolean(key, false);
     }
 }

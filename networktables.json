@@ -26,9 +26,10 @@
   {
     "name": "/Preferences/Use Limelight",
     "type": "boolean",
-    "value": true,
+    "value": false,
     "properties": {
-      "persistent": true
+      "persistent": true,
+      "retained": true
     }
   }
 ]
