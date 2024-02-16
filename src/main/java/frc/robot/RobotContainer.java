@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.commands.FixAll;
+import frc.commands.HotspotGeneator;
 import frc.generated.TunerConstants;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
@@ -37,6 +38,9 @@ public class RobotContainer {
     private final Intake intake = Intake.getInstance();
     private final Climber climber = Climber.getInstance(); 
     private final Flywheel flywheel = Flywheel.getInstance(); 
+    
+    // HOTSPOT
+    private final HotspotGeneator hotspotGen = HotspotGeneator.getInstance(); 
 
     //PUBLIC OBJECTS
     private OIs.OI selectedOI;
@@ -73,6 +77,7 @@ public class RobotContainer {
         selectedOI.binds.get("FlywheelOn").onTrue(flywheel.on());
         selectedOI.binds.get("FlywheelOff").onTrue(flywheel.off()); 
         selectedOI.binds.get("ManualOuttake").whileTrue(intake.out()).onFalse(intake.off());
+        selectedOI.binds.get("TargetHotspot").onTrue(hotspotGen.targetClosest());
     }
 
     private void configureTriggers() {

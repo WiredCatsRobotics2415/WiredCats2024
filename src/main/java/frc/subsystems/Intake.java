@@ -20,6 +20,7 @@ public class Intake extends SubsystemBase {
         motor = new TalonFX(0);
         topIR = new AnalogInput(RobotMap.Intake.TOP_IR);
         bottomIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR); 
+        motor.setInverted(true);
         state = false;
     }
 
@@ -50,10 +51,10 @@ public class Intake extends SubsystemBase {
   public void motor_out() {
     System.out.println("out");
     motor.set(Constants.Intake.IntakeSpeed);
-}
+  }
 
     public static Intake getInstance() {
-        if (instance == null) {
+      if (instance == null) {
           instance = new Intake();
         }
         return instance;
@@ -71,7 +72,7 @@ public class Intake extends SubsystemBase {
             state = true;
         }
       });
-      }
+    }
         
 
       public boolean hasNote() {

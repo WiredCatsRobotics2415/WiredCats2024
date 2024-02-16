@@ -79,7 +79,8 @@ public class OIs {
                 "RetractClimber", controller.button(1), // B 
                 "FlywheelOn", numpad.button(7, Robot.getEventLoop()), // 7 
                 "FlywheelOff", numpad.button(8, Robot.getEventLoop()), // 8
-                "ManualOuttake", controller.button(4) // X
+                "ManualOuttake", controller.button(4), // X
+                "TargetHotspot", controller.button(9)
             );
         }
 
