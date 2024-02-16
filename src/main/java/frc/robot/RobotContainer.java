@@ -61,18 +61,25 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
+        //Swerve
         selectedOI.binds.get("PigeonReset").onTrue(new InstantCommand(() -> {
             swerveDrive.seedFieldRelative();
         }, swerveDrive));
-        selectedOI.binds.get("FixAll").whileTrue(new FixAll());
-        selectedOI.binds.get("Intake").whileTrue(intake.toggle());
-        //selectedOI.binds.get("ReleaseClimber").whileTrue(climber.release()); 
+
+        //Intake
+        selectedOI.binds.get("Intake").onTrue(intake.in()).onFalse(intake.off());
+        selectedOI.binds.get("Outtake").onTrue(intake.out()).onFalse(intake.off());
+
+        //Climber
         selectedOI.binds.get("RetractClimber").onTrue(climber.retract()); 
-        //selectedOI.binds.get("ReleaseClimber").whileTrue(new StartEndCommand(() -> climber.runUntil(), () -> climber.stop(), climber));
         selectedOI.binds.get("ReleaseClimber").whileTrue(climber.runUntil()).onFalse(climber.stop());
+
+        //Flywheel;
         selectedOI.binds.get("FlywheelOn").onTrue(flywheel.on());
-        selectedOI.binds.get("FlywheelOff").onTrue(flywheel.off()); 
-        selectedOI.binds.get("ManualOuttake").whileTrue(intake.out()).onFalse(intake.off());
+        selectedOI.binds.get("FlywheelOff").onTrue(flywheel.off());
+
+        //Presets
+        //selectedOI.binds.get("FixAll").whileTrue(new FixAll());
     }
 
     private void configureTriggers() {
@@ -105,8 +112,8 @@ public class RobotContainer {
         swerveDrive.setDefaultCommand(swerveDrive.applyRequest(() -> {
             TwoDControllerInput input = selectedOI.getXY();
             return drive.withVelocityX(-input.x() * Drive.kMaxDriveMeterS) // Drive forward with
-                .withVelocityY(-input.y() * Drive.kMaxDriveMeterS) // Drive left with negative X (left)
-                .withRotationalRate(-selectedOI.getRotation() * Drive.kMaxAngularRadS); // Drive counterclockwise with negative X (left)
+                .withVelocityY(-input.y() * Drive.kMaxDriveMeterS); // Drive left with negative X (left)
+                //.withRotationalRate(-selectedOI.getRotation() * Drive.kMaxAngularRadS); // Drive counterclockwise with negative X (left)
             }
         ));
     }

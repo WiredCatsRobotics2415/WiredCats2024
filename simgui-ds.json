@@ -4,6 +4,11 @@
       "visible": true
     }
   },
+  "Keyboard 1 Settings": {
+    "window": {
+      "visible": true
+    }
+  },
   "keyboardJoysticks": [
     {
       "axisConfig": [
@@ -64,13 +69,17 @@
           "incKey": 75
         }
       ],
-      "axisCount": 2,
-      "buttonCount": 4,
+      "axisCount": 0,
+      "buttonCount": 8,
       "buttonKeys": [
         -1,
         -1,
         -1,
-        47
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
       ],
       "povCount": 0
     },
@@ -106,6 +115,9 @@
   "robotJoysticks": [
     {
       "guid": "Keyboard0"
+    },
+    {
+      "guid": "Keyboard1"
     }
   ]
 }

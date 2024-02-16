@@ -82,7 +82,7 @@ public class OIs {
                 "RetractClimber", controller.button(1), // B 
                 "FlywheelOn", numpad.button(7, defaultEventLoop), // 7 
                 "FlywheelOff", numpad.button(8, defaultEventLoop), // 8
-                "ManualOuttake", controller.button(4) // X
+                "Outtake", controller.button(4) // X
             );
         }
 

@@ -4,6 +4,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.utils.Logger;
+import frc.utils.Logger.LogLevel;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -11,17 +13,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
   private TalonFX motor;
   private static Intake instance;
-  private boolean state;
   private AnalogInput topIR;
   private AnalogInput bottomIR;
 
+  private boolean state = false;
+
   public Intake() {
-    // motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR,
-    // CANSparkMax.MotorType.kBrushless);
-    motor = new TalonFX(0);
+    motor = new TalonFX(RobotMap.Intake.INTAKE_MOTOR);
     topIR = new AnalogInput(RobotMap.Intake.TOP_IR);
     bottomIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR);
-    state = false;
   }
 
   public static Intake getInstance() {
@@ -44,34 +44,42 @@ public class Intake extends SubsystemBase {
     return runOnce(() -> motorIn());
   }
 
-  public Command toggle() {
+  public Command toggleIntake() {
     return runOnce(
         () -> {
-          System.out.println("Run");
           if (state == true) {
             motorOff();
-            state = false;
           } else {
             motorIn();
-            state = true;
           }
         });
   }
 
+  public Command startOutake() {
+    return runOnce(() -> motorOut());
+  }
+
+  public Command stopOutake() {
+    return runOnce(() -> motorOff());
+  }
+
   //MOTOR METHODS
   public void motorIn() {
-    System.out.println("in");
+    Logger.log(this, LogLevel.DEBUG, "Motor in");
     motor.set(-Constants.Intake.IntakeSpeed);
+    state = true;
   }
 
   public void motorOff() {
-    System.out.println("off");
+    Logger.log(this, LogLevel.DEBUG, "Motor off");
     motor.set(0);
+    state = false;
   }
 
   public void motorOut() {
-    System.out.println("out");
+    Logger.log(this, LogLevel.DEBUG, "Motor out");
     motor.set(Constants.Intake.IntakeSpeed);
+    state = true;
   }
 
   //SENSOR METHODS

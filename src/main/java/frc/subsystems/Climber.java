@@ -22,8 +22,8 @@ public class Climber extends SubsystemBase {
 
     private Climber() {
         //From the back of the robot
-        right = new TalonFX(2, RobotMap.CANBUS_NAME); // Initialize right motor
-        left = new TalonFX(4, RobotMap.CANBUS_NAME); // Initialize left motor
+        right = new TalonFX(RobotMap.Climber.CLIMBER_MASTER, RobotMap.CANBUS_NAME); // Initialize right motor
+        left = new TalonFX(RobotMap.Climber.CLIMBER_FOLLOWER, RobotMap.CANBUS_NAME); // Initialize left motor
         configClimberMotors();
     }
 
