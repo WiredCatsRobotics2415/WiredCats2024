@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import frc.commands.Hotspot;
 import frc.generated.TunerConstants;
 
 public final class Constants {
@@ -55,6 +58,18 @@ public final class Constants {
     public static class Intake {
       public static final double IntakeSpeed = 0.5; 
       public static final double IRThreshold = 200; 
+    }
+
+    public final static ArrayList<Hotspot> Hotspots = new ArrayList<Hotspot>();
+    static {
+        Hotspots.add(new Hotspot(136.5, 200)); 
+        Hotspots.add(new Hotspot(155, 236.5)); 
+        Hotspots.add(new Hotspot(136.5, 243.5)); 
+        Hotspots.add(new Hotspot(241.5, 295)); 
+        Hotspots.add(new Hotspot(241.5, 238)); 
+        Hotspots.add(new Hotspot(241.5, 181)); 
+        Hotspots.add(new Hotspot(194.5, 112.638)); 
+        Hotspots.add(new Hotspot(194.5, 324)); 
     }
 
     public static final class Arm {

@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.pathfinding.Pathfinding;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.commands.TargetHotspot;
 
 public class Robot extends TimedRobot {
   private RobotContainer robot;
@@ -25,7 +28,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    auto = robot.getAutonomousCommand(); // Run an auto path
+    //auto = robot.getAutonomousCommand(); // Run an auto path
+    auto = robot.getPathfindingCommand(); // Run an auto path
     // auto = robot.getPathfindingCommand(); // Run a pathfinding command
     if (auto != null) CommandScheduler.getInstance().schedule(auto);
   }

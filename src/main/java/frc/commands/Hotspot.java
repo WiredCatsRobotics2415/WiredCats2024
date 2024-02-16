@@ -10,7 +10,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.generated.TunerConstants;
 import frc.robot.Constants;
 
 /*
@@ -20,28 +19,24 @@ import frc.robot.Constants;
 
 public class Hotspot {
     // Target coordinates 
-    private double X; 
-    private double Y; 
+    private double x; 
+    private double y; 
     private Pose2d targetPose; 
-    private Translation2d speakerLocation;
-    private Translation2d targetCoords; 
+    private Translation2d speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation;
+    private Translation2d targetCoords;
 
-    public Hotspot(double X, double Y) {
-        this.X = X;
-        this.Y = Y; 
-        this.targetCoords = new Translation2d(X, Y); 
-        this.targetPose = new Pose2d(this.X, this.Y, Rotation2d.fromDegrees(rotEstimation(this.X, this.Y)));
+    public Hotspot(double x, double y) {
+        this.x = x;
+        this.y = y; 
+        this.targetCoords = new Translation2d(Units.inchesToMeters(x), Units.inchesToMeters(y)); 
+        this.targetPose = new Pose2d(this.x, this.y, Rotation2d.fromDegrees(rotEstimation(this.x, this.y)));
 
         //Do alliance preparations
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
-            if (alliance.get() == Alliance.Blue)
-                configBlue();
-            else
-                configRed();
-        } else {
-            configBlue(); // Default to blue
-        }
+            if (alliance.get() == Alliance.Blue) configBlue();
+            else configRed();
+        } else configBlue();
     }
 
     // Set speaker location based on alliance color 
@@ -62,11 +57,11 @@ public class Hotspot {
     }
 
     public double getX() {
-        return this.X; 
+        return this.x; 
     }
 
     public double getY() {
-        return this.Y; 
+        return this.y; 
     }
 
     public Translation2d get2d() {
