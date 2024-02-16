@@ -5,8 +5,10 @@ import java.util.Map;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -71,14 +73,15 @@ public class OIs {
         public GulikitController() {
             controller = new CommandXboxController(0);
             numpad = new CommandJoystick(1);
+            EventLoop defaultEventLoop = CommandScheduler.getInstance().getDefaultButtonLoop();
             binds = Map.of(
                 "PigeonReset", controller.button(7), // Minus
                 "FixAll", controller.button(8), // Plus
                 "Intake", controller.button(2), // A
                 "ReleaseClimber", controller.button(3), // Y
                 "RetractClimber", controller.button(1), // B 
-                "FlywheelOn", numpad.button(7, Robot.getEventLoop()), // 7 
-                "FlywheelOff", numpad.button(8, Robot.getEventLoop()), // 8
+                "FlywheelOn", numpad.button(7, defaultEventLoop), // 7 
+                "FlywheelOff", numpad.button(8, defaultEventLoop), // 8
                 "ManualOuttake", controller.button(4) // X
             );
         }

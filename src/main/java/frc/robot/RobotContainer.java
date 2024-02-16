@@ -80,7 +80,7 @@ public class RobotContainer {
         .onTrue(intake.off());
         
         new Trigger(intake::inShooter)
-        .onTrue(intake.intakeIn());
+        .onTrue(intake.in());
     }
 
     //Calls methods from subsystems to update from preferences
