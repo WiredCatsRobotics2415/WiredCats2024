@@ -80,8 +80,8 @@ public class OIs {
                 "Intake", controller.button(2), // A
                 "ReleaseClimber", controller.button(3), // Y
                 "RetractClimber", controller.button(1), // B 
-                "FlywheelOn", numpad.button(7, Robot.getEventLoop()), // 7 
-                "FlywheelOff", numpad.button(8, Robot.getEventLoop()), // 8
+                "FlywheelOn", numpad.button(7, defaultEventLoop), // 7 
+                "FlywheelOff", numpad.button(8, defaultEventLoop), // 8
                 "ManualOuttake", controller.button(4), // X
                 "TargetHotspot", controller.button(9)
             );

@@ -18,50 +18,36 @@ public class Intake extends SubsystemBase {
 
   private boolean state = false;
 
-    public Intake() {
-        //motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR, CANSparkMax.MotorType.kBrushless);
-        motor = new TalonFX(0);
-        topIR = new AnalogInput(RobotMap.Intake.TOP_IR);
-        bottomIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR); 
-        motor.setInverted(true);
-        state = false;
-    }
-
-    public Command off() {
-      return runOnce(
-        () -> {
-      motor_off();
-        });
-    }
-
-    public Command out() {
-       return runOnce(
-        () -> {
-      motor.set(Constants.Intake.IntakeSpeed);
-        });
-    }
-
-    public void motor_in() {
-        System.out.println("in");
-        motor.set(-Constants.Intake.IntakeSpeed);
-    }
-
-    public void motor_off() {
-      System.out.println("off");
-      motor.set(0);
+  public Intake() {
+      //motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR, CANSparkMax.MotorType.kBrushless);
+      motor = new TalonFX(0);
+      topIR = new AnalogInput(RobotMap.Intake.TOP_IR);
+      bottomIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR); 
+      motor.setInverted(true);
+      state = false;
   }
 
-  public void motor_out() {
+  public void motorIn() {
+      System.out.println("in");
+      motor.set(-Constants.Intake.IntakeSpeed);
+  }
+
+  public void motorOff() {
+    System.out.println("off");
+    motor.set(0);
+  }
+
+  public void motorOut() {
     System.out.println("out");
     motor.set(Constants.Intake.IntakeSpeed);
   }
 
-    public static Intake getInstance() {
-      if (instance == null) {
-          instance = new Intake();
-        }
-        return instance;
+  public static Intake getInstance() {
+    if (instance == null) {
+        instance = new Intake();
       }
+      return instance;
+  }
 
   //COMMANDS
   public Command off() {
@@ -80,10 +66,10 @@ public class Intake extends SubsystemBase {
     return runOnce(
         () -> {
           if (state == true) {
-            motor_off();
+            motorOff();
             state = false;
         } else {
-            motor_in();
+            motorIn();
             state = true;
         }
       });
