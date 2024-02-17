@@ -4,8 +4,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import frc.utils.Logger;
-import frc.utils.Logger.LogLevel;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,17 +17,23 @@ public class Intake extends SubsystemBase {
   private boolean state = false;
 
   public Intake() {
-      //motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR, CANSparkMax.MotorType.kBrushless);
-      motor = new TalonFX(RobotMap.Intake.INTAKE_MOTOR);
-      topIR = new AnalogInput(RobotMap.Intake.TOP_IR);
-      bottomIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR); 
-      motor.setInverted(true);
-      state = false;
+    // motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR,
+    // CANSparkMax.MotorType.kBrushless);
+    motor = new TalonFX(RobotMap.Intake.INTAKE_MOTOR);
+    topIR = new AnalogInput(RobotMap.Intake.TOP_IR);
+    bottomIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR);
+    motor.setInverted(true);
+    state = false;
   }
 
   public void motorIn() {
-      System.out.println("in");
-      motor.set(Constants.Intake.IntakeSpeed);
+    System.out.println("in");
+    motor.set(Constants.Intake.IntakeSpeed);
+  }
+
+  public void motorUptake() {
+    System.out.println("uptake");
+    motor.set(Constants.Intake.UptakeSpeed);
   }
 
   public void motorOff() {
@@ -44,12 +48,12 @@ public class Intake extends SubsystemBase {
 
   public static Intake getInstance() {
     if (instance == null) {
-        instance = new Intake();
-      }
-      return instance;
+      instance = new Intake();
+    }
+    return instance;
   }
 
-  //COMMANDS
+  // COMMANDS
   public Command off() {
     return runOnce(() -> motorOff());
   }
@@ -62,23 +66,26 @@ public class Intake extends SubsystemBase {
     return runOnce(() -> motorIn());
   }
 
+  public Command uptake() {
+    return runOnce(() -> motorUptake());
+  }
+
   public Command toggleIntake() {
     return runOnce(
         () -> {
           if (state == true) {
             motorOff();
             state = false;
-        } else {
+          } else {
             motorIn();
             state = true;
-        }
-      });
-    }
-        
+          }
+        });
+  }
 
-      public boolean hasNote() {
-          return topIR.getValue() > Constants.Intake.IRThreshold;
-        }
+  public boolean hasNote() {
+    return topIR.getValue() > Constants.Intake.IRThreshold;
+  }
 
   public boolean inShooter() {
     return bottomIR.getValue() > Constants.Intake.IRThreshold;

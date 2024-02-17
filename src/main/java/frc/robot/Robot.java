@@ -4,13 +4,9 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.pathfinding.Pathfinding;
-
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.commands.TargetHotspot;
 import frc.generated.TunerConstants;
 
 public class Robot extends TimedRobot {
@@ -49,5 +45,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+  }
+
+  @Override
+  public void disabledPeriodic() {
+    robot.disabledInit();
   }
 }

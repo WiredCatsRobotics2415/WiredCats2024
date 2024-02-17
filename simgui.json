@@ -21,7 +21,27 @@
           "open": true
         }
       },
+      "Talon FX (v6)[16]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[16]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon FX (v6)[1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[20]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[32]": {
         "header": {
           "open": true
         }
@@ -41,6 +61,8 @@
       "/SmartDashboard/InstantCommand": "Command",
       "/SmartDashboard/Log Level": "String Chooser",
       "/SmartDashboard/OI": "String Chooser",
+      "/SmartDashboard/Reset to LL": "Command",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/Zero Pose": "Command"
     }
   },

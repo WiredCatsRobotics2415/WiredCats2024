@@ -7,6 +7,7 @@ import frc.generated.TunerConstants;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.utils.LimelightHelpers;
+import frc.utils.RobotPreferences;
 import frc.utils.LimelightHelpers.LimelightResults;
 
 /**
@@ -18,6 +19,7 @@ public class Vision extends SubsystemBase {
     private LimelightResults cachedIntakeTargetResults;
 
     private static Vision instance;
+    private boolean isEnabled = false;
 
     private Vision() {
         if (Robot.isSimulation()) {
@@ -32,11 +34,16 @@ public class Vision extends SubsystemBase {
         return instance;
     }
 
+    public void setPreferences() {
+        isEnabled = RobotPreferences.shouldUseLimelight();
+    }
+
     @Override
     public void periodic() {
         if (Robot.isSimulation()) return;
-        // cachedBackPose2d = LimelightHelpers.getBotPose2d(Constants.Vision.ShooterLimelightName);
-        // cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
+        if (!isEnabled) return;
+        cachedBackPose2d = LimelightHelpers.getBotPose2d(Constants.Vision.ShooterLimelightName);
+        cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
     }
 
     public Pose2d getBotPose2d() {

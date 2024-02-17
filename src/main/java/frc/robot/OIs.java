@@ -5,11 +5,8 @@ import java.util.Map;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -95,7 +92,7 @@ public class OIs {
 
             binds.put("PigeonReset", controller.button(7)); //Minus
             binds.put("Intake", controller.button(2)); //A
-            binds.put("Outtake", controller.leftTrigger()); 
+            binds.put("ManualOuttake", controller.leftTrigger()); 
             binds.put("LowerArm", controller.button(6)); //Right bumper
             binds.put("RaiseArm", controller.button(5)); //left bumper
             binds.put("Shoot", controller.rightTrigger()); 
@@ -105,7 +102,7 @@ public class OIs {
             binds.put("RightClimberDown", controller.rightTrigger());
             binds.put("RightClimberUp", controller.button(6)); //Right bumper
 
-            binds.put("FixAll", controller.button(8)); //Plus
+            binds.put("TargetHotspot", controller.button(8)); //Plus
             binds.put("ClimberMode1", numpad.button(1));
             binds.put("ClimberMode2", numpad.button(2));
             binds.put("SpinUp", numpad.button(3));

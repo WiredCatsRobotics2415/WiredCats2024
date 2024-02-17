@@ -6,7 +6,11 @@ package frc.robot;
 
 import java.util.ArrayList;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
@@ -36,10 +40,26 @@ public final class Constants {
     }
 
     public static class Flywheel {
-      public static final double FLYWHEEL_SPEED = rpmToRPS(600);  // Flywheel only acceps input in rotations per second (rps) but we are more comfortable with rpms
+      public static final Slot0Configs LEFT_PID = new Slot0Configs()
+        .withKV(0.025)
+        .withKP(0.05); //TODO: may need adjustment
+    
+      public static final Slot0Configs RIGHT_PID = new Slot0Configs()
+        .withKV(0.025)
+        .withKP(0.05); //TODO: may need adjustment
+
+      public static final MotorOutputConfigs COAST_CONFIG = new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast);
+
+      public static final double GEAR_RATIO = 3.4d;
+      
+      public static final double GOAL_TOLERANCE_RPM = 250;
  
-      public static double rpmToRPS(double rpm) {
-        return rpm / 60; 
+      public static final double rpmToFalcon(double rpm) {
+        return (rpm / 60) / 3.4d;
+      }
+
+      public static final double falconToRPM(double rotationsPerSecond) {
+        return (rotationsPerSecond * 60) * 3.4d;
       }
     }
 
@@ -56,6 +76,7 @@ public final class Constants {
     }
 
     public static class Intake {
+      public static final double UptakeSpeed = 0.75;
       public static final double IntakeSpeed = 0.7; 
       public static final double OuttakeSpeed = -0.4; 
       public static final double IRThreshold = 200; 

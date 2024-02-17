@@ -2,80 +2,122 @@ package frc.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.StaticBrake;
+import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
 public class Flywheel extends SubsystemBase {
-    // Intialize flywheel motors
-    private TalonFX left;
-    private TalonFX right;
-    // Initialize velocity feedforward
-    private VelocityVoltage m_voltageVelocity;
+    private enum TestType {
+        LOCK,
+        RATIO
+    }
+
+    private TestType currentMode = TestType.LOCK;
+
+    public TalonFX right;
+    public TalonFX left;
+
+    private VelocityDutyCycle rightOut = new VelocityDutyCycle(0);
+    private VelocityDutyCycle leftOut = new VelocityDutyCycle(0);
+
+    private final SendableChooser<TestType> testChooser = new SendableChooser<TestType>();
+    private double leftSpeedRatio = 0.67d;
+    private double rightSetRPM = 0d;
+
+    private boolean shouldSpinUp = false;
 
     private static Flywheel instance;
 
     public Flywheel() {
-        left = new TalonFX(RobotMap.Flywheel.LEFT_FLYWHEEL, Constants.CANBusName);
-        right = new TalonFX(RobotMap.Flywheel.RIGHT_FLYWHEEL, Constants.CANBusName);
-        m_voltageVelocity = new VelocityVoltage(0, 0, false, 0, 0, false, false, false);
-        configFlywheel();
+        right = new TalonFX(RobotMap.Flywheel.RIGHT_FLYWHEEL);
+        left = new TalonFX(RobotMap.Flywheel.LEFT_FLYWHEEL);
+
+        testChooser.setDefaultOption(TestType.LOCK.toString(), TestType.LOCK);
+        testChooser.addOption(TestType.RATIO.toString(), TestType.RATIO);
+
+        SmartDashboard.setDefaultNumber("Left ratio", leftSpeedRatio);
+        SmartDashboard.setDefaultNumber("Set speed", rightSetRPM);
+
+        configMotors();
     }
 
     public static Flywheel getInstance() {
         if (instance == null) {
-            return new Flywheel();
+            instance = new Flywheel();
         }
         return instance;
     }
 
-    public void configFlywheel() {
-        TalonFXConfiguration configs = new TalonFXConfiguration();
+    private void configMotors() {
+        TalonFXConfigurator rightCfg = right.getConfigurator();
+        rightCfg.apply(Constants.Flywheel.RIGHT_PID);
+        rightCfg.apply(Constants.Flywheel.COAST_CONFIG);
+        right.setInverted(true);
 
-        /*
-         * Voltage-based velocity requires a feed forward to account for the back-emf of
-         * the motor
-         */
-        configs.Slot0.kP = 0.13; // An error of 1 rotation per second results in 2V output
-        configs.Slot0.kI = 0; // An error of 1 rotation per second increases output by 0.5V every second
-        configs.Slot0.kD = 0; // A change of 1 rotation per second squared results in 0.01 volts output
-        configs.Slot0.kV = 0.11; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12
-                                 // volts / Rotation per second
-        // Peak output of 8 volts
-        configs.Voltage.PeakForwardVoltage = 8;
-        configs.Voltage.PeakReverseVoltage = -8;
-
-        /* Retry config apply up to 5 times, report if failure */
-        StatusCode status = StatusCode.StatusCodeNotInitialized;
-        for (int i = 0; i < 5; ++i) {
-            status = left.getConfigurator().apply(configs);
-            if (status.isOK()) break;
-        }
-        if(!status.isOK()) {
-        System.out.println("Could not apply configs, error code:] " + status.toString());
-        }
-
-        //right.setControl(new Follower(left.getDeviceID(), false)); // Set right motor to follow left
+        TalonFXConfigurator leftCfg = right.getConfigurator();
+        leftCfg.apply(Constants.Flywheel.RIGHT_PID);
+        leftCfg.apply(Constants.Flywheel.COAST_CONFIG);
+        right.setInverted(true);
     }
 
-    public Command on() {
-        return runOnce(
-                () -> {
-                    left.set(0.6);
-                    right.set(0.4);
-                });
+    public void teleopInit() {
+        currentMode = testChooser.getSelected();
+
+        if (currentMode.equals(TestType.LOCK)) {
+            left.setControl(new StaticBrake());
+        }
     }
 
-    public Command off() {
-        return runOnce(
-                () -> {
-                    left.set(0);
-                    right.set(0);
-                });
+    public Command toggleSpinedUp() {
+        return runOnce(() -> {
+            System.out.println("Flywheel toggle " + (!shouldSpinUp ? "on" : "off"));
+            shouldSpinUp = !shouldSpinUp;
+        });
+    }
+
+    /**
+     * True if the current speed of the left shooter motor is within + or - GOAL_TOLERANCE_RPM
+     */
+    public boolean withinGoal() {
+        double currentValue = Constants.Flywheel.falconToRPM(left.getRotorVelocity().getValue());
+        if (shouldSpinUp) {
+            double goalValue = Constants.Flywheel.rpmToFalcon(rightSetRPM);
+            return currentValue < (goalValue + Constants.Flywheel.GOAL_TOLERANCE_RPM) ||
+                currentValue > (goalValue - Constants.Flywheel.GOAL_TOLERANCE_RPM);
+        } else {
+            return currentValue < Constants.Flywheel.GOAL_TOLERANCE_RPM ||
+                currentValue > -Constants.Flywheel.GOAL_TOLERANCE_RPM;
+        }
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putData(testChooser);
+        leftSpeedRatio = SmartDashboard.getNumber("Recessive ratio", leftSpeedRatio);
+        rightSetRPM = SmartDashboard.getNumber("Set speed", rightSetRPM);
+
+        if (shouldSpinUp) {
+            right.setControl(rightOut.withVelocity(Constants.Flywheel.rpmToFalcon(rightSetRPM)));
+
+            if (currentMode.equals(TestType.RATIO)) {
+                left.setControl(leftOut.withVelocity(
+                Constants.Flywheel.rpmToFalcon(rightSetRPM * leftSpeedRatio)));
+            }
+        } else {
+            right.setControl(rightOut.withVelocity(Constants.Flywheel.rpmToFalcon(0.0d)));
+            left.setControl(leftOut.withVelocity(Constants.Flywheel.rpmToFalcon(0.0d)));
+        }
+
+        SmartDashboard.putBoolean("Flywheel Within Goal", withinGoal());
     }
 }

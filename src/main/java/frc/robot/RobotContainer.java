@@ -12,6 +12,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -19,6 +20,7 @@ import frc.commands.FixAll;
 import frc.commands.HotspotGenerator;
 import frc.commands.TargetHotspot;
 import frc.generated.TunerConstants;
+import frc.robot.Constants.Drive;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
@@ -26,7 +28,7 @@ import frc.subsystems.Arm;
 import frc.subsystems.Climber;
 import frc.subsystems.Flywheel;
 import frc.subsystems.Intake;
-import frc.robot.Constants.Drive;
+import frc.subsystems.Vision;
 
 public class RobotContainer {
     private static RobotContainer instance;
@@ -75,20 +77,17 @@ public class RobotContainer {
         }, swerveDrive));
 
         //Intake
-        selectedOI.binds.get("Intake").onTrue(intake.in()).onFalse(intake.off());
+        selectedOI.binds.get("Intake").onTrue(intake.toggleIntake());
         selectedOI.binds.get("ManualOuttake").onTrue(intake.out()).onFalse(intake.off());
 
-        //Climber
-        // selectedOI.binds.get("RetractClimber").onTrue(climber.retract()); 
-        // selectedOI.binds.get("ReleaseClimber").whileTrue(climber.runUntil()).onFalse(climber.stop());
+        //Arm manual
+        selectedOI.binds.get("RaiseArm").whileTrue(arm.increaseGoal());
+        selectedOI.binds.get("LowerArm").whileTrue(arm.decreaseGoal()); 
 
         //Flywheel
-        selectedOI.binds.get("FlywheelOn").onTrue(flywheel.on());
-        selectedOI.binds.get("FlywheelOff").onTrue(flywheel.off()); 
-
-        //Arm manual
-        selectedOI.binds.get("ReleaseClimber").whileTrue(arm.increaseGoal());
-        selectedOI.binds.get("RetractClimber").whileTrue(arm.decreaseGoal()); 
+        selectedOI.binds.get("Shoot").onTrue(
+            intake.uptake().andThen(new WaitCommand(0.25)).andThen(intake.off()));
+        selectedOI.binds.get("SpinUp").onTrue(flywheel.toggleSpinedUp()); 
 
         //Automatic
         // selectedOI.binds.get("TargetHotspot").onTrue(new );
@@ -99,16 +98,17 @@ public class RobotContainer {
     }
 
     private void configureTriggers() {
-        // new Trigger(intake::hasNote)
-        // .onTrue(intake.off());
+        new Trigger(intake::hasNote)
+        .onTrue(intake.off());
         
-        // new Trigger(intake::inShooter)
-        // .onTrue(intake.in());
+        new Trigger(intake::inShooter)
+        .onTrue(intake.in());
     }
 
     //Calls methods from subsystems to update from preferences
     private void configurePreferences() {
         selectedOI.setPreferences();
+        Vision.getInstance().setPreferences();
         swerveDrive.setPreferences();
     }
 
@@ -124,7 +124,7 @@ public class RobotContainer {
         }
         configurePreferences();
         configureButtonBindings();
-        configureTriggers();
+        //configureTriggers();
         swerveDrive.setDefaultCommand(swerveDrive.applyRequest(() -> {
             TwoDControllerInput input = selectedOI.getXY();
             return drive.withVelocityX(-input.x() * Drive.kMaxDriveMeterS) // Drive forward with
@@ -132,6 +132,15 @@ public class RobotContainer {
                 .withRotationalRate(-selectedOI.getRotation() * Drive.kMaxAngularRadS); // Drive counterclockwise with negative X (left)
             }
         ));
+
+        //Subsystem enables
+        flywheel.teleopInit();
+        arm.setGoal(arm.getMeasurement());
+        arm.enable();
+    }
+
+    public void disabledInit() {
+        arm.disable();
     }
      
     public Command getAutonomousCommand() {

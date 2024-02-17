@@ -16,7 +16,9 @@ import frc.robot.RobotMap;
 import frc.robot.Constants.Arm.EncoderOption;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 
 public class Arm extends ProfiledPIDSubsystem {
   
@@ -26,7 +28,7 @@ public class Arm extends ProfiledPIDSubsystem {
   private ArmFeedforward ff = new ArmFeedforward(Constants.Arm.KA, 0, Constants.Arm.KV, Constants.Arm.KA);
   private double newGravityVolts = 0.0d;
 
-  private double currentGoalRotations = 0.0d;
+  private double goalInRotations = 0.0d;
   private static Arm instance;
 
   public Arm() {
@@ -46,21 +48,19 @@ public class Arm extends ProfiledPIDSubsystem {
       .withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor);
     
     leftMotor = new TalonFX(RobotMap.Arm.LEFT_MOTOR_PORT);
-    leftMotor.setInverted(true);
-    //leftMotor.getConfigurator().apply(feedbackConfigs);
+    leftMotor.getConfigurator().apply(feedbackConfigs);
 
     rightMotor = new TalonFX(RobotMap.Arm.RIGHT_MOTOR_PORT);
     rightMotor.setControl(new StrictFollower(leftMotor.getDeviceID()));
+    rightMotor.setInverted(true);
 
     leftMotor.setNeutralMode(NeutralModeValue.Brake);
     rightMotor.setNeutralMode(NeutralModeValue.Brake);
 
-    setGoal(currentGoalRotations);
+    setGoal(goalInRotations);
     if (Robot.isSimulation()) {
-      SmartDashboard.setDefaultNumber("Sim Distance", 0.0d);
+      SmartDashboard.setDefaultNumber("Sim Distance (rotations)", 0.0d);
     }
-
-    System.out.println(potentiometer.get());
   }
 
   public static Arm getInstance() {
@@ -77,26 +77,36 @@ public class Arm extends ProfiledPIDSubsystem {
     // Add the feedforward to the PID output to get the motor output
     leftMotor.setVoltage(newGravityVolts + output + feedforward);
     SmartDashboard.putNumber("Volt out", (output + feedforward));
-    SmartDashboard.putNumber("pot", potentiometer.get());
   }
 
   public Command increaseGoal() {
-    return run(() -> {
-      System.out.println("i");
-      currentGoalRotations++;
-      setGoal(currentGoalRotations);
-    });
+    return new RepeatCommand(new InstantCommand(() -> {
+      if (goalInRotations >= Constants.Arm.MAX_ROTATIONS) {
+        goalInRotations = Constants.Arm.MAX_ROTATIONS;
+        return;
+      }
+      goalInRotations += (1/360.0d);
+      System.out.println("Goal increase: " + goalInRotations);
+      this.setGoal(goalInRotations);
+    }));
   }
 
   public Command decreaseGoal() {
-    return run(() -> {
-      System.out.println("d");
-      currentGoalRotations--;
-      setGoal(currentGoalRotations);
-    });
+    return new RepeatCommand(new InstantCommand(() -> {
+      if (goalInRotations <= Constants.Arm.MIN_ROTATIONS) {
+        goalInRotations = Constants.Arm.MIN_ROTATIONS;
+        return;
+      }
+      goalInRotations -= (1/360.0d);
+      System.out.println("Goal decrease: " + goalInRotations);
+      this.setGoal(goalInRotations);
+    }));
   }
 
   @Override
+  /**
+   * Gets measurement in rotations. Handles selection of encoder defined in Constants.java
+   */
   public double getMeasurement() {
     if (Robot.isSimulation()) {
       return SmartDashboard.getNumber("Sim Distance (rotations)", 0.0d);
@@ -104,11 +114,11 @@ public class Arm extends ProfiledPIDSubsystem {
 
     double rotations = 0.0d;
     if (Constants.Arm.ENCODER_TO_USE.equals(EncoderOption.ANALOG_POT)) {
-      rotations = (potentiometer.get()+Constants.Arm.POT_OFFSET)/360;
+      rotations = potentiometer.get()+Constants.Arm.POT_OFFSET;
     } else {
-      rotations = Constants.Arm.falconToRotations(leftMotor.getPosition().getValue()); //Needs gear ratio? we will find out
+      rotations = Constants.Arm.falconToRotations(leftMotor.getPosition().getValue());
     }
-    SmartDashboard.putNumber("Arm Measurement", rotations);
+    SmartDashboard.putNumber("Arm Measurement", rotations*360);
     newGravityVolts = (Constants.Arm.KG_PROPORTION * (rotations*360)) * Constants.Arm.KG;
     return rotations;
   }

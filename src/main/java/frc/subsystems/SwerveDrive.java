@@ -37,7 +37,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     private double m_lastSimTime;
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
-    private Vision vision; 
+    private Vision vision;
     private boolean shouldUseLimelight = false;
     private Pose2d robotPose;
     public Pose2d getRobotPose() {
@@ -45,6 +45,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     }
 
     private final Field2d field = new Field2d();
+
+    private boolean useRedAlliance = false;
 
     //Has to be in its own function, because of the template code
     private void intialization() {
@@ -72,6 +74,9 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
         //Remote Commands
         SmartDashboard.putData("Zero Pose", new InstantCommand(() -> this.seedFieldRelative(
             new Pose2d(0, 0, Rotation2d.fromDegrees(0)))).withName("Zero Pose"));
+        
+        SmartDashboard.putData("Reset to LL", new InstantCommand(() -> this.seedFieldRelative(
+            vision.getBotPose2d())).withName("Reset to LL"));
         
         vision = Vision.getInstance();
     }
@@ -141,13 +146,25 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
     public void setPreferences() {
         shouldUseLimelight = RobotPreferences.shouldUseLimelight();
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            useRedAlliance = alliance.get() == DriverStation.Alliance.Red;
+        }
+        useRedAlliance = false;
     }
 
     @Override
     public void periodic() {
         if (shouldUseLimelight) {
-            // addVisionMeasurement(vision.getBotPose2d(),
-            //     Timer.getFPGATimestamp());
+            addVisionMeasurement(vision.getBotPose2d(),
+                Timer.getFPGATimestamp());
+        }
+        if (useRedAlliance) {
+            System.out.println(this.robotPose.getTranslation().getDistance(
+                Constants.FieldMeasurements.RedSpeakerLocation));
+        } else {
+            System.out.println(this.robotPose.getTranslation().getDistance(
+                Constants.FieldMeasurements.BlueSpeakerLocation));
         }
     }
 }

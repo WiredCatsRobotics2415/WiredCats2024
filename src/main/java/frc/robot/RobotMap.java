@@ -17,7 +17,7 @@ public class RobotMap {
     public static class Arm {
         public static final int LEFT_MOTOR_PORT = 32;
         public static final int RIGHT_MOTOR_PORT = 14;
-        public static final int ANALOG_POT_PORT = 4; //TO CHANGE
+        public static final int ANALOG_POT_PORT = 4;
     }
 
     public static class Flywheel {
