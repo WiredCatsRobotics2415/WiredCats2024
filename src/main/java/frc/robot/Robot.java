@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.commands.TargetHotspot;
+import frc.generated.TunerConstants;
 
 public class Robot extends TimedRobot {
   private RobotContainer robot;
@@ -24,6 +25,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     robot.teleopInit();
+  }
+
+  @Override 
+  public void teleopPeriodic() {
+    System.out.println(TunerConstants.DriveTrain.getRobotPose().getTranslation());
+    CommandScheduler.getInstance().run(); 
   }
 
   @Override

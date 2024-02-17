@@ -28,7 +28,7 @@ public class Hotspot {
     public Hotspot(double x, double y) {
         this.x = x;
         this.y = y; 
-        this.targetCoords = new Translation2d(Units.inchesToMeters(x), Units.inchesToMeters(y)); 
+        this.targetCoords = new Translation2d(this.x, this.y); 
         this.targetPose = new Pose2d(this.x, this.y, Rotation2d.fromDegrees(rotEstimation(this.x, this.y)));
 
         //Do alliance preparations

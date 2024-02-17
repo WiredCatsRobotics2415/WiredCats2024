@@ -39,6 +39,7 @@ public class TargetHotspot extends Command {
             }
         }
         System.out.println(closestHotspot.get2d());
+        // currentPose = TunerConstants.DriveTrain.getRobotPose().getTranslation(); 
         currentPathfindingCommand = closestHotspot.target();
     }
 

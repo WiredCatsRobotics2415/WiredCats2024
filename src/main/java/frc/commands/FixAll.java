@@ -85,6 +85,7 @@ public class FixAll extends Command {
 
     @Override
     public void end(boolean interrupted) {
+
     }
 
     @Override

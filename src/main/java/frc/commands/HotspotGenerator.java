@@ -5,28 +5,29 @@ import java.util.ArrayList;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.generated.TunerConstants;
 
-public class HotspotGeneator {
-    private static HotspotGeneator instance;
+public class HotspotGenerator {
+    private static HotspotGenerator instance;
     private ArrayList<Hotspot> hotspots = new ArrayList<>(); 
-    private Command currentTargetingCommand = new InstantCommand(() -> {});
+    private Command currentTargetingCommand;
 
-    public HotspotGeneator() {
+    public HotspotGenerator() {
         // Load hotspots; Store in arraylist 
-        hotspots.add(new Hotspot(136.5, 200)); 
-        hotspots.add(new Hotspot(155, 236.5)); 
-        hotspots.add(new Hotspot(136.5, 243.5)); 
-        hotspots.add(new Hotspot(241.5, 295)); 
-        hotspots.add(new Hotspot(241.5, 238)); 
-        hotspots.add(new Hotspot(241.5, 181)); 
-        hotspots.add(new Hotspot(194.5, 112.638)); 
-        hotspots.add(new Hotspot(194.5, 324)); 
+        hotspots.add(new Hotspot(1.5, 2.1)); // Subwoofer bottom 
+        hotspots.add(new Hotspot(1.9, 3.2)); // Subwoofer middle 
+        hotspots.add(new Hotspot(1.5, 4.0)); // Subwoofer top 
+        hotspots.add(new Hotspot(2.6, 0.96)); // Amp 
+        hotspots.add(new Hotspot(2.6, 5.6)); // Furthest down 
+        hotspots.add(new Hotspot(3.6, 1.7)); // Top note 
+        hotspots.add(new Hotspot(3.6, 3.1)); // Middle note
+        hotspots.add(new Hotspot(3.6, 4.8)); // Bottom note  
     }
 
-    public static HotspotGeneator getInstance() {
+    public static HotspotGenerator getInstance() {
         if (instance == null) {
-            return new HotspotGeneator();
+            return new HotspotGenerator();
         }
         return instance; 
     } 
@@ -39,7 +40,6 @@ public class HotspotGeneator {
     }
 
     public Command targetClosest() {
-        System.out.println("tartgeting");
         Translation2d current_pose = TunerConstants.DriveTrain.getRobotPose().getTranslation(); 
         Hotspot closestHotspot = hotspots.get(0); 
         double minDistance = closestHotspot.get2d().getDistance(current_pose); 
@@ -52,8 +52,8 @@ public class HotspotGeneator {
         }
 
         currentTargetingCommand = closestHotspot.target(); 
-        System.out.println(currentTargetingCommand.getName());
-        return currentTargetingCommand;
+        System.out.println(currentTargetingCommand);
+        return currentTargetingCommand; 
     }
 
 }
