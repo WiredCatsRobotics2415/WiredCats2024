@@ -35,8 +35,8 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         if (Robot.isSimulation()) return;
-        cachedBackPose2d = LimelightHelpers.getBotPose2d(Constants.Vision.ShooterLimelightName);
-        cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
+        // cachedBackPose2d = LimelightHelpers.getBotPose2d(Constants.Vision.ShooterLimelightName);
+        // cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
     }
 
     public Pose2d getBotPose2d() {

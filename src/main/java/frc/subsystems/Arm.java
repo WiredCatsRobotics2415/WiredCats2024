@@ -4,6 +4,7 @@ import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -14,6 +15,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.Constants.Arm.EncoderOption;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class Arm extends ProfiledPIDSubsystem {
@@ -23,6 +25,9 @@ public class Arm extends ProfiledPIDSubsystem {
   private AnalogPotentiometer potentiometer;
   private ArmFeedforward ff = new ArmFeedforward(Constants.Arm.KA, 0, Constants.Arm.KV, Constants.Arm.KA);
   private double newGravityVolts = 0.0d;
+
+  private double currentGoalRotations = 0.0d;
+  private static Arm instance;
 
   public Arm() {
     super(
@@ -41,18 +46,28 @@ public class Arm extends ProfiledPIDSubsystem {
       .withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor);
     
     leftMotor = new TalonFX(RobotMap.Arm.LEFT_MOTOR_PORT);
-    leftMotor.getConfigurator().apply(feedbackConfigs);
+    leftMotor.setInverted(true);
+    //leftMotor.getConfigurator().apply(feedbackConfigs);
 
     rightMotor = new TalonFX(RobotMap.Arm.RIGHT_MOTOR_PORT);
-    rightMotor.setInverted(true);
     rightMotor.setControl(new StrictFollower(leftMotor.getDeviceID()));
 
-    setGoal(0);
+    leftMotor.setNeutralMode(NeutralModeValue.Brake);
+    rightMotor.setNeutralMode(NeutralModeValue.Brake);
+
+    setGoal(currentGoalRotations);
     if (Robot.isSimulation()) {
       SmartDashboard.setDefaultNumber("Sim Distance", 0.0d);
     }
 
     System.out.println(potentiometer.get());
+  }
+
+  public static Arm getInstance() {
+    if (instance == null) {
+      instance = new Arm();
+    }
+    return instance;
   }
 
   @Override
@@ -62,6 +77,23 @@ public class Arm extends ProfiledPIDSubsystem {
     // Add the feedforward to the PID output to get the motor output
     leftMotor.setVoltage(newGravityVolts + output + feedforward);
     SmartDashboard.putNumber("Volt out", (output + feedforward));
+    SmartDashboard.putNumber("pot", potentiometer.get());
+  }
+
+  public Command increaseGoal() {
+    return run(() -> {
+      System.out.println("i");
+      currentGoalRotations++;
+      setGoal(currentGoalRotations);
+    });
+  }
+
+  public Command decreaseGoal() {
+    return run(() -> {
+      System.out.println("d");
+      currentGoalRotations--;
+      setGoal(currentGoalRotations);
+    });
   }
 
   @Override

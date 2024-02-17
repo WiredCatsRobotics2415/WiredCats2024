@@ -22,6 +22,7 @@ import frc.generated.TunerConstants;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
+import frc.subsystems.Arm;
 import frc.subsystems.Climber;
 import frc.subsystems.Flywheel;
 import frc.subsystems.Intake;
@@ -40,6 +41,7 @@ public class RobotContainer {
     private final Intake intake = Intake.getInstance();
     private final Climber climber = Climber.getInstance(); 
     private final Flywheel flywheel = Flywheel.getInstance(); 
+    private final Arm arm = Arm.getInstance();
     
     // HOTSPOT
     private final HotspotGenerator hotspotGen = HotspotGenerator.getInstance(); 
@@ -74,15 +76,19 @@ public class RobotContainer {
 
         //Intake
         selectedOI.binds.get("Intake").onTrue(intake.in()).onFalse(intake.off());
-        selectedOI.binds.get("ManualOuttake").whileTrue(intake.out()).onFalse(intake.off());
+        selectedOI.binds.get("ManualOuttake").onTrue(intake.out()).onFalse(intake.off());
 
         //Climber
-        selectedOI.binds.get("RetractClimber").onTrue(climber.retract()); 
-        selectedOI.binds.get("ReleaseClimber").whileTrue(climber.runUntil()).onFalse(climber.stop());
+        // selectedOI.binds.get("RetractClimber").onTrue(climber.retract()); 
+        // selectedOI.binds.get("ReleaseClimber").whileTrue(climber.runUntil()).onFalse(climber.stop());
 
         //Flywheel
         selectedOI.binds.get("FlywheelOn").onTrue(flywheel.on());
         selectedOI.binds.get("FlywheelOff").onTrue(flywheel.off()); 
+
+        //Arm manual
+        selectedOI.binds.get("ReleaseClimber").whileTrue(arm.increaseGoal());
+        selectedOI.binds.get("RetractClimber").whileTrue(arm.decreaseGoal()); 
 
         //Automatic
         // selectedOI.binds.get("TargetHotspot").onTrue(new );
@@ -93,11 +99,11 @@ public class RobotContainer {
     }
 
     private void configureTriggers() {
-        new Trigger(intake::hasNote)
-        .onTrue(intake.off());
+        // new Trigger(intake::hasNote)
+        // .onTrue(intake.off());
         
-        new Trigger(intake::inShooter)
-        .onTrue(intake.in());
+        // new Trigger(intake::inShooter)
+        // .onTrue(intake.in());
     }
 
     //Calls methods from subsystems to update from preferences

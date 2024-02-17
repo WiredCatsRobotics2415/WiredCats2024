@@ -60,20 +60,22 @@ public class Flywheel extends SubsystemBase {
         System.out.println("Could not apply configs, error code:] " + status.toString());
         }
 
-        right.setControl(new Follower(left.getDeviceID(), false)); // Set right motor to follow left
+        //right.setControl(new Follower(left.getDeviceID(), false)); // Set right motor to follow left
     }
 
     public Command on() {
         return runOnce(
                 () -> {
-                    left.setControl(m_voltageVelocity.withVelocity(Constants.Flywheel.FLYWHEEL_SPEED));
+                    left.set(0.6);
+                    right.set(0.4);
                 });
     }
 
     public Command off() {
         return runOnce(
                 () -> {
-                    left.setControl(m_voltageVelocity.withVelocity(0));
+                    left.set(0);
+                    right.set(0);
                 });
     }
 }
