@@ -46,7 +46,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
     private final Field2d field = new Field2d();
 
-    private boolean useRedAlliance = false;
+    private boolean blueAlliance = true;
 
     //Has to be in its own function, because of the template code
     private void intialization() {
@@ -148,9 +148,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
         shouldUseLimelight = RobotPreferences.shouldUseLimelight();
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
-            useRedAlliance = alliance.get() == DriverStation.Alliance.Red;
+            if (alliance.get() == DriverStation.Alliance.Red) blueAlliance = false;
         }
-        useRedAlliance = false;
     }
 
     @Override
@@ -159,12 +158,12 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
             addVisionMeasurement(vision.getBotPose2d(),
                 Timer.getFPGATimestamp());
         }
-        if (useRedAlliance) {
-            System.out.println(this.robotPose.getTranslation().getDistance(
-                Constants.FieldMeasurements.RedSpeakerLocation));
-        } else {
-            System.out.println(this.robotPose.getTranslation().getDistance(
+        if (!blueAlliance) {
+            System.out.println("To blue: " + this.robotPose.getTranslation().getDistance(
                 Constants.FieldMeasurements.BlueSpeakerLocation));
+        } else {
+            System.out.println("To red: " + this.robotPose.getTranslation().getDistance(
+                Constants.FieldMeasurements.RedSpeakerLocation));
         }
     }
 }

@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.generated.TunerConstants;
 
 public class Robot extends TimedRobot {
   private RobotContainer robot;
@@ -25,14 +24,12 @@ public class Robot extends TimedRobot {
 
   @Override 
   public void teleopPeriodic() {
-    System.out.println(TunerConstants.DriveTrain.getRobotPose().getTranslation());
     CommandScheduler.getInstance().run(); 
   }
 
   @Override
   public void autonomousInit() {
     //auto = robot.getAutonomousCommand(); // Run an auto path
-    auto = robot.getPathfindingCommand(); // Run an auto path
     // auto = robot.getPathfindingCommand(); // Run a pathfinding command
     if (auto != null) CommandScheduler.getInstance().schedule(auto);
   }

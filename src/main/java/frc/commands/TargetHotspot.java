@@ -28,7 +28,7 @@ public class TargetHotspot extends Command {
     public void initialize() {
         System.out.println("tartgeting");
         Translation2d currentPose = TunerConstants.DriveTrain.getRobotPose().getTranslation(); 
-        System.out.println(currentPose);
+        //System.out.println(currentPose);
         Hotspot closestHotspot = Constants.Hotspots.get(0); 
         double minDistance = closestHotspot.get2d().getDistance(currentPose); 
         for (Hotspot hotspot : Constants.Hotspots) {

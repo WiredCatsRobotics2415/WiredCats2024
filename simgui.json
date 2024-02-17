@@ -1,10 +1,5 @@
 {
   "HALProvider": {
-    "DIO": {
-      "window": {
-        "visible": true
-      }
-    },
     "Other Devices": {
       "CANCoder (v6)[0]": {
         "header": {
@@ -42,11 +37,6 @@
         }
       },
       "Talon FX (v6)[32]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX (v6)[4]": {
         "header": {
           "open": true
         }
