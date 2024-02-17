@@ -40,6 +40,40 @@ public final class Constants {
       }
     }
 
+    public static class ShooterCalculations{
+
+      public static double getCalculatedFlywheelVelocity(){
+        double X = TunerConstants.DriveTrain.getRobotPose().getTranslation().getX();
+        double Y = TunerConstants.DriveTrain.getRobotPose().getTranslation().getY();
+        double R = Math.sqrt(X*X+Y*Y);
+
+        double model = 0; //result in rpm
+
+        return model;
+      }
+
+      public static double getCalculatedArmShooterAngle(){
+        double X = TunerConstants.DriveTrain.getRobotPose().getTranslation().getX();
+        double Y = TunerConstants.DriveTrain.getRobotPose().getTranslation().getY();
+        double R = Math.sqrt(X*X+Y*Y);
+
+        double model = 0; //result in degrees
+
+        return model;
+      }
+
+      public static double getCalculatedFlywheelSpin(){
+        double X = TunerConstants.DriveTrain.getRobotPose().getTranslation().getX();
+        double Y = TunerConstants.DriveTrain.getRobotPose().getTranslation().getY();
+        double R = Math.sqrt(X*X+Y*Y);
+
+        double model = 0; //result in ratio
+
+        return model;
+      }
+
+    }
+
     public static class Conversions {
       public static double rotationsToMeters(int rotations) { // Needs to be completed once arm is finished
         return rotations; 

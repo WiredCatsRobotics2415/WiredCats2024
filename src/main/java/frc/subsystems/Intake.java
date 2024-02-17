@@ -1,9 +1,11 @@
 package frc.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.controls.PositionVoltage;
 
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.subsystems.Flywheel;
 import frc.utils.Logger;
 import frc.utils.Logger.LogLevel;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -13,16 +15,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
   private TalonFX motor;
   private static Intake instance;
-  private AnalogInput topIR;
-  private AnalogInput bottomIR;
+  private AnalogInput rightIR;
+  private AnalogInput leftIR;
+  private PositionVoltage positionOut = new PositionVoltage(0, 0, false, 0, 0, false, false, false); 
+  
+  private final Flywheel flywheel = Flywheel.getInstance();
 
   private boolean state = false;
+  public boolean isBeingIntook = false;
+  public boolean isBeingQueued = false;
 
   public Intake() {
       //motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR, CANSparkMax.MotorType.kBrushless);
       motor = new TalonFX(0);
-      topIR = new AnalogInput(RobotMap.Intake.TOP_IR);
-      bottomIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR); 
+      rightIR = new AnalogInput(RobotMap.Intake.TOP_IR);
+      leftIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR); 
       motor.setInverted(true);
       state = false;
   }
@@ -51,15 +58,36 @@ public class Intake extends SubsystemBase {
 
   //COMMANDS
   public Command off() {
+    isBeingIntook = false;
+    isBeingQueued = false;
     return runOnce(() -> motorOff());
   }
 
   public Command out() {
+    isBeingIntook = false;
+    isBeingQueued = false;
     return runOnce(() -> motorOut());
   }
 
   public Command in() {
+    isBeingIntook = true;
+    isBeingQueued = false;
     return runOnce(() -> motorIn());
+  }
+
+  public Command queueNote(){ //outake note slighly
+    isBeingIntook = false;
+    isBeingQueued = true;
+    return runOnce(() -> motor.set(-0.05));
+  }
+
+  public Command stopNoteForShooting(){
+    isBeingIntook = false;
+    isBeingQueued = false;
+
+    flywheel.on();
+
+    return runOnce(() -> motorOff());
   }
 
   public Command toggleIntake() {
@@ -76,11 +104,23 @@ public class Intake extends SubsystemBase {
     }
         
 
-      public boolean hasNote() {
-          return topIR.getValue() > Constants.Intake.IRThreshold;
-        }
+  public boolean hasNote() {
+      return ((rightIR.getValue() > Constants.Intake.IRThreshold) || (leftIR.getValue() > Constants.Intake.IRThreshold)) && isBeingIntook;
+  }
 
-  public boolean inShooter() {
-    return bottomIR.getValue() > Constants.Intake.IRThreshold;
+  public boolean noteIsQueued() { // note reversed and is clear from shooter
+    return ((rightIR.getValue() < Constants.Intake.IRThreshold) && (leftIR.getValue() < Constants.Intake.IRThreshold)) && isBeingQueued;
+  }
+
+  public boolean getisBeingIntook(){
+    return isBeingIntook;
+  }
+
+  public boolean getisBeingQueued(){
+    return isBeingQueued;
+  }
+
+  public void motorInWithRotations(double rotations){ 
+    motor.setControl(positionOut.withPosition(rotations)); //Not 100% Sure PositionOut uses rotations 
   }
 }

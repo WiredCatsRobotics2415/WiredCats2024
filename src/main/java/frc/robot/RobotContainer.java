@@ -85,12 +85,13 @@ public class RobotContainer {
         selectedOI.binds.get("TargetHotspot").onTrue(hotspotGen.targetClosest());
     }
 
-    private void configureTriggers() {
-        new Trigger(intake::hasNote)
-        .onTrue(intake.off());
+     private void configureTriggers() {
+        Trigger infraredTrigger1 = new Trigger(intake::hasNote);
+        infraredTrigger1.onTrue(intake.queueNote());
+
+        Trigger infraredTrigger2 = new Trigger(intake::noteIsQueued);
+        infraredTrigger2.onTrue(intake.stopNoteForShooting());
         
-        new Trigger(intake::inShooter)
-        .onTrue(intake.in());
     }
 
     //Calls methods from subsystems to update from preferences
@@ -111,7 +112,7 @@ public class RobotContainer {
         }
         configurePreferences();
         configureButtonBindings();
-        configureTriggers();
+        //configureTriggers();
         swerveDrive.setDefaultCommand(swerveDrive.applyRequest(() -> {
             TwoDControllerInput input = selectedOI.getXY();
             return drive.withVelocityX(-input.x() * Drive.kMaxDriveMeterS) // Drive forward with
