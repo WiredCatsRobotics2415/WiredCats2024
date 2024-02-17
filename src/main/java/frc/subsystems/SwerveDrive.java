@@ -146,8 +146,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     @Override
     public void periodic() {
         if (shouldUseLimelight) {
-            addVisionMeasurement(vision.getBotPose2d(),
-                Timer.getFPGATimestamp());
+            // addVisionMeasurement(vision.getBotPose2d(),
+            //     Timer.getFPGATimestamp());
         }
     }
 }

@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase {
 
   public Intake() {
       //motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR, CANSparkMax.MotorType.kBrushless);
-      motor = new TalonFX(0);
+      motor = new TalonFX(RobotMap.Intake.INTAKE_MOTOR);
       topIR = new AnalogInput(RobotMap.Intake.TOP_IR);
       bottomIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR); 
       motor.setInverted(true);
@@ -29,7 +29,7 @@ public class Intake extends SubsystemBase {
 
   public void motorIn() {
       System.out.println("in");
-      motor.set(-Constants.Intake.IntakeSpeed);
+      motor.set(Constants.Intake.IntakeSpeed);
   }
 
   public void motorOff() {
@@ -39,7 +39,7 @@ public class Intake extends SubsystemBase {
 
   public void motorOut() {
     System.out.println("out");
-    motor.set(Constants.Intake.IntakeSpeed);
+    motor.set(Constants.Intake.OuttakeSpeed);
   }
 
   public static Intake getInstance() {

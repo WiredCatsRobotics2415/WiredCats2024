@@ -56,7 +56,8 @@ public final class Constants {
     }
 
     public static class Intake {
-      public static final double IntakeSpeed = 0.5; 
+      public static final double IntakeSpeed = 0.7; 
+      public static final double OuttakeSpeed = -0.4; 
       public static final double IRThreshold = 200; 
     }
 
@@ -79,16 +80,16 @@ public final class Constants {
       }
       public static final EncoderOption ENCODER_TO_USE = EncoderOption.ANALOG_POT;
   
-      public static final double POT_OFFSET = 0.0d; //In DEGREES (added before reading is converted to rotations)
+      public static final double POT_OFFSET = 0.05d; //In ROTATIONS (added before reading is converted to rotations)
   
-      public static final float KS = 0.3159f;
-      public static final float KV = 8.06f;
-      public static final float KA = 0.09f;
-      public static final float KG = 0.383f;
-      public static final float KP = 3.2f;
-      public static final float KD = 1.5f;
+      public static final float KS = 0.293f;
+      public static final float KV = 0.09f;
+      public static final float KA = 0.018f;
+      public static final float KG = 0.1f;
+      public static final float KP = 0.1f;
+      public static final float KD = 0.0f;
   
-      public static final float KG_PROPORTION = 0.005f; //How much to modify KG by;
+      public static final float KG_PROPORTION = 0.000f; //How much to modify KG by;
       //applied KG = (Proportion * angle in degrees) * KG 
   
       public static final float VELO_MAX = 0.5f; //No more than 45 deg per second
@@ -97,7 +98,7 @@ public final class Constants {
       public static final float ROTOR_TO_ARM_GEAR_RATIO = 280/1; //(# encoder rotations per 1 full rotation)
   
       public static final double MAX_ROTATIONS = 120/360.0; //Max angle of arm
-      public static final double MIN_ROTATIONS = 0/360.0; //Min angle of arm
+      public static final double MIN_ROTATIONS = POT_OFFSET; //Min angle of arm
       
       public static double rotationsToFalcon(double rotations) {
         return rotations * ROTOR_TO_ARM_GEAR_RATIO;
