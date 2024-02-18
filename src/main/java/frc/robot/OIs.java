@@ -91,22 +91,37 @@ public class OIs {
             numpad = new CommandJoystick(1);
 
             binds.put("PigeonReset", controller.button(7)); //Minus
-            binds.put("Intake", controller.button(2)); //A
-            binds.put("ManualOuttake", controller.leftTrigger()); 
-            binds.put("LowerArm", controller.button(6)); //Right bumper
-            binds.put("RaiseArm", controller.button(5)); //left bumper
-            binds.put("Shoot", controller.button(1)); 
+            binds.put("TargetHotspot", controller.button(8)); //Plus
+            binds.put("Amp", numpad.button(4));
 
+            configClimberControls();
+            configArmControls();
+            configIntakeControls();
+            configFlywheelControls();
+        }
+
+        public void configClimberControls() {
             binds.put("LeftClimberDown", controller.leftTrigger());
             binds.put("LeftClimberUp", controller.button(5)); //Left bumper
-            binds.put("RightClimberDown", controller.rightTrigger());
+            binds.put("RightClimberDown", controller.rightTrigger()); 
             binds.put("RightClimberUp", controller.button(6)); //Right bumper
-
-            binds.put("TargetHotspot", controller.button(8)); //Plus
-            binds.put("ClimberMode1", numpad.button(1));
+            binds.put("ClimberMode1", numpad.button(1)); 
             binds.put("ClimberMode2", numpad.button(2));
+        }
+
+        public void configArmControls() {
+            binds.put("LowerArm", controller.button(6)); //Right bumper
+            binds.put("RaiseArm", controller.button(5)); //left bumper
+        }
+
+        public void configIntakeControls() {
+            binds.put("Intake", controller.button(2)); //A
+            binds.put("ManualOuttake", controller.leftTrigger()); 
+        }
+
+        public void configFlywheelControls() {
             binds.put("SpinUp", numpad.button(3));
-            binds.put("Amp", numpad.button(4));
+            binds.put("Shoot", controller.button(1)); 
         }
 
         private double deadbandCompensation(double r) {

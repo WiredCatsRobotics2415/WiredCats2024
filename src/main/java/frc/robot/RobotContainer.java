@@ -28,6 +28,7 @@ import frc.subsystems.Arm;
 import frc.subsystems.Climber;
 import frc.subsystems.Flywheel;
 import frc.subsystems.Intake;
+import frc.subsystems.NewFlywheel;
 import frc.subsystems.Vision;
 
 public class RobotContainer {
@@ -43,6 +44,7 @@ public class RobotContainer {
     private final Intake intake = Intake.getInstance();
     private final Climber climber = Climber.getInstance(); 
     private final Flywheel flywheel = Flywheel.getInstance(); 
+    private final NewFlywheel new_flywheel = NewFlywheel.getInstance(); 
     private final Arm arm = Arm.getInstance();
     
     // HOTSPOT
@@ -87,14 +89,28 @@ public class RobotContainer {
         //Flywheel
         selectedOI.binds.get("Shoot").onTrue(
             intake.uptake().andThen(new WaitCommand(1)).andThen(intake.off()));
-        selectedOI.binds.get("SpinUp").onTrue(flywheel.toggleSpinedUp()); 
+        selectedOI.binds.get("SpinUp").onTrue(new_flywheel.toggleSpinedUp()); 
+        // selectedOI.binds.get("SpinUp").onTrue(new_flywheel.on(Constants.Flywheel.FLYWHEEL_SPEED, Constants.Flywheel.FLYWHEEL_SPEED)); 
+
+        //Climber 
+        selectedOI.binds.get("LeftClimberDown").onTrue(
+            climber.manualDown(Constants.Climber.ClimberSpeed, 0) 
+        );
+        selectedOI.binds.get("LeftClimberUp").onTrue(
+            climber.manualUp(Constants.Climber.ClimberSpeed, 0) 
+        );
+        selectedOI.binds.get("RightClimberDown").onTrue(
+            climber.manualDown(0, Constants.Climber.ClimberSpeed) 
+        );
+        selectedOI.binds.get("RightClimberUp").onTrue(
+            climber.manualUp(0, Constants.Climber.ClimberSpeed)
+        );
 
         //Automatic
-        // selectedOI.binds.get("TargetHotspot").onTrue(new );
-        // selectedOI.binds.get("TargetHotspot").onTrue(new TargetHotspot());
         // selectedOI.binds.get("TargetHotspot").onTrue(new InstantCommand(() -> 
         //     CommandScheduler.getInstance().schedule(hotspotGen.targetClosest())
         // ));
+
         selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
     }
 

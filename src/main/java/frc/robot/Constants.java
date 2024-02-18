@@ -36,7 +36,13 @@ public final class Constants {
 
     public static class Climber {
       public static final double ClimberGearRatio = 6.746031746031747; // Drive gear ratio - Testing  
-      public static final double ClimberMax = Conversions.rotationsToMeters(1) * ClimberGearRatio; // Rotations 
+      public static final double ClimberMax = metersToRotations(1) * ClimberGearRatio; // Rotations 
+      public static final double ClimberMin = metersToRotations(0) * ClimberGearRatio; // Rotations
+      public static final double ClimberSpeed = 0.25; // Open-duty cycle 
+
+      public static double metersToRotations(int rotations) { // Needs to be completed once climber is finished
+        return rotations; 
+      }
     }
 
     public static class Flywheel {
@@ -65,11 +71,18 @@ public final class Constants {
       public static final double falconToRPM(double rotationsPerSecond) {
         return (rotationsPerSecond * 60) * 3.4d;
       }
-    }
 
-    public static class Conversions {
-      public static double rotationsToMeters(int rotations) { // Needs to be completed once arm is finished
-        return rotations; 
+      public static final double FLYWHEEL_SPEED = rpm_to_rps(2000); 
+
+      public static double rpm_to_rps(double rpm) {
+        return rpm / 60; 
+      }
+
+      public static class FlywheelPIDS {
+        public static final double kP = 0.24;  
+        public static final double kI = 0.0;  
+        public static final double kD = 0.0;  
+        public static final double kV = 0.15;  
       }
     }
 
