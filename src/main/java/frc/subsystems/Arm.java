@@ -129,7 +129,7 @@ public class Arm extends ProfiledPIDSubsystem {
 
   @Override
   public void periodic() {
-      double rotations = potentiometer.get()+Constants.Arm.POT_OFFSET;
+      double rotations = potentiometer.get() + Constants.Arm.POT_OFFSET;
       SmartDashboard.putNumber("Arm Measurement", rotations*360);
   }
 }

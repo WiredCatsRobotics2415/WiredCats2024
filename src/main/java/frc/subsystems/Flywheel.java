@@ -65,12 +65,12 @@ public class Flywheel extends SubsystemBase {
 
     private void configMotors() {
         TalonFXConfigurator rightCfg = right.getConfigurator();
-        //rightCfg.apply(Constants.Flywheel.RIGHT_PID);
+        rightCfg.apply(Constants.Flywheel.RIGHT_PID);
         rightCfg.apply(Constants.Flywheel.COAST_CONFIG);
         right.setInverted(true);
 
         TalonFXConfigurator leftCfg = left.getConfigurator();
-        //leftCfg.apply(Constants.Flywheel.LEFT_PID);
+        leftCfg.apply(Constants.Flywheel.LEFT_PID);
         leftCfg.apply(Constants.Flywheel.COAST_CONFIG);
         left.setInverted(false);
     }
