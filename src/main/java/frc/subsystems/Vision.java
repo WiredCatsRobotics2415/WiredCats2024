@@ -1,6 +1,7 @@
 package frc.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.generated.TunerConstants;
@@ -42,8 +43,9 @@ public class Vision extends SubsystemBase {
     public void periodic() {
         if (Robot.isSimulation()) return;
         if (!isEnabled) return;
-        cachedBackPose2d = LimelightHelpers.getBotPose2d(Constants.Vision.ShooterLimelightName);
-        cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
+        cachedBackPose2d = LimelightHelpers.getBotPose2d_wpiBlue(Constants.Vision.ShooterLimelightName);
+        cachedBackPose2d = new Pose2d(-cachedBackPose2d.getX(), -cachedBackPose2d.getY(), cachedBackPose2d.getRotation().rotateBy(Rotation2d.fromDegrees(180)));
+        //cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
     }
 
     public Pose2d getBotPose2d() {

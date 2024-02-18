@@ -1,5 +1,6 @@
 package frc.subsystems;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -49,10 +50,14 @@ public class Arm extends ProfiledPIDSubsystem {
     
     leftMotor = new TalonFX(RobotMap.Arm.LEFT_MOTOR_PORT);
     leftMotor.getConfigurator().apply(feedbackConfigs);
+    BaseStatusSignal.setUpdateFrequencyForAll(250, leftMotor.getDeviceTemp());
+    leftMotor.optimizeBusUtilization();
 
     rightMotor = new TalonFX(RobotMap.Arm.RIGHT_MOTOR_PORT);
     rightMotor.setControl(new StrictFollower(leftMotor.getDeviceID()));
     rightMotor.setInverted(true);
+    BaseStatusSignal.setUpdateFrequencyForAll(250, rightMotor.getDeviceTemp());
+    rightMotor.optimizeBusUtilization();
 
     leftMotor.setNeutralMode(NeutralModeValue.Brake);
     rightMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -118,8 +123,13 @@ public class Arm extends ProfiledPIDSubsystem {
     } else {
       rotations = Constants.Arm.falconToRotations(leftMotor.getPosition().getValue());
     }
-    SmartDashboard.putNumber("Arm Measurement", rotations*360);
     newGravityVolts = (Constants.Arm.KG_PROPORTION * (rotations*360)) * Constants.Arm.KG;
     return rotations;
+  }
+
+  @Override
+  public void periodic() {
+      double rotations = potentiometer.get()+Constants.Arm.POT_OFFSET;
+      SmartDashboard.putNumber("Arm Measurement", rotations*360);
   }
 }

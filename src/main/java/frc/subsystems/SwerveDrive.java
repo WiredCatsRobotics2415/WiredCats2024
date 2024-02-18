@@ -73,10 +73,10 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
         //Remote Commands
         SmartDashboard.putData("Zero Pose", new InstantCommand(() -> this.seedFieldRelative(
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)))).withName("Zero Pose"));
+            new Pose2d(0, 0, Rotation2d.fromDegrees(0)))).withName("Zero Pose").ignoringDisable(true));
         
         SmartDashboard.putData("Reset to LL", new InstantCommand(() -> this.seedFieldRelative(
-            vision.getBotPose2d())).withName("Reset to LL"));
+            vision.getBotPose2d())).withName("Reset to LL").ignoringDisable(true));
         
         vision = Vision.getInstance();
     }
@@ -155,10 +155,10 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     @Override
     public void periodic() {
         if (shouldUseLimelight) {
-            addVisionMeasurement(vision.getBotPose2d(),
-                Timer.getFPGATimestamp());
+            // addVisionMeasurement(vision.getBotPose2d(),
+            //     Timer.getFPGATimestamp());
         }
-        if (!blueAlliance) {
+        if (blueAlliance) {
             System.out.println("To blue: " + this.robotPose.getTranslation().getDistance(
                 Constants.FieldMeasurements.BlueSpeakerLocation));
         } else {

@@ -86,15 +86,16 @@ public class RobotContainer {
 
         //Flywheel
         selectedOI.binds.get("Shoot").onTrue(
-            intake.uptake().andThen(new WaitCommand(0.25)).andThen(intake.off()));
+            intake.uptake().andThen(new WaitCommand(1)).andThen(intake.off()));
         selectedOI.binds.get("SpinUp").onTrue(flywheel.toggleSpinedUp()); 
 
         //Automatic
         // selectedOI.binds.get("TargetHotspot").onTrue(new );
         // selectedOI.binds.get("TargetHotspot").onTrue(new TargetHotspot());
-        selectedOI.binds.get("TargetHotspot").onTrue(new InstantCommand(() -> 
-            CommandScheduler.getInstance().schedule(hotspotGen.targetClosest())
-        ));
+        // selectedOI.binds.get("TargetHotspot").onTrue(new InstantCommand(() -> 
+        //     CommandScheduler.getInstance().schedule(hotspotGen.targetClosest())
+        // ));
+        selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
     }
 
     private void configureTriggers() {

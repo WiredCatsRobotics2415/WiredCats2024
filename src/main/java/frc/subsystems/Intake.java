@@ -25,6 +25,7 @@ public class Intake extends SubsystemBase {
     // motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR,
     // CANSparkMax.MotorType.kBrushless);
     motor = new TalonFX(RobotMap.Intake.INTAKE_MOTOR);
+    motor.optimizeBusUtilization();
     topIR = new AnalogInput(RobotMap.Intake.TOP_IR);
     bottomIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR);
     motor.setInverted(true);

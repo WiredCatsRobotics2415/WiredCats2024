@@ -41,12 +41,16 @@ public final class Constants {
 
     public static class Flywheel {
       public static final Slot0Configs LEFT_PID = new Slot0Configs()
-        .withKV(0.025)
-        .withKP(0.05); //TODO: may need adjustment
+        .withKS(0.26)
+        .withKV(0.16)
+        .withKA(0.12)
+        .withKP(0.1); //TODO: may need adjustment
     
       public static final Slot0Configs RIGHT_PID = new Slot0Configs()
-        .withKV(0.025)
-        .withKP(0.05); //TODO: may need adjustment
+        .withKS(0.47)
+        .withKV(0.15)
+        .withKA(0.1)
+        .withKP(0.1); //TODO: may need adjustment
 
       public static final MotorOutputConfigs COAST_CONFIG = new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast);
 
@@ -71,13 +75,13 @@ public final class Constants {
 
     public static class Drive {
       public static final double kMaxDriveMeterS = TunerConstants.kSpeedAt12VoltsMps;
-      public static final double kMaxAngularRadS = Math.PI; //rad/second
+      public static final double kMaxAngularRadS = Math.PI*1.5d; //rad/second
       public static final double MinimumDrivePower = 0.05d;
     }
 
     public static class Intake {
-      public static final double UptakeSpeed = 0.75;
-      public static final double IntakeSpeed = 0.7; 
+      public static final double UptakeSpeed = 1;
+      public static final double IntakeSpeed = 0.9; 
       public static final double OuttakeSpeed = -0.4; 
       public static final double IRThreshold = 200; 
     }
@@ -107,8 +111,8 @@ public final class Constants {
       public static final float KV = 0.09f;
       public static final float KA = 0.018f;
       public static final float KG = 0.1f;
-      public static final float KP = 0.1f;
-      public static final float KD = 0.0f;
+      public static final float KP = 30f;
+      public static final float KD = 0.9f;
   
       public static final float KG_PROPORTION = 0.000f; //How much to modify KG by;
       //applied KG = (Proportion * angle in degrees) * KG 
@@ -144,7 +148,7 @@ public final class Constants {
     }
 
     public static class Vision {
-      public final static String ShooterLimelightName = "back";
+      public final static String ShooterLimelightName = "limelight-back";
       public final static String IntakeLimelightName = "intake";
     }
 }

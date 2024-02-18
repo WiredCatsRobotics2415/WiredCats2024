@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    //auto = robot.getAutonomousCommand(); // Run an auto path
+    auto = robot.getAutonomousCommand(); // Run an auto path
     // auto = robot.getPathfindingCommand(); // Run a pathfinding command
     if (auto != null) CommandScheduler.getInstance().schedule(auto);
   }

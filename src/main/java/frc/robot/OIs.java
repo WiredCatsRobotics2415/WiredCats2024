@@ -95,7 +95,7 @@ public class OIs {
             binds.put("ManualOuttake", controller.leftTrigger()); 
             binds.put("LowerArm", controller.button(6)); //Right bumper
             binds.put("RaiseArm", controller.button(5)); //left bumper
-            binds.put("Shoot", controller.rightTrigger()); 
+            binds.put("Shoot", controller.button(1)); 
 
             binds.put("LeftClimberDown", controller.leftTrigger());
             binds.put("LeftClimberUp", controller.button(5)); //Left bumper

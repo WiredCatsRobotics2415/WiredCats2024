@@ -1,5 +1,6 @@
 package frc.subsystems;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
@@ -27,8 +28,8 @@ public class Flywheel extends SubsystemBase {
     public TalonFX right;
     public TalonFX left;
 
-    private VelocityDutyCycle rightOut = new VelocityDutyCycle(0);
-    private VelocityDutyCycle leftOut = new VelocityDutyCycle(0);
+    private DutyCycleOut rightOut = new DutyCycleOut(0);
+    private DutyCycleOut leftOut = new DutyCycleOut(0);
 
     private final SendableChooser<TestType> testChooser = new SendableChooser<TestType>();
     private double leftSpeedRatio = 0.67d;
@@ -40,7 +41,11 @@ public class Flywheel extends SubsystemBase {
 
     public Flywheel() {
         right = new TalonFX(RobotMap.Flywheel.RIGHT_FLYWHEEL);
+        BaseStatusSignal.setUpdateFrequencyForAll(250, right.getDeviceTemp());
+        right.optimizeBusUtilization();
         left = new TalonFX(RobotMap.Flywheel.LEFT_FLYWHEEL);
+        BaseStatusSignal.setUpdateFrequencyForAll(250, left.getDeviceTemp());
+        left.optimizeBusUtilization();
 
         testChooser.setDefaultOption(TestType.LOCK.toString(), TestType.LOCK);
         testChooser.addOption(TestType.RATIO.toString(), TestType.RATIO);
@@ -60,21 +65,21 @@ public class Flywheel extends SubsystemBase {
 
     private void configMotors() {
         TalonFXConfigurator rightCfg = right.getConfigurator();
-        rightCfg.apply(Constants.Flywheel.RIGHT_PID);
+        //rightCfg.apply(Constants.Flywheel.RIGHT_PID);
         rightCfg.apply(Constants.Flywheel.COAST_CONFIG);
         right.setInverted(true);
 
-        TalonFXConfigurator leftCfg = right.getConfigurator();
-        leftCfg.apply(Constants.Flywheel.RIGHT_PID);
+        TalonFXConfigurator leftCfg = left.getConfigurator();
+        //leftCfg.apply(Constants.Flywheel.LEFT_PID);
         leftCfg.apply(Constants.Flywheel.COAST_CONFIG);
-        right.setInverted(true);
+        left.setInverted(false);
     }
 
     public void teleopInit() {
         currentMode = testChooser.getSelected();
 
         if (currentMode.equals(TestType.LOCK)) {
-            left.setControl(new StaticBrake());
+            //left.setControl(new StaticBrake());
         }
     }
 
@@ -107,17 +112,13 @@ public class Flywheel extends SubsystemBase {
         rightSetRPM = SmartDashboard.getNumber("Set speed", rightSetRPM);
 
         if (shouldSpinUp) {
-            right.setControl(rightOut.withVelocity(Constants.Flywheel.rpmToFalcon(rightSetRPM)));
-
-            if (currentMode.equals(TestType.RATIO)) {
-                left.setControl(leftOut.withVelocity(
-                Constants.Flywheel.rpmToFalcon(rightSetRPM * leftSpeedRatio)));
-            }
+            right.setControl(rightOut.withOutput(0.8));
+            left.setControl(leftOut.withOutput(0.8));
         } else {
-            right.setControl(rightOut.withVelocity(Constants.Flywheel.rpmToFalcon(0.0d)));
-            left.setControl(leftOut.withVelocity(Constants.Flywheel.rpmToFalcon(0.0d)));
+            right.setControl(rightOut.withOutput(Constants.Flywheel.rpmToFalcon(0.0d)));
+            left.setControl(leftOut.withOutput(Constants.Flywheel.rpmToFalcon(0.0d)));
         }
 
-        SmartDashboard.putBoolean("Flywheel Within Goal", withinGoal());
+        //SmartDashboard.putBoolean("Flywheel Within Goal", withinGoal());
     }
 }
