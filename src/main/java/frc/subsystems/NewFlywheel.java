@@ -49,6 +49,8 @@ public class NewFlywheel extends SubsystemBase {
     }
 
     public void configSmartDashboard() {
+        testChooser.setDefaultOption(TestType.LOCK.toString(), TestType.LOCK);
+        testChooser.addOption(TestType.RATIO.toString(), TestType.RATIO);
         SmartDashboard.setDefaultNumber("Left:Right Ratio", leftSpeedRatio);
         SmartDashboard.setDefaultNumber("Set Speed (Left Motor - RPM)", leftSetRPM);
         SmartDashboard.setDefaultNumber("Current Speed (Left)", left.getRotorVelocity().getValueAsDouble()); 
