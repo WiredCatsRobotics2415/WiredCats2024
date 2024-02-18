@@ -22,6 +22,8 @@ public class NewFlywheel extends SubsystemBase {
     private double leftSpeedRatio = 1.0d;
     private double leftSetRPM = 0d;
 
+    private TestType currentMode = TestType.LOCK;
+
     // Intialize flywheel motors 
     private TalonFX left; 
     private TalonFX right; 
@@ -39,6 +41,15 @@ public class NewFlywheel extends SubsystemBase {
         m_voltageVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false); 
         configFlywheel(); 
         configSmartDashboard();
+    }
+
+    // Allows you to test with one motor locked 
+    public void teleopInit() {
+        currentMode = testChooser.getSelected();
+
+        if (currentMode.equals(TestType.LOCK)) {
+            //left.setControl(new StaticBrake());
+        }
     }
 
     public static NewFlywheel getInstance() {
