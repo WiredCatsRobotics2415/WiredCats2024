@@ -1,6 +1,5 @@
 package frc.subsystems;
 
-import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -18,7 +17,6 @@ import frc.robot.Constants.Arm.EncoderOption;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -40,8 +38,16 @@ public class Arm extends SubsystemBase {
   private static Arm instance;
 
   public Arm() {    
-    potentiometer = new AnalogPotentiometer(RobotMap.Arm.ANALOG_POT_PORT);
+    potentiometer = new AnalogPotentiometer(RobotMap.Arm.ANALOG_POT_PORT, 0.75);
 
+    configureMotors();
+
+    if (Robot.isSimulation()) {
+      SmartDashboard.setDefaultNumber("Sim Distance (rotations)", 0.0d);
+    }
+  }
+
+  private void configureMotors() {
     FeedbackConfigs feedbackConfigs = new FeedbackConfigs()
       .withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor);
     
@@ -54,10 +60,6 @@ public class Arm extends SubsystemBase {
 
     leftMotor.setNeutralMode(NeutralModeValue.Brake);
     rightMotor.setNeutralMode(NeutralModeValue.Brake);
-
-    if (Robot.isSimulation()) {
-      SmartDashboard.setDefaultNumber("Sim Distance (rotations)", 0.0d);
-    }
   }
 
   public static Arm getInstance() {
@@ -82,16 +84,24 @@ public class Arm extends SubsystemBase {
   }
 
   /**
-   * Gets measurement in rotations. Handles selection of encoder defined in Constants.java
+   * @return potentiometer value in rotations.
+   */
+  private double getPotRotations() {
+    return (potentiometer.get()+Constants.Arm.POT_OFFSET)/360.0d;
+  }
+
+  /**
+   * @return measurement in rotations. Handles selection of encoder defined in Constants.
+   * If in simulation, use the analog port window to control the simulated position.
    */
   private double getMeasurement() {
     if (Robot.isSimulation()) {
-      return SmartDashboard.getNumber("Sim Distance (rotations)", 0.0d);
+      return getPotRotations();
     }
 
     double rotations = 0.0d;
     if (Constants.Arm.ENCODER_TO_USE.equals(EncoderOption.ANALOG_POT)) {
-      rotations = potentiometer.get()+Constants.Arm.POT_OFFSET;
+      rotations = getPotRotations();
     } else {
       rotations = Constants.Arm.falconToRotations(leftMotor.getPosition().getValue());
     }
@@ -100,8 +110,9 @@ public class Arm extends SubsystemBase {
   }
 
   /**
-   * Sets the goal of the arm in rotations.
-   * @param goalInRotations
+   * Sets the goal of the arm in rotations. Does NOT account for the goal being a value
+   * outside of the minimum or maximum rotations.
+   * @param goalInRotations 
    */
   public void setGoal(double goalInRotations) {
     this.goalInRotations = goalInRotations;

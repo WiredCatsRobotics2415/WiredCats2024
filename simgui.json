@@ -1,5 +1,10 @@
 {
   "HALProvider": {
+    "Analog Inputs": {
+      "window": {
+        "visible": true
+      }
+    },
     "Other Devices": {
       "CANCoder (v6)[0]": {
         "header": {
@@ -53,6 +58,7 @@
       "/SmartDashboard/OI": "String Chooser",
       "/SmartDashboard/Reset to LL": "Command",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/SendableChooser[1]": "String Chooser",
       "/SmartDashboard/Zero Pose": "Command"
     }
   },

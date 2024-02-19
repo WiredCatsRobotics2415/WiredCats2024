@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -119,7 +118,7 @@ public final class Constants {
       }
       public static final EncoderOption ENCODER_TO_USE = EncoderOption.ANALOG_POT;
   
-      public static final double POT_OFFSET = 0.05d; //In ROTATIONS (added before reading is converted to rotations)
+      public static final double POT_OFFSET = 0.0d; //In DEGREES (added before reading is converted to rotations)
   
       public static final float KS = 0.293f;
       public static final float KV = 0.09f;

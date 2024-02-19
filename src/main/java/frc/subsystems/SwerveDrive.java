@@ -18,7 +18,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -121,10 +120,18 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
         );
     }
 
+    /**
+     * @return a Command that takes a SwerveRequest supplier and applies it for as long as
+     * this command runs. 
+     */
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
         return run(() -> this.setControl(requestSupplier.get()));
     }
 
+    /**
+     * @return Get the current robot-centric chassis speeds, directly from the module's actual
+     * states.
+     */
     public ChassisSpeeds getCurrentRobotChassisSpeeds() {
         return m_kinematics.toChassisSpeeds(getState().ModuleStates);
     }
@@ -145,7 +152,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     }
 
     /**
-     * Sets the preferences of this subsystem, namely whether or not to use the limelight
+     * Sets the preferences of this subsystem, mainly whether or not to use the limelight
      * pose inputs.
      */
     public void setPreferences() {
