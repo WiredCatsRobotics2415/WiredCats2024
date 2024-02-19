@@ -51,9 +51,12 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Arm Mechanism": "Mechanism2d",
       "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Flywheel Mechanism": "Mechanism2d",
       "/SmartDashboard/InstantCommand": "Command",
+      "/SmartDashboard/Intake Mechanism": "Mechanism2d",
       "/SmartDashboard/Log Level": "String Chooser",
       "/SmartDashboard/OI": "String Chooser",
       "/SmartDashboard/Reset to LL": "Command",

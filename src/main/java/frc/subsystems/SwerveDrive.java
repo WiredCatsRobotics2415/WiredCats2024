@@ -170,11 +170,11 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
             //     Timer.getFPGATimestamp());
         }
         if (blueAlliance) {
-            System.out.println("To blue: " + this.robotPose.getTranslation().getDistance(
-                Constants.FieldMeasurements.BlueSpeakerLocation));
+            // System.out.println("To blue: " + this.robotPose.getTranslation().getDistance(
+            //     Constants.FieldMeasurements.BlueSpeakerLocation));
         } else {
-            System.out.println("To red: " + this.robotPose.getTranslation().getDistance(
-                Constants.FieldMeasurements.RedSpeakerLocation));
+            // System.out.println("To red: " + this.robotPose.getTranslation().getDistance(
+            //     Constants.FieldMeasurements.RedSpeakerLocation));
         }
     }
 }
