@@ -35,6 +35,10 @@ public class Vision extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * Enables or disables this subsystem.
+     * If enabled, and a limelight is not present, then there will be a constant log of errors.
+     */
     public void setPreferences() {
         isEnabled = RobotPreferences.shouldUseLimelight();
     }
@@ -48,6 +52,9 @@ public class Vision extends SubsystemBase {
         //cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
     }
 
+    /**
+     * @return The Pose2D returned from limelight's MegaTag.
+     */
     public Pose2d getBotPose2d() {
         if (Robot.isSimulation()) {
             return TunerConstants.DriveTrain.getRobotPose();
@@ -55,6 +62,9 @@ public class Vision extends SubsystemBase {
         return cachedBackPose2d;
     }
 
+    /**
+     * @return Gets the horizontal angle returned by the intake limelight's note detection.
+     */
     public double getNoteAngleOnY() {
         if (Robot.isSimulation()) {
             return SmartDashboard.getNumber("Note Detection Y", 0.0d);

@@ -144,6 +144,10 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
 
+    /**
+     * Sets the preferences of this subsystem, namely whether or not to use the limelight
+     * pose inputs.
+     */
     public void setPreferences() {
         shouldUseLimelight = RobotPreferences.shouldUseLimelight();
         var alliance = DriverStation.getAlliance();

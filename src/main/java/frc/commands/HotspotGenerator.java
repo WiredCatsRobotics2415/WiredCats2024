@@ -13,8 +13,11 @@ public class HotspotGenerator {
     private ArrayList<Hotspot> hotspots = new ArrayList<>(); 
     private Command currentTargetingCommand;
 
+    /**
+     * Constructs all Hotspots with thier appropriate positions,
+     * according to hotspots.webp.
+     */
     public HotspotGenerator() {
-        // Load hotspots; Store in arraylist 
         hotspots.add(new Hotspot(1.5, 2.1)); // Subwoofer bottom 
         hotspots.add(new Hotspot(1.9, 3.2)); // Subwoofer middle 
         hotspots.add(new Hotspot(1.5, 4.0)); // Subwoofer top 
@@ -32,6 +35,9 @@ public class HotspotGenerator {
         return instance; 
     } 
 
+    /**
+     * @return a Command that, when run, cancels the current targeting command.
+     */
     public Command endCurrentCommand() {
         return new InstantCommand(() -> {
             System.out.println("ending");
@@ -39,6 +45,10 @@ public class HotspotGenerator {
         });
     }
 
+    /**
+     * @return a Command that is intended to run on SwerveDrive to go to the nearest hotspot,
+     * based on the robot's current pose.
+     */
     public Command targetClosest() {
         Translation2d current_pose = TunerConstants.DriveTrain.getRobotPose().getTranslation(); 
         Hotspot closestHotspot = hotspots.get(0); 

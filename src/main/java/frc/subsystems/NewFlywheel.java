@@ -35,15 +35,18 @@ public class NewFlywheel extends SubsystemBase {
 
     private boolean shouldSpinUp = false;
 
-    public NewFlywheel() { 
-        left = new TalonFX(RobotMap.Flywheel.LEFT_FLYWHEEL, Constants.CANBusName);
-        right = new TalonFX(RobotMap.Flywheel.RIGHT_FLYWHEEL, Constants.CANBusName);
+    private NewFlywheel() { 
+        left = new TalonFX(RobotMap.Flywheel.LEFT_FLYWHEEL);
+        right = new TalonFX(RobotMap.Flywheel.RIGHT_FLYWHEEL);
         m_voltageVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false); 
         configFlywheel(); 
         configSmartDashboard();
     }
 
-    // Allows you to test with one motor locked 
+    /**
+     * Changes the test mode, between Lock and Ratio, from the SendableChooser.
+     * Intended to be called in teleopInit.
+     */
     public void teleopInit() {
         currentMode = testChooser.getSelected();
 
@@ -59,7 +62,7 @@ public class NewFlywheel extends SubsystemBase {
         return instance; 
     }
 
-    public void configSmartDashboard() {
+    private void configSmartDashboard() {
         testChooser.setDefaultOption(TestType.LOCK.toString(), TestType.LOCK);
         testChooser.addOption(TestType.RATIO.toString(), TestType.RATIO);
         SmartDashboard.setDefaultNumber("Left:Right Ratio", leftSpeedRatio);
@@ -94,6 +97,9 @@ public class NewFlywheel extends SubsystemBase {
         }
     }
 
+    /**
+     * @return Command that spins up each motor to the specified RPM.
+     */
     public Command on(double leftSpeed, double rightSpeed) {
         return runOnce(
             () -> {
@@ -103,6 +109,10 @@ public class NewFlywheel extends SubsystemBase {
         );
     }
 
+    /**
+     * @return Command that sets both motor's RPM to 0.
+     * Note that the flywheel is in coast.
+     */
     public Command off() {
         return runOnce(
             () -> {
@@ -112,6 +122,11 @@ public class NewFlywheel extends SubsystemBase {
         );
     }
 
+    /**
+     * @return Command that toggles whether or not the flywheel should spin up to its goal RPM.
+     * If already spinned up, spin down to 0.
+     * Otherwise, spin up to the goal.
+     */
     public Command toggleSpinedUp() {
         return runOnce(() -> {
             System.out.println("Flywheel toggle " + (!shouldSpinUp ? "on" : "off"));

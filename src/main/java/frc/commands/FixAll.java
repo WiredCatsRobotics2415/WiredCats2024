@@ -12,10 +12,6 @@ import frc.generated.TunerConstants;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.Drive;
-import frc.robot.OIs.OI;
-import frc.robot.OIs.OI.TwoDControllerInput;
-import frc.utils.Logger;
-import frc.utils.Logger.LogLevel;
 
 /**
  * The "FixAll" preset (FIX ALL subsystems to their ideal position for scoring).

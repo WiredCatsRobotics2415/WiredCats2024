@@ -41,11 +41,7 @@ public class Flywheel extends SubsystemBase {
 
     public Flywheel() {
         right = new TalonFX(RobotMap.Flywheel.RIGHT_FLYWHEEL);
-        BaseStatusSignal.setUpdateFrequencyForAll(250, right.getDeviceTemp());
-        right.optimizeBusUtilization();
         left = new TalonFX(RobotMap.Flywheel.LEFT_FLYWHEEL);
-        BaseStatusSignal.setUpdateFrequencyForAll(250, left.getDeviceTemp());
-        left.optimizeBusUtilization();
 
         testChooser.setDefaultOption(TestType.LOCK.toString(), TestType.LOCK);
         testChooser.addOption(TestType.RATIO.toString(), TestType.RATIO);
@@ -75,6 +71,10 @@ public class Flywheel extends SubsystemBase {
         left.setInverted(false);
     }
 
+    /**
+     * Changes the test mode, between Lock and Ratio, from the SendableChooser.
+     * Intended to be called in teleopInit.
+     */
     public void teleopInit() {
         currentMode = testChooser.getSelected();
 
@@ -83,6 +83,11 @@ public class Flywheel extends SubsystemBase {
         }
     }
 
+    /**
+     * @return Command that toggles whether or not the flywheel should spin up to its goal RPM.
+     * If already spinned up, spin down to 0.
+     * Otherwise, spin up to the goal.
+     */
     public Command toggleSpinedUp() {
         return runOnce(() -> {
             System.out.println("Flywheel toggle " + (!shouldSpinUp ? "on" : "off"));
@@ -91,7 +96,7 @@ public class Flywheel extends SubsystemBase {
     }
 
     /**
-     * True if the current speed of the left shooter motor is within + or - GOAL_TOLERANCE_RPM
+     * @return true if the current speed of the left shooter motor is within + or - GOAL_TOLERANCE_RPM
      */
     public boolean withinGoal() {
         double currentValue = Constants.Flywheel.falconToRPM(left.getRotorVelocity().getValue());

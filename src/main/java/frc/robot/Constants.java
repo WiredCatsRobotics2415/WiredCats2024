@@ -18,8 +18,6 @@ import frc.commands.Hotspot;
 import frc.generated.TunerConstants;
 
 public final class Constants {
-    public static final String CANBusName = "rio"; 
-
     public static class Swerve {
       public static final String[] ModuleNames = new String[] {
         "Front Left",
@@ -86,6 +84,9 @@ public final class Constants {
       }
     }
 
+    /**
+     * Constants for teleoperated control.
+     */
     public static class Drive {
       public static final double kMaxDriveMeterS = TunerConstants.kSpeedAt12VoltsMps;
       public static final double kMaxAngularRadS = Math.PI*1.5d; //rad/second

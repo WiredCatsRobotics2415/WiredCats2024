@@ -72,6 +72,10 @@ public class RobotContainer {
         return instance;
     }
 
+    /**
+     * Adds all Commands to the Triggers in the selectedOI's binds map.
+     * Intended to be run in teleopInit.
+     */
     private void configureButtonBindings() {
         //Swerve
         selectedOI.binds.get("PigeonReset").onTrue(new InstantCommand(() -> {
@@ -114,6 +118,10 @@ public class RobotContainer {
         selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
     }
 
+    /**
+     * Adds all binds to triggers.
+     * Intended to be run in teleopInit.
+     */
     private void configureTriggers() {
         new Trigger(intake::hasNote)
         .onTrue(intake.off());
@@ -122,15 +130,22 @@ public class RobotContainer {
         .onTrue(intake.in());
     }
 
-    //Calls methods from subsystems to update from preferences
+    /**
+     * Calls methods from subsystems to update from preferences.
+     * Intended to be run in teleopInit.
+     */
     private void configurePreferences() {
         selectedOI.setPreferences();
         Vision.getInstance().setPreferences();
         swerveDrive.setPreferences();
     }
 
+    /**
+     * Prepares the robot for teleoperated control.
+     * Gets the OI selected, configures all binds, and calls any teleopInit
+     * methods on subsystems.
+     */
     public void teleopInit() {
-        //Gets the OI selected
         switch (OI.oiChooser.getSelected()) {
             case 0:
               selectedOI = new OIs.GulikitController();
@@ -152,14 +167,12 @@ public class RobotContainer {
 
         //Subsystem enables
         flywheel.teleopInit();
-        arm.setGoal(arm.getMeasurement());
-        arm.enable();
     }
-
-    public void disabledInit() {
-        arm.disable();
-    }
-     
+    
+    /**
+     * Gets the autonomous command to be run from Robot.java
+     * @return
+     */
     public Command getAutonomousCommand() {
         // Test autonomous path 
         // PathPlannerPath path = PathPlannerPath.fromPathFile("Very_Basic"); 

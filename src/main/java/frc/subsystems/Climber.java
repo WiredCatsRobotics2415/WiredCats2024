@@ -48,7 +48,7 @@ public class Climber extends SubsystemBase {
         return instance;
     }
 
-    public void configClimberMotors() {
+    private void configClimberMotors() {
         TalonFXConfiguration configs = new TalonFXConfiguration();
         configs.Slot0.kP = 1.5;  // An error of 0.5 rotations results in 1.2 volts output
         configs.Slot0.kD = 0.00048; // A change of 1 rotation per second results in 0.1 volts output
@@ -71,7 +71,11 @@ public class Climber extends SubsystemBase {
         left.setPosition(0); 
         right.setPosition(0);
     }
-
+    
+    /**
+     * @return A command that releases both climbers (ie. moves them to thier resting position,
+     * which is up.)
+     */
     public Command releaseTop() {
         return runOnce(
             () -> {
@@ -79,6 +83,10 @@ public class Climber extends SubsystemBase {
             });
     }
 
+    /**
+     * @return A command that retracts both climbers (ie. moves them to thier climbed position,
+     * which is all the way down.)
+     */
     public Command retract() {
         return runOnce(
             () -> {
@@ -86,7 +94,11 @@ public class Climber extends SubsystemBase {
             });
     }
 
-    // Manually control the arms up - stop the motors if the climbers have already reached max height - check limit switches
+    /**
+     * @return A command that sets the speed of individual climbers, to move them UP.
+     * Automatically stops the motors if the climbers have already reached max height,
+     * or the limit switches are pressed.
+     */
     public Command manualUp(double leftSpeed, double rightSpeed) {
         return runOnce(
             () -> {
@@ -98,7 +110,11 @@ public class Climber extends SubsystemBase {
             });
     }
 
-    // Manually control the arms down - stop the motors if the climbers have already reached minimum height - check limit switches
+    /**
+     * @return A command that sets the speed of individual climbers, to move them DOWN.
+     * Automatically stops the motors if the climbers have already reached minimum height,
+     * or the limit switches are pressed.
+     */
     public Command manualDown(double leftSpeed, double rightSpeed) {
         return runOnce(
             () -> {
@@ -110,34 +126,51 @@ public class Climber extends SubsystemBase {
             });
     }
 
+    /**
+     * Sets both motor's speeds to 0.
+     */
     public void stop() {
         setMotorSpeeds(0, 0);
     }
 
+    /**
+     * Sets each motor's SPEED (as opposed to position).
+     */
     public void setMotorSpeeds(double leftSpeed, double rightSpeed) {
         left.set(leftSpeed); 
         right.set(rightSpeed);
     }
 
-    // Return true if the climber has not reached its min - check limit switch too 
+    /**
+     * @return true if the climber has not reached its minimum height, or true if the limit switches
+     * are not triggered. false if either of those conditions are true.
+     */
     public boolean notMin() {
         return (right.getRotorPosition().getValueAsDouble() > Constants.Climber.ClimberMin && 
         left.getRotorPosition().getValueAsDouble() > Constants.Climber.ClimberMin && 
         !limitSwitchTriggered()); 
     }
 
-    // Return true if the climber has not reached its max 
+    /**
+     * @return true if the climber has not reached its maximum height, or true if the limit switches
+     * are not triggered. false if either of those conditions are true.
+     */
     public boolean notMax() {
         return (right.getRotorPosition().getValueAsDouble() <= Constants.Climber.ClimberMax && 
         left.getRotorPosition().getValueAsDouble() <= Constants.Climber.ClimberMax && 
         !limitSwitchTriggered()); 
     }
 
-    public boolean limitSwitchTriggered() { // return true if any of the limit switches have been triggered
+    /**
+     * @return true if ANY limit switches are triggered.
+     */
+    public boolean limitSwitchTriggered() {
         return leftBotSwitch.get() && rightBotSwitch.get() && leftTopSwitch.get() && rightTopSwitch.get(); 
     }
 
-    // Set motors to travel a certain number of rotations 
+    /**
+     * Sets a POSITION (as opposed to speed) goal for each motor.
+     */
     public void target(double leftGoal, double rightGoal) {
         right.setControl(positionOut.withPosition(leftGoal)); 
         left.setControl(positionOut.withPosition(rightGoal)); 

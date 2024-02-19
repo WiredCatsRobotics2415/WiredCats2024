@@ -20,29 +20,26 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Arm extends ProfiledPIDSubsystem {
-  
+public class Arm extends SubsystemBase {
   private TalonFX leftMotor;
   private TalonFX rightMotor;
   private AnalogPotentiometer potentiometer;
   private ArmFeedforward ff = new ArmFeedforward(Constants.Arm.KA, 0, Constants.Arm.KV, Constants.Arm.KA);
-  private double newGravityVolts = 0.0d;
-
-  private double goalInRotations = 0.0d;
-  private static Arm instance;
-
-  public Arm() {
-    super(
-        new ProfiledPIDController(
+  private ProfiledPIDController pid = new ProfiledPIDController(
             Constants.Arm.KP,
             0,
             Constants.Arm.KD,
             new TrapezoidProfile.Constraints(
                 Constants.Arm.VELO_MAX,
-                Constants.Arm.ACCEL_MAX)),
-        0);
-    
+                Constants.Arm.ACCEL_MAX));
+  private double newGravityVolts = 0.0d;
+
+  private double goalInRotations = Constants.Arm.MIN_ROTATIONS;
+  private static Arm instance;
+
+  public Arm() {    
     potentiometer = new AnalogPotentiometer(RobotMap.Arm.ANALOG_POT_PORT);
 
     FeedbackConfigs feedbackConfigs = new FeedbackConfigs()
@@ -50,19 +47,14 @@ public class Arm extends ProfiledPIDSubsystem {
     
     leftMotor = new TalonFX(RobotMap.Arm.LEFT_MOTOR_PORT);
     leftMotor.getConfigurator().apply(feedbackConfigs);
-    BaseStatusSignal.setUpdateFrequencyForAll(250, leftMotor.getDeviceTemp());
-    leftMotor.optimizeBusUtilization();
 
     rightMotor = new TalonFX(RobotMap.Arm.RIGHT_MOTOR_PORT);
     rightMotor.setControl(new StrictFollower(leftMotor.getDeviceID()));
     rightMotor.setInverted(true);
-    BaseStatusSignal.setUpdateFrequencyForAll(250, rightMotor.getDeviceTemp());
-    rightMotor.optimizeBusUtilization();
 
     leftMotor.setNeutralMode(NeutralModeValue.Brake);
     rightMotor.setNeutralMode(NeutralModeValue.Brake);
 
-    setGoal(goalInRotations);
     if (Robot.isSimulation()) {
       SmartDashboard.setDefaultNumber("Sim Distance (rotations)", 0.0d);
     }
@@ -75,8 +67,13 @@ public class Arm extends ProfiledPIDSubsystem {
     return instance;
   }
 
-  @Override
-  public void useOutput(double output, TrapezoidProfile.State setpoint) {
+  /**
+   * Sets the left arm's motor to the desired voltage, calculated by the feedforward object and PID
+   * subsystem.
+   * @param output the output of the ProfiledPIDController
+   * @param setpoint the setpoint state of the ProfiledPIDController, for feedforward
+   */
+  private void useOutput(double output, TrapezoidProfile.State setpoint) {
     // Calculate the feedforward from the sepoint
     double feedforward = ff.calculate(setpoint.position, setpoint.velocity);
     // Add the feedforward to the PID output to get the motor output
@@ -84,35 +81,10 @@ public class Arm extends ProfiledPIDSubsystem {
     SmartDashboard.putNumber("Volt out", (output + feedforward));
   }
 
-  public Command increaseGoal() {
-    return new RepeatCommand(new InstantCommand(() -> {
-      if (goalInRotations >= Constants.Arm.MAX_ROTATIONS) {
-        goalInRotations = Constants.Arm.MAX_ROTATIONS;
-        return;
-      }
-      goalInRotations += (1/360.0d);
-      System.out.println("Goal increase: " + goalInRotations);
-      this.setGoal(goalInRotations);
-    }));
-  }
-
-  public Command decreaseGoal() {
-    return new RepeatCommand(new InstantCommand(() -> {
-      if (goalInRotations <= Constants.Arm.MIN_ROTATIONS) {
-        goalInRotations = Constants.Arm.MIN_ROTATIONS;
-        return;
-      }
-      goalInRotations -= (1/360.0d);
-      System.out.println("Goal decrease: " + goalInRotations);
-      this.setGoal(goalInRotations);
-    }));
-  }
-
-  @Override
   /**
    * Gets measurement in rotations. Handles selection of encoder defined in Constants.java
    */
-  public double getMeasurement() {
+  private double getMeasurement() {
     if (Robot.isSimulation()) {
       return SmartDashboard.getNumber("Sim Distance (rotations)", 0.0d);
     }
@@ -127,9 +99,51 @@ public class Arm extends ProfiledPIDSubsystem {
     return rotations;
   }
 
+  /**
+   * Sets the goal of the arm in rotations.
+   * @param goalInRotations
+   */
+  public void setGoal(double goalInRotations) {
+    this.goalInRotations = goalInRotations;
+    pid.setGoal(new TrapezoidProfile.State(goalInRotations, 0));
+  }
+
+  /**
+   * @return A command to increase the arm's current goal by one degree.
+   * Does not go above max rotations defined in constants.
+   */
+  public Command increaseGoal() {
+    return new RepeatCommand(new InstantCommand(() -> {
+      if (goalInRotations >= Constants.Arm.MAX_ROTATIONS) {
+        goalInRotations = Constants.Arm.MAX_ROTATIONS;
+        return;
+      }
+      goalInRotations += (1/360.0d);
+      System.out.println("Goal increase: " + goalInRotations);
+      this.setGoal(goalInRotations);
+    }));
+  }
+
+  /**
+   * @return A command to decrease the arm's current goal by one degree.
+   * Does not go below min rotations defined in constants.
+   */
+  public Command decreaseGoal() {
+    return new RepeatCommand(new InstantCommand(() -> {
+      if (goalInRotations <= Constants.Arm.MIN_ROTATIONS) {
+        goalInRotations = Constants.Arm.MIN_ROTATIONS;
+        return;
+      }
+      goalInRotations -= (1/360.0d);
+      System.out.println("Goal decrease: " + goalInRotations);
+      this.setGoal(goalInRotations);
+    }));
+  }
+
   @Override
   public void periodic() {
-      double rotations = potentiometer.get() + Constants.Arm.POT_OFFSET;
-      SmartDashboard.putNumber("Arm Measurement", rotations*360);
+      double measurement = getMeasurement();
+      SmartDashboard.putNumber("Arm Measurement", measurement*360);
+      useOutput(pid.calculate(measurement), pid.getSetpoint());
   }
 }

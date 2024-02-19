@@ -22,8 +22,6 @@ public class Intake extends SubsystemBase {
   private double outtakeSpeed = Constants.Intake.OuttakeSpeed;
 
   public Intake() {
-    // motor = new CANSparkMax(RobotMap.Intake.INTAKE_MOTOR,
-    // CANSparkMax.MotorType.kBrushless);
     motor = new TalonFX(RobotMap.Intake.INTAKE_MOTOR);
     motor.optimizeBusUtilization();
     topIR = new AnalogInput(RobotMap.Intake.TOP_IR);
@@ -36,21 +34,34 @@ public class Intake extends SubsystemBase {
     SmartDashboard.setDefaultNumber("Outtake", outtakeSpeed);
   }
 
+  /**
+   * Sets the motor's speed to the IntakeSpeed.
+   */
   public void motorIn() {
     System.out.println("in");
     motor.set(SmartDashboard.getNumber("Intake", intakeSpeed));
   }
 
+  /**
+   * Sets the motor's speed to the UptakeSpeed.
+   */
   public void motorUptake() {
     System.out.println("uptake");
     motor.set(SmartDashboard.getNumber("Uptake", uptakeSpeed));
   }
 
+  /**
+   * Sets the motor's speed to 0. Note that the motor is not configured to be in brake
+   * or coast mode in this subsystem.
+   */
   public void motorOff() {
     System.out.println("off");
     motor.set(0);
   }
 
+  /**
+   * Sets the motor's speed to the OuttakeSpeed
+   */
   public void motorOut() {
     System.out.println("out");
     motor.set(SmartDashboard.getNumber("Outtake", outtakeSpeed));
@@ -64,22 +75,40 @@ public class Intake extends SubsystemBase {
   }
 
   // COMMANDS
+  /**
+   * @return Command that sets the motor speed to 0.
+   */
   public Command off() {
     return runOnce(() -> motorOff());
   }
 
+  /**
+   * @return Command that sets the motor speed to OuttakeSpeed.
+   */
   public Command out() {
     return runOnce(() -> motorOut());
   }
 
+  /**
+   * @return Command that sets the motor speed to IntakeSpeed.
+   */
   public Command in() {
     return runOnce(() -> motorIn());
   }
 
+  /**
+   * @return Command that sets the motor speed to UptakeSpeed.
+   */
   public Command uptake() {
     return runOnce(() -> motorUptake());
   }
 
+  /**
+   * @return Command that toggles between intaking and not intaking.
+   * Does NOT take into account other motor modes, ie. If this has been called,
+   * and the out Command is run, then when this command is run again, the motor
+   * will just be turned off.
+   */
   public Command toggleIntake() {
     return runOnce(
         () -> {
@@ -93,10 +122,16 @@ public class Intake extends SubsystemBase {
         });
   }
 
+  /**
+   * @return true if the IR sensor placed to detect a note intaked is tripped.
+   */
   public boolean hasNote() {
     return topIR.getValue() > Constants.Intake.IRThreshold;
   }
 
+  /**
+   * @return true if the IR sensor placed to detect if the note is in the shooter is tripped.
+   */
   public boolean inShooter() {
     return bottomIR.getValue() > Constants.Intake.IRThreshold;
   }
