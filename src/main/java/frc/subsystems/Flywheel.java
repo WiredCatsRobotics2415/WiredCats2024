@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.sim.PhysicsSim;
 
 public class Flywheel extends SubsystemBase {
     private enum TestType {
@@ -44,6 +46,11 @@ public class Flywheel extends SubsystemBase {
         SmartDashboard.setDefaultNumber("Set speed", rightSetRPM);
 
         configMotors();
+
+        if (Robot.isSimulation()) {
+            PhysicsSim.getInstance().addTalonFX(left, 0.001);
+            PhysicsSim.getInstance().addTalonFX(right, 0.001);
+        }
     }
 
     public static Flywheel getInstance() {

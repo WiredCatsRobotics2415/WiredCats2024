@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.sim.PhysicsSim;
 
 public class Climber extends SubsystemBase {
     // Initialize motors 
@@ -37,6 +39,11 @@ public class Climber extends SubsystemBase {
         rightBotSwitch = new DigitalInput(RobotMap.Climber.RIGHT_BOT_LIMIT_SWITCH); 
 
         configClimberMotors();
+
+        if (Robot.isSimulation()) {
+            PhysicsSim.getInstance().addTalonFX(left, 0.001);
+            PhysicsSim.getInstance().addTalonFX(right, 0.001);
+        }
     }
 
     public static Climber getInstance() {

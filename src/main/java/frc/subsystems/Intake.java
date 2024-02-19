@@ -3,7 +3,9 @@ package frc.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.sim.PhysicsSim;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -45,6 +47,10 @@ public class Intake extends SubsystemBase {
     speed = root.append(new MechanismLigament2d("intake", 0.1, 0));
 
     SmartDashboard.putData("Intake Mechanism", intakeMech2d);
+
+    if (Robot.isSimulation()) {
+      PhysicsSim.getInstance().addTalonFX(motor, 0.001);
+    }
   }
 
   /**

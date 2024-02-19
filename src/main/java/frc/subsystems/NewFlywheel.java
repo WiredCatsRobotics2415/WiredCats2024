@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.sim.PhysicsSim;
 
 public class NewFlywheel extends SubsystemBase {
     private enum TestType {
@@ -47,6 +49,10 @@ public class NewFlywheel extends SubsystemBase {
         m_voltageVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
         configFlywheel();
         configSmartDashboard();
+        if (Robot.isSimulation()) {
+            PhysicsSim.getInstance().addTalonFX(left, 0.001);
+            PhysicsSim.getInstance().addTalonFX(right, 0.001);
+        }
     }
 
     /**

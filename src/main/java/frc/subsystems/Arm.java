@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.Constants.Arm.EncoderOption;
+import frc.sim.PhysicsSim;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -61,6 +62,11 @@ public class Arm extends SubsystemBase {
     positionLigament.setColor(new Color8Bit(Color.kGreen));
 
     SmartDashboard.putData("Arm Mechanism", armMechanism2d);
+
+    if (Robot.isSimulation()) {
+      PhysicsSim.getInstance().addTalonFX(leftMotor, 0.001);
+      PhysicsSim.getInstance().addTalonFX(rightMotor, 0.001);
+    }
   }
 
   private void configureMotors() {
