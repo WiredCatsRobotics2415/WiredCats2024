@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.sim.PhysicsSim;
@@ -12,6 +13,11 @@ import frc.sim.PhysicsSim;
 public class Robot extends TimedRobot {
   private RobotContainer robot;
   private Command auto;
+  /**
+   * The BUTTON ONLY event loop for the robot. Gets polled during robotPeriodic. Intended for use in
+   * {@link OIs}'s binds maps, and is cleared before {@link RobotContainer}'s configureButtonBinds is called.
+   */
+  public static final EventLoop buttonEventLoop = new EventLoop();
 
   @Override
   public void robotInit() {
@@ -37,6 +43,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    buttonEventLoop.poll();
     CommandScheduler.getInstance().run();
   }
 
