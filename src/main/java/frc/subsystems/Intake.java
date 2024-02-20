@@ -88,7 +88,7 @@ public class Intake extends SubsystemBase {
   public void motorOut() {
     System.out.println("out");
     motor.set(SmartDashboard.getNumber("Outtake", outtakeSpeed));
-    speed.setColor(new Color8Bit(0, (int) (outtakeSpeed * 255), 0));
+    speed.setColor(new Color8Bit(0, 0, (int) (outtakeSpeed * 255)));
   }
 
   public static Intake getInstance() {

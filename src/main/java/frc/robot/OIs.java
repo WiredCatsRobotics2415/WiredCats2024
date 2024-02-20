@@ -90,9 +90,9 @@ public class OIs {
             controller = new CommandXboxController(0);
             numpad = new CommandJoystick(1);
 
-            binds.put("PigeonReset", controller.button(7)); //Minus
-            binds.put("TargetHotspot", controller.button(8)); //Plus
-            binds.put("Amp", numpad.button(4));
+            binds.put("PigeonReset", controller.button(7, Robot.buttonEventLoop)); //Minus
+            binds.put("TargetHotspot", controller.button(8, Robot.buttonEventLoop)); //Plus
+            binds.put("Amp", numpad.button(4, Robot.buttonEventLoop));
 
             configClimberControls();
             configArmControls();
@@ -102,26 +102,26 @@ public class OIs {
 
         public void configClimberControls() {
             binds.put("LeftClimberDown", controller.leftTrigger());
-            binds.put("LeftClimberUp", controller.button(5)); //Left bumper
-            binds.put("RightClimberDown", controller.rightTrigger()); 
-            binds.put("RightClimberUp", controller.button(6)); //Right bumper
-            binds.put("ClimberMode1", numpad.button(1)); 
-            binds.put("ClimberMode2", numpad.button(2));
+            binds.put("LeftClimberUp", controller.button(5, Robot.buttonEventLoop)); //Left bumper
+            binds.put("RightClimberDown", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
+            binds.put("RightClimberUp", controller.button(6, Robot.buttonEventLoop)); //Right bumper
+            binds.put("ClimberMode1", numpad.button(1, Robot.buttonEventLoop));
+            binds.put("ClimberMode2", numpad.button(2, Robot.buttonEventLoop));
         }
 
         public void configArmControls() {
-            binds.put("LowerArm", controller.button(6)); //Right bumper
-            binds.put("RaiseArm", controller.button(5)); //left bumper
+            binds.put("LowerArm", controller.button(5, Robot.buttonEventLoop)); //left bumper
+            binds.put("RaiseArm", controller.button(6, Robot.buttonEventLoop)); //right bumper
         }
 
         public void configIntakeControls() {
-            binds.put("Intake", controller.button(2)); //A
+            binds.put("Intake", controller.button(2, Robot.buttonEventLoop)); //A
             binds.put("ManualOuttake", controller.leftTrigger()); 
         }
 
         public void configFlywheelControls() {
-            binds.put("SpinUp", numpad.button(3));
-            binds.put("Shoot", controller.button(1)); 
+            binds.put("SpinUp", numpad.button(3, Robot.buttonEventLoop));
+            binds.put("Shoot", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
         }
 
         private double deadbandCompensation(double r) {

@@ -154,7 +154,7 @@ public class RobotContainer {
               selectedOI = new OIs.GulikitController();
               break;
         }
-        CommandScheduler.getInstance().getDefaultButtonLoop().clear();
+        Robot.buttonEventLoop.clear();
         configurePreferences();
         configureButtonBindings();
         //configureTriggers();

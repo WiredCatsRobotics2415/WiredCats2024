@@ -62,11 +62,11 @@ public final class Constants {
       public static final double GOAL_TOLERANCE_RPM = 250;
  
       public static final double rpmToFalcon(double rpm) {
-        return (rpm / 60) / 3.4d;
+        return (rpm / 60) / GEAR_RATIO;
       }
 
       public static final double falconToRPM(double rotationsPerSecond) {
-        return (rotationsPerSecond * 60) * 3.4d;
+        return (rotationsPerSecond * 60) * GEAR_RATIO;
       }
 
       public static final double FLYWHEEL_SPEED = rpm_to_rps(2000); 
