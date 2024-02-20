@@ -43,7 +43,7 @@ public class RobotContainer {
     //SUBSYSTEMS
     private final Intake intake = Intake.getInstance();
     private final Climber climber = Climber.getInstance(); 
-    private final Flywheel flywheel = Flywheel.getInstance(); 
+    //private final Flywheel flywheel = Flywheel.getInstance(); 
     private final NewFlywheel new_flywheel = NewFlywheel.getInstance(); 
     private final Arm arm = Arm.getInstance();
     
@@ -143,7 +143,7 @@ public class RobotContainer {
     /**
      * Prepares the robot for teleoperated control.
      * Gets the OI selected, configures all binds, and calls any teleopInit
-     * methods on subsystems.
+     * methods on subsystems. CLEARS ALL DEFAULT EVENTLOOP BINDS
      */
     public void teleopInit() {
         switch (OI.oiChooser.getSelected()) {
@@ -154,6 +154,7 @@ public class RobotContainer {
               selectedOI = new OIs.GulikitController();
               break;
         }
+        CommandScheduler.getInstance().getDefaultButtonLoop().clear();
         configurePreferences();
         configureButtonBindings();
         //configureTriggers();
@@ -166,7 +167,7 @@ public class RobotContainer {
         ));
 
         //Subsystem enables
-        flywheel.teleopInit();
+        new_flywheel.teleopInit();
     }
     
     /**

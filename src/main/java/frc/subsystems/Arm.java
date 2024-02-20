@@ -69,7 +69,10 @@ public class Arm extends SubsystemBase {
     }
   }
 
-  private void configureMotors() {
+  /**
+   * Configures the Arm's motors. The right motor is inverted and follows the left motor.
+   */
+  public void configureMotors() {
     FeedbackConfigs feedbackConfigs = new FeedbackConfigs()
         .withFeedbackSensorSource(FeedbackSensorSourceValue.RotorSensor);
 
@@ -93,8 +96,7 @@ public class Arm extends SubsystemBase {
 
   /**
    * Sets the left arm's motor to the desired voltage, calculated by the
-   * feedforward object and PID
-   * subsystem.
+   * feedforward object and PID subsystem.
    * 
    * @param output   the output of the ProfiledPIDController
    * @param setpoint the setpoint state of the ProfiledPIDController, for
@@ -104,8 +106,9 @@ public class Arm extends SubsystemBase {
     // Calculate the feedforward from the sepoint
     double feedforward = ff.calculate(setpoint.position, setpoint.velocity);
     // Add the feedforward to the PID output to get the motor output
-    leftMotor.setVoltage(newGravityVolts + output + feedforward);
-    SmartDashboard.putNumber("Volt out", (output + feedforward));
+    double voltOut = newGravityVolts + output + feedforward;
+    leftMotor.setVoltage(voltOut);
+    SmartDashboard.putNumber("Arm Volt out", voltOut);
   }
 
   /**
