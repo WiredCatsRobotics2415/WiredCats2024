@@ -131,8 +131,8 @@ public class NewFlywheel extends SubsystemBase {
     public Command on(double leftSpeed, double rightSpeed) {
         return runOnce(
                 () -> {
-                    left.setControl(m_voltageVelocity.withVelocity(leftSpeed));
-                    right.setControl(m_voltageVelocity.withVelocity(rightSpeed));
+                    left.setControl(m_voltageVelocity.withVelocity(Constants.Flywheel.rpm_to_rps(leftSpeed)));
+                    right.setControl(m_voltageVelocity.withVelocity(Constants.Flywheel.rpm_to_rps(rightSpeed)));
                 });
     }
 
@@ -200,5 +200,10 @@ public class NewFlywheel extends SubsystemBase {
 
     private Color8Bit getColorForRPM(double rpm) {
         return new Color8Bit((int) ((rpm / 6380) * 255), 0, 0);
+    }
+
+    // Print the current speed of the wheels (not the motor due to gearing)
+    public void print_wheel_rpm() {
+        System.out.println(left.getRotorVelocity().getValueAsDouble() * Constants.Flywheel.GEAR_RATIO);
     }
 }

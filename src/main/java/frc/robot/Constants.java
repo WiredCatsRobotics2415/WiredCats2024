@@ -71,8 +71,8 @@ public final class Constants {
 
       public static final double FLYWHEEL_SPEED = rpm_to_rps(2000); 
 
-      public static double rpm_to_rps(double rpm) {
-        return rpm / 60; 
+      public static double rpm_to_rps(double goal_rpm) {
+        return (goal_rpm / 60) / GEAR_RATIO; // Account for gear ratio --> The speed which the motors have to run at to achieve goal rpm of wheels
       }
 
       public static class FlywheelPIDS {
