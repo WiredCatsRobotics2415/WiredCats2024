@@ -166,6 +166,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
     @Override
     public void periodic() {
+        System.out.println(robotPose.getTranslation());
+
         if (shouldUseLimelight) {
             if (vision.couldSeeApriltag()) {
                 addVisionMeasurement(vision.getBotPose2d(),
