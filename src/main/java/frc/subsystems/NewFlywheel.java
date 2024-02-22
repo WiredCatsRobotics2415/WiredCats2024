@@ -184,8 +184,8 @@ public class NewFlywheel extends SubsystemBase {
         leftSetRPM = SmartDashboard.getNumber("Set Speed (Left Motor - RPM)", leftSetRPM);
 
         // Display current speed of both motors
-        // SmartDashboard.putNumber("Current Speed (Left)", print_wheel_rpm());
-        // SmartDashboard.putNumber("Current Speed (Right)", print_wheel_rpm());
+        SmartDashboard.putNumber("Current Motor Speed (Left - RPM)", left.getRotorVelocity().getValueAsDouble() * 60);
+        SmartDashboard.putNumber("Current Motor Speed (Right - RPM)", right.getRotorVelocity().getValueAsDouble() * 60);
         print_wheel_rpm();
 
         // Set the speed of the motors
@@ -203,9 +203,9 @@ public class NewFlywheel extends SubsystemBase {
         return new Color8Bit((int) ((rpm / 6380) * 255), 0, 0);
     }
 
-    // Print the current speed of the wheels (not the motor due to gearing)
+    // Print the current speed of the wheels (not the motor)
     public void print_wheel_rpm() {
-        System.out.println("Left=" + left.getRotorVelocity().getValueAsDouble() * 60 * Constants.Flywheel.GEAR_RATIO);
-        System.out.println("Right=" + right.getRotorVelocity().getValueAsDouble() * 60 * Constants.Flywheel.GEAR_RATIO);
+        SmartDashboard.putNumber("Current Wheel Speed (Left - RPM)", left.getRotorVelocity().getValueAsDouble() * 60 * Constants.Flywheel.GEAR_RATIO);
+        SmartDashboard.putNumber("Current Wheel Speed (Right - RPM)", right.getRotorVelocity().getValueAsDouble() * 60 * Constants.Flywheel.GEAR_RATIO);
     }
 }
