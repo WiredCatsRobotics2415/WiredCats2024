@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -61,7 +62,7 @@ public class Arm extends SubsystemBase {
     positionLigament = armPosition2d.append(new MechanismLigament2d("armPosition", 0.75, 0));
     positionLigament.setColor(new Color8Bit(Color.kGreen));
 
-    SmartDashboard.putData("Arm Mechanism", armMechanism2d);
+    Shuffleboard.getTab("Mechanism2d").add("Arm Mechanism", armMechanism2d);
 
     if (Robot.isSimulation()) {
       PhysicsSim.getInstance().addTalonFX(leftMotor, 0.001);

@@ -7,6 +7,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.sim.PhysicsSim;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -46,7 +47,7 @@ public class Intake extends SubsystemBase {
     MechanismRoot2d root = intakeMech2d.getRoot("intake", 1.2, 0.25);
     speed = root.append(new MechanismLigament2d("intake", 0.1, 0));
 
-    SmartDashboard.putData("Intake Mechanism", intakeMech2d);
+    Shuffleboard.getTab("Mechanism2d").add("Intake Mechanism", intakeMech2d);
 
     if (Robot.isSimulation()) {
       PhysicsSim.getInstance().addTalonFX(motor, 0.001);

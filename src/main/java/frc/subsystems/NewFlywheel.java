@@ -5,6 +5,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -89,7 +90,7 @@ public class NewFlywheel extends SubsystemBase {
         MechanismRoot2d rightGoalRoot = flywheelMech2d.getRoot("rightGoal", 1.6, 0.25);
         rightGoal = rightGoalRoot.append(new MechanismLigament2d("rightGoal", 0.1, 0));
 
-        SmartDashboard.putData("Flywheel Mechanism", flywheelMech2d);
+        Shuffleboard.getTab("Mechanism2d").add("Flywheel Mechanism", flywheelMech2d);
     }
 
     public void configFlywheel() {
