@@ -1,7 +1,9 @@
 package frc.subsystems;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -47,8 +49,9 @@ public class NewFlywheel extends SubsystemBase {
     private NewFlywheel() {
         left = new TalonFX(RobotMap.Flywheel.LEFT_FLYWHEEL);
         right = new TalonFX(RobotMap.Flywheel.RIGHT_FLYWHEEL);
+        BaseStatusSignal.setUpdateFrequencyForAll(50, left.getRotorVelocity(), right.getRotorVelocity());
         m_voltageVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
-        configFlywheel();
+        configMotors();
         configSmartDashboard();
         if (Robot.isSimulation()) {
             PhysicsSim.getInstance().addTalonFX(left, 0.001);
@@ -93,6 +96,18 @@ public class NewFlywheel extends SubsystemBase {
         Shuffleboard.getTab("Mechanism2d").add("Flywheel Mechanism", flywheelMech2d);
     }
 
+    private void configMotors() {
+        TalonFXConfigurator rightCfg = right.getConfigurator();
+        rightCfg.apply(Constants.Flywheel.RIGHT_PID);
+        rightCfg.apply(Constants.Flywheel.COAST_CONFIG);
+        right.setInverted(true);
+
+        TalonFXConfigurator leftCfg = left.getConfigurator();
+        leftCfg.apply(Constants.Flywheel.LEFT_PID);
+        leftCfg.apply(Constants.Flywheel.COAST_CONFIG);
+        left.setInverted(false);
+    }
+
     public void configFlywheel() {
         right.setInverted(true);
         left.setInverted(false);
@@ -103,12 +118,12 @@ public class NewFlywheel extends SubsystemBase {
          * Voltage-based velocity requires a feed forward to account for the back-emf of
          * the motor
          */
-        configs.Slot0.kP = Constants.Flywheel.FlywheelPIDS.kP; // An error of 1 rotation per second results in 2V output
-        configs.Slot0.kI = Constants.Flywheel.FlywheelPIDS.kI; // An error of 1 rotation per second increases output by
+        configs.Slot0.kP = Constants.Flywheel.FlywheelPIDS.LeftFlywheelPIDS.kP; // An error of 1 rotation per second results in 2V output
+        configs.Slot0.kI = Constants.Flywheel.FlywheelPIDS.LeftFlywheelPIDS.kI; // An error of 1 rotation per second increases output by
                                                                // 0.5V every second
-        configs.Slot0.kD = Constants.Flywheel.FlywheelPIDS.kD; // A change of 1 rotation per second squared results in
+        configs.Slot0.kD = Constants.Flywheel.FlywheelPIDS.LeftFlywheelPIDS.kD; // A change of 1 rotation per second squared results in
                                                                // 0.01 volts output
-        configs.Slot0.kV = Constants.Flywheel.FlywheelPIDS.kV; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps
+        configs.Slot0.kV = Constants.Flywheel.FlywheelPIDS.LeftFlywheelPIDS.kV; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps
                                                                // per V, 1/8.33 = 0.12 volts / Rotation per second
         // Peak output of 8 volts
         configs.Voltage.PeakForwardVoltage = 8;

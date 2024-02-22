@@ -120,7 +120,7 @@ public class OIs {
         }
 
         public void configFlywheelControls() {
-            binds.put("SpinUp", numpad.button(3, Robot.buttonEventLoop));
+            binds.put("SpinUp", controller.button(3, Robot.buttonEventLoop));
             binds.put("Shoot", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
         }
 

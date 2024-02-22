@@ -44,16 +44,12 @@ public final class Constants {
 
     public static class Flywheel {
       public static final Slot0Configs LEFT_PID = new Slot0Configs()
-        .withKS(0.26)
         .withKV(0.16)
-        .withKA(0.12)
-        .withKP(0.1); //TODO: may need adjustment
+        .withKP(0.24); //TODO: may need adjustment
     
       public static final Slot0Configs RIGHT_PID = new Slot0Configs()
-        .withKS(0.47)
-        .withKV(0.15)
-        .withKA(0.1)
-        .withKP(0.1); //TODO: may need adjustment
+        .withKV(0.16)
+        .withKP(0.24); //TODO: may need adjustment
 
       public static final MotorOutputConfigs COAST_CONFIG = new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast);
 
@@ -76,10 +72,20 @@ public final class Constants {
       }
 
       public static class FlywheelPIDS {
-        public static final double kP = 0.24;  
-        public static final double kI = 0.0;  
-        public static final double kD = 0.0;  
-        public static final double kV = 0.15;  
+        public static class RightFlywheelPIDS {
+          public static final double kP = 0.24;  
+          public static final double kI = 0.0;  
+          public static final double kD = 0.0;  
+          public static final double kV = 0.15;  
+        }
+
+        public static class LeftFlywheelPIDS {
+          public static final double kP = 0.26;  
+          public static final double kI = 0.0;  
+          public static final double kD = 0.0;  
+          public static final double kV = 0.166;  
+        }
+
       }
     }
 

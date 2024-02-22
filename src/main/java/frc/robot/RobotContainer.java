@@ -90,7 +90,8 @@ public class RobotContainer {
         //Flywheel
         selectedOI.binds.get("Shoot").onTrue(
             intake.uptake().andThen(new WaitCommand(1)).andThen(intake.off()));
-        selectedOI.binds.get("SpinUp").onTrue(new_flywheel.toggleSpinedUp()); 
+        // selectedOI.binds.get("SpinUp").onTrue(new_flywheel.toggleSpinedUp()); 
+        selectedOI.binds.get("SpinUp").onTrue(new_flywheel.on(6000, 6000)); 
         // selectedOI.binds.get("SpinUp").onTrue(new_flywheel.on(Constants.Flywheel.FLYWHEEL_SPEED, Constants.Flywheel.FLYWHEEL_SPEED)); 
 
         //Climber 
@@ -143,6 +144,8 @@ public class RobotContainer {
      * methods on subsystems. CLEARS ALL DEFAULT EVENTLOOP BINDS
      */
     public void teleopInit() {
+        new_flywheel.off(); // Guarantee flywheel off on startup
+
         switch (OI.oiChooser.getSelected()) {
             case 0:
               selectedOI = new OIs.GulikitController();
