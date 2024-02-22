@@ -6,6 +6,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -48,7 +49,7 @@ public class Arm extends SubsystemBase {
   private static Arm instance;
 
   public Arm() {
-    potentiometer = new AnalogPotentiometer(RobotMap.Arm.ANALOG_POT_PORT, 0.75);
+    potentiometer = new AnalogPotentiometer(RobotMap.Arm.ANALOG_POT_PORT);
 
     configureMotors();
 
@@ -113,10 +114,12 @@ public class Arm extends SubsystemBase {
   }
 
   /**
-   * @return potentiometer value in rotations.
+   * @return potentiometer value in rotations. Note that the potentiometer is flipped, so
+   * this code is esentially: 1 - pot value + offset
    */
   private double getPotRotations() {
-    return (potentiometer.get() + Constants.Arm.POT_OFFSET);
+    double measure = MathUtil.applyDeadband(potentiometer.get(), 0.01);
+    return 1 - (measure + Constants.Arm.POT_OFFSET);
   }
 
   /**

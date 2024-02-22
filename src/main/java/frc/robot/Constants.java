@@ -118,7 +118,7 @@ public final class Constants {
       }
       public static final EncoderOption ENCODER_TO_USE = EncoderOption.ANALOG_POT;
   
-      public static final double POT_OFFSET = 0.0d; //In DEGREES (added before reading is converted to rotations)
+      public static final double POT_OFFSET = 0.35; //In DEGREES (added before reading is converted to rotations)
   
       public static final float KS = 0.293f;
       public static final float KV = 0.09f;
@@ -136,7 +136,7 @@ public final class Constants {
       public static final float ROTOR_TO_ARM_GEAR_RATIO = 280/1; //(# encoder rotations per 1 full rotation)
   
       public static final double MAX_ROTATIONS = 120/360.0; //Max angle of arm
-      public static final double MIN_ROTATIONS = POT_OFFSET; //Min angle of arm
+      public static final double MIN_ROTATIONS = 0.0; //Min angle of arm
       
       public static double rotationsToFalcon(double rotations) {
         return rotations * ROTOR_TO_ARM_GEAR_RATIO;
