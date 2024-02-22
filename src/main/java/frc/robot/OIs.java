@@ -120,8 +120,9 @@ public class OIs {
         }
 
         public void configFlywheelControls() {
-            binds.put("SpinUp", controller.button(3, Robot.buttonEventLoop));
+            binds.put("SpinUp", controller.button(3, Robot.buttonEventLoop)); // Y
             binds.put("Shoot", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
+            binds.put("Off", controller.button(4, Robot.buttonEventLoop)); // X
         }
 
         private double deadbandCompensation(double r) {
