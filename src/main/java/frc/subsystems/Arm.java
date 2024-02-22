@@ -187,7 +187,7 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     double measurement = getMeasurement();
     SmartDashboard.putNumber("Arm Measurement", measurement);
-    useOutput(pid.calculate(measurement), pid.getSetpoint());
+    //useOutput(pid.calculate(measurement), pid.getSetpoint());
     positionLigament.setAngle(measurement * 360);
     goalLigament.setAngle(goalInRotations * 360);
   }
