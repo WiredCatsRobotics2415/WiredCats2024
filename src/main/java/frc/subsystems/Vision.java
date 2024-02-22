@@ -17,6 +17,7 @@ import frc.utils.LimelightHelpers.LimelightResults;
  */
 public class Vision extends SubsystemBase {
     private Pose2d cachedBackPose2d;
+    private boolean backPoseCouldSeeTarget = false;
     private LimelightResults cachedIntakeTargetResults;
 
     private static Vision instance;
@@ -48,18 +49,28 @@ public class Vision extends SubsystemBase {
         if (Robot.isSimulation()) return;
         if (!isEnabled) return;
         cachedBackPose2d = LimelightHelpers.getBotPose2d_wpiBlue(Constants.Vision.ShooterLimelightName);
-        cachedBackPose2d = new Pose2d(-cachedBackPose2d.getX(), -cachedBackPose2d.getY(), cachedBackPose2d.getRotation().rotateBy(Rotation2d.fromDegrees(180)));
+        backPoseCouldSeeTarget = LimelightHelpers.getTV(Constants.Vision.ShooterLimelightName);
+
+        //TODO: is the following line necessary? added at walton
+        //cachedBackPose2d = new Pose2d(-cachedBackPose2d.getX(), -cachedBackPose2d.getY(), cachedBackPose2d.getRotation().rotateBy(Rotation2d.fromDegrees(180)));
         //cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
     }
 
     /**
-     * @return The Pose2D returned from limelight's MegaTag.
+     * @return The Pose2D returned from the shooter limelight's MegaTag measurements.
      */
     public Pose2d getBotPose2d() {
         if (Robot.isSimulation()) {
             return TunerConstants.DriveTrain.getRobotPose();
         }
         return cachedBackPose2d;
+    }
+
+    /**
+     * @return If the last vision measuremnt from the shooter limelight actually used an AprilTag
+     */
+    public boolean couldSeeApriltag() {
+        return backPoseCouldSeeTarget;
     }
 
     /**
