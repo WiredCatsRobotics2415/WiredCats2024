@@ -102,20 +102,16 @@ public class NewFlywheel extends SubsystemBase {
         rightCfg.apply(Constants.Flywheel.RIGHT_PID);
         rightCfg.apply(Constants.Flywheel.COAST_CONFIG);
         rightCfg.apply(new CurrentLimitsConfigs()
-            .withSupplyCurrentLimitEnable(true)
-            .withSupplyCurrentLimit(35)
-            .withSupplyCurrentThreshold(60)
-            .withSupplyTimeThreshold(0.1)); 
+            .withStatorCurrentLimitEnable(true)
+            .withStatorCurrentLimit(35)); 
         right.setInverted(true);
 
         TalonFXConfigurator leftCfg = left.getConfigurator();
         leftCfg.apply(Constants.Flywheel.LEFT_PID);
         leftCfg.apply(Constants.Flywheel.COAST_CONFIG);
         leftCfg.apply(new CurrentLimitsConfigs()
-            .withSupplyCurrentLimitEnable(true)
-            .withSupplyCurrentLimit(35)
-            .withSupplyCurrentThreshold(60)
-            .withSupplyTimeThreshold(0.1)); 
+            .withStatorCurrentLimitEnable(true)
+            .withStatorCurrentLimit(35)); 
         left.setInverted(false);
     }
 
