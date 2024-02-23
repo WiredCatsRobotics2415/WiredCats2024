@@ -156,7 +156,7 @@ public class Arm extends SubsystemBase {
     pid.setGoal(new TrapezoidProfile.State(goalInRotations, 0));
   }
 
-  public void setpoint(double angle) {
+  public void setGoalInDegrees(double angle) {
     setGoal(angle / 360); 
   }
 

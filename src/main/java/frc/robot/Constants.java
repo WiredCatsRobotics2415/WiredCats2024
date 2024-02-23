@@ -6,6 +6,7 @@ package frc.robot;
 
 import java.util.ArrayList;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
@@ -51,6 +52,14 @@ public final class Constants {
         .withKV(0.16)
         .withKP(0.24); //TODO: may need adjustment
 
+      public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()
+        .withStatorCurrentLimitEnable(true)
+        .withStatorCurrentLimit(35)
+        .withSupplyCurrentLimitEnable(true)
+        .withSupplyCurrentLimit(35)
+        .withSupplyCurrentThreshold(60)
+        .withSupplyTimeThreshold(0.1);
+      
       public static final MotorOutputConfigs COAST_CONFIG = new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast);
 
       public static final double GEAR_RATIO = 3.4d;

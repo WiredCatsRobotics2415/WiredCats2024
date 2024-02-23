@@ -31,7 +31,7 @@ public class ShootingPresets {
     }
 
     public void subwoofer() {
-        arm.setpoint(Settings.subwoofer.arm);
+        arm.setGoal(Settings.subwoofer.arm);
         flywheel.on(Settings.subwoofer.left_flywheel, Settings.subwoofer.right_flywheel);  
     }
 }
