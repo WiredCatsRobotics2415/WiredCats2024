@@ -1,17 +1,17 @@
 package frc.commands;
 
 import frc.subsystems.Arm;
-import frc.subsystems.NewFlywheel;
+import frc.subsystems.Flywheel;
 
 public class ShootingPresets {
     // declare shooting-related subsystems 
     private Arm arm; 
-    private NewFlywheel flywheel; 
+    private Flywheel flywheel; 
     public static ShootingPresets instance; 
 
     public ShootingPresets() {
         arm = Arm.getInstance(); 
-        flywheel = NewFlywheel.getInstance(); 
+        flywheel = Flywheel.getInstance(); 
     }
 
     public static ShootingPresets getInstance() {

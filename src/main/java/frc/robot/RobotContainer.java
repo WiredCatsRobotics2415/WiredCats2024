@@ -25,7 +25,7 @@ import frc.subsystems.SwerveDrive;
 import frc.subsystems.Arm;
 import frc.subsystems.Climber;
 import frc.subsystems.Intake;
-import frc.subsystems.NewFlywheel;
+import frc.subsystems.Flywheel;
 import frc.subsystems.Vision;
 
 public class RobotContainer {
@@ -41,7 +41,7 @@ public class RobotContainer {
     private final Intake intake = Intake.getInstance();
     private final Climber climber = Climber.getInstance(); 
     //private final Flywheel flywheel = Flywheel.getInstance(); 
-    private final NewFlywheel new_flywheel = NewFlywheel.getInstance(); 
+    private final Flywheel new_flywheel = Flywheel.getInstance(); 
     private final Arm arm = Arm.getInstance();
     
     // HOTSPOT
