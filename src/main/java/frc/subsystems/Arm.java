@@ -155,6 +155,10 @@ public class Arm extends SubsystemBase {
     pid.setGoal(new TrapezoidProfile.State(goalInRotations, 0));
   }
 
+  public void setpoint(double angle) {
+    setGoal(angle / 360); 
+  }
+
   /**
    * @return A command to increase the arm's current goal by one degree.
    *         Does not go above max rotations defined in constants.

@@ -108,39 +108,6 @@ public class NewFlywheel extends SubsystemBase {
         left.setInverted(false);
     }
 
-    public void configFlywheel() {
-        right.setInverted(true);
-        left.setInverted(false);
-
-        TalonFXConfiguration configs = new TalonFXConfiguration();
-
-        /*
-         * Voltage-based velocity requires a feed forward to account for the back-emf of
-         * the motor
-         */
-        configs.Slot0.kP = Constants.Flywheel.FlywheelPIDS.LeftFlywheelPIDS.kP; // An error of 1 rotation per second results in 2V output
-        configs.Slot0.kI = Constants.Flywheel.FlywheelPIDS.LeftFlywheelPIDS.kI; // An error of 1 rotation per second increases output by
-                                                               // 0.5V every second
-        configs.Slot0.kD = Constants.Flywheel.FlywheelPIDS.LeftFlywheelPIDS.kD; // A change of 1 rotation per second squared results in
-                                                               // 0.01 volts output
-        configs.Slot0.kV = Constants.Flywheel.FlywheelPIDS.LeftFlywheelPIDS.kV; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps
-                                                               // per V, 1/8.33 = 0.12 volts / Rotation per second
-        // Peak output of 8 volts
-        configs.Voltage.PeakForwardVoltage = 8;
-        configs.Voltage.PeakReverseVoltage = -8;
-
-        /* Retry config apply up to 5 times, report if failure */
-        StatusCode status = StatusCode.StatusCodeNotInitialized;
-        for (int i = 0; i < 5; ++i) {
-            status = left.getConfigurator().apply(configs);
-            if (status.isOK())
-                break;
-        }
-        if (!status.isOK()) {
-            System.out.println("Could not apply configs, error code:] " + status.toString());
-        }
-    }
-
     /**
      * @return Command that spins up each motor to the specified RPM.
      */

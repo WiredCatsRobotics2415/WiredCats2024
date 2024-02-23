@@ -70,23 +70,6 @@ public final class Constants {
       public static double rpm_to_rps(double goal_rpm) {
         return (goal_rpm / 60) / GEAR_RATIO; // Account for gear ratio --> The speed which the motors have to run at to achieve goal rpm of wheels
       }
-
-      public static class FlywheelPIDS {
-        public static class RightFlywheelPIDS {
-          public static final double kP = 0.24;  
-          public static final double kI = 0.0;  
-          public static final double kD = 0.0;  
-          public static final double kV = 0.15;  
-        }
-
-        public static class LeftFlywheelPIDS {
-          public static final double kP = 0.26;  
-          public static final double kI = 0.0;  
-          public static final double kD = 0.0;  
-          public static final double kV = 0.166;  
-        }
-
-      }
     }
 
     /**
