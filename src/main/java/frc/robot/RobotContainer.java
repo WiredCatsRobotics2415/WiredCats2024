@@ -122,11 +122,12 @@ public class RobotContainer {
      * Intended to be run in teleopInit.
      */
     private void configureTriggers() {
-        new Trigger(intake::hasNote)
-        .onTrue(intake.off());
+        Trigger infraredTrigger1 = new Trigger(intake::hasNote);
+        infraredTrigger1.onTrue(intake.queueNote());
+
+        Trigger infraredTrigger2 = new Trigger(intake::noteIsQueued);
+        infraredTrigger2.onTrue(intake.stopNoteForShooting());
         
-        new Trigger(intake::inShooter)
-        .onTrue(intake.in());
     }
 
     /**
