@@ -5,7 +5,7 @@
       "x": 1.0,
       "y": 5.0
     },
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Basic_Path"
+            "pathName": "Very_Basic_Turn"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Basic Paths",
   "choreoAuto": false
 }

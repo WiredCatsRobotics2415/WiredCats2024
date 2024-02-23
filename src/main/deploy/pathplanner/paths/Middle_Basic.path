@@ -90,7 +90,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Basic Paths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0.0

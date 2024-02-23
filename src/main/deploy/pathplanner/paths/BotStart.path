@@ -54,7 +54,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Bottom",
+  "folder": "Bottom_Paths",
   "previewStartingState": {
     "rotation": -60.0,
     "velocity": 0
