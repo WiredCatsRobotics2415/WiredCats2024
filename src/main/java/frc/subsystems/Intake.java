@@ -145,7 +145,7 @@ public class Intake extends SubsystemBase {
     isBeingIntook = false;
     isBeingQueued = false;
 
-    flywheel.on(500,500);
+    flywheel.on(500,500).schedule();
 
     return runOnce(() -> motorOff());
   }
