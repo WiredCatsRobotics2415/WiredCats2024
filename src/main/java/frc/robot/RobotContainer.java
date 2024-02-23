@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.commands.FixAll;
 import frc.commands.HotspotGenerator;
 import frc.generated.TunerConstants;
@@ -108,12 +109,12 @@ public class RobotContainer {
         );
         selectedOI.binds.get("SpinOff").onTrue(flywheel.off()); 
 
-        //Automatic
-        // selectedOI.binds.get("TargetHotspot").onTrue(new InstantCommand(() -> 
-        //     CommandScheduler.getInstance().schedule(hotspotGen.targetClosest())
-        // ));
+        // Automatic
+        selectedOI.binds.get("TargetHotspot").onTrue(new InstantCommand(() -> 
+             CommandScheduler.getInstance().schedule(hotspotGen.targetClosest())
+        ));
 
-        selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
+        // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
     }
 
     /**
