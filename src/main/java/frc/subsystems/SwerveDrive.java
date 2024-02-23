@@ -37,7 +37,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     private double m_lastSimTime;
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
-    private Vision vision; 
+    private Vision vision;
     private boolean shouldUseLimelight = false;
     private Pose2d robotPose;
     public Pose2d getRobotPose() {
@@ -45,6 +45,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     }
 
     private final Field2d field = new Field2d();
+
+    private boolean blueAlliance = true;
 
     //Has to be in its own function, because of the template code
     private void intialization() {
@@ -71,7 +73,10 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
         //Remote Commands
         SmartDashboard.putData("Zero Pose", new InstantCommand(() -> this.seedFieldRelative(
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)))).withName("Zero Pose"));
+            new Pose2d(0, 0, Rotation2d.fromDegrees(0)))).withName("Zero Pose").ignoringDisable(true));
+        
+        SmartDashboard.putData("Reset to LL", new InstantCommand(() -> this.seedFieldRelative(
+            vision.getBotPose2d())).withName("Reset to LL").ignoringDisable(true));
         
         vision = Vision.getInstance();
     }
@@ -116,10 +121,18 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
         );
     }
 
+    /**
+     * @return a Command that takes a SwerveRequest supplier and applies it for as long as
+     * this command runs. 
+     */
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
         return run(() -> this.setControl(requestSupplier.get()));
     }
 
+    /**
+     * @return Get the current robot-centric chassis speeds, directly from the module's actual
+     * states.
+     */
     public ChassisSpeeds getCurrentRobotChassisSpeeds() {
         return m_kinematics.toChassisSpeeds(getState().ModuleStates);
     }
@@ -139,15 +152,34 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
 
+    /**
+     * Sets the preferences of this subsystem, mainly whether or not to use the limelight
+     * pose inputs.
+     */
     public void setPreferences() {
         shouldUseLimelight = RobotPreferences.shouldUseLimelight();
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            if (alliance.get() == DriverStation.Alliance.Red) blueAlliance = false;
+        }
     }
 
     @Override
     public void periodic() {
+        // System.out.println(robotPose.getTranslation());
+
         if (shouldUseLimelight) {
-            addVisionMeasurement(vision.getBotPose2d(),
-                Timer.getFPGATimestamp());
+            if (vision.couldSeeApriltag()) {
+                addVisionMeasurement(vision.getBotPose2d(),
+                    Timer.getFPGATimestamp());
+            }
+        }
+        if (blueAlliance) {
+            // System.out.println("To blue: " + this.robotPose.getTranslation().getDistance(
+            //     Constants.FieldMeasurements.BlueSpeakerLocation));
+        } else {
+            // System.out.println("To red: " + this.robotPose.getTranslation().getDistance(
+            //     Constants.FieldMeasurements.RedSpeakerLocation));
         }
     }
 }

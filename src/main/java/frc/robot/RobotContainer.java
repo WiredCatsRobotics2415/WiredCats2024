@@ -12,18 +12,21 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.commands.FixAll;
-import frc.commands.HotspotGeneator;
+import frc.commands.HotspotGenerator;
 import frc.generated.TunerConstants;
+import frc.robot.Constants.Drive;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
+import frc.subsystems.Arm;
 import frc.subsystems.Climber;
-import frc.subsystems.Flywheel;
 import frc.subsystems.Intake;
-import frc.robot.Constants.Drive;
+import frc.subsystems.Flywheel;
+import frc.subsystems.Vision;
 
 public class RobotContainer {
     private static RobotContainer instance;
@@ -38,9 +41,10 @@ public class RobotContainer {
     private final Intake intake = Intake.getInstance();
     private final Climber climber = Climber.getInstance(); 
     private final Flywheel flywheel = Flywheel.getInstance(); 
+    private final Arm arm = Arm.getInstance();
     
     // HOTSPOT
-    private final HotspotGeneator hotspotGen = HotspotGeneator.getInstance(); 
+    private final HotspotGenerator hotspotGen = HotspotGenerator.getInstance(); 
 
     //PUBLIC OBJECTS
     private OIs.OI selectedOI;
@@ -64,6 +68,10 @@ public class RobotContainer {
         return instance;
     }
 
+    /**
+     * Adds all Commands to the Triggers in the selectedOI's binds map.
+     * Intended to be run in teleopInit.
+     */
     private void configureButtonBindings() {
         //Swerve
         selectedOI.binds.get("PigeonReset").onTrue(new InstantCommand(() -> {
@@ -71,21 +79,48 @@ public class RobotContainer {
         }, swerveDrive));
 
         //Intake
-        selectedOI.binds.get("Intake").onTrue(intake.in()).onFalse(intake.off());
-        selectedOI.binds.get("Outtake").onTrue(intake.out()).onFalse(intake.off());
+        selectedOI.binds.get("Intake").onTrue(intake.toggleIntake());
+        selectedOI.binds.get("ManualOuttake").onTrue(intake.out()).onFalse(intake.off());
 
-        //Climber
-        selectedOI.binds.get("RetractClimber").onTrue(climber.retract()); 
-        selectedOI.binds.get("ReleaseClimber").whileTrue(climber.runUntil()).onFalse(climber.stop());
+        //Arm manual
+        selectedOI.binds.get("RaiseArm").whileTrue(arm.increaseGoal());
+        selectedOI.binds.get("LowerArm").whileTrue(arm.decreaseGoal()); 
 
-        //Flywheel;
-        selectedOI.binds.get("FlywheelOn").onTrue(flywheel.on());
-        selectedOI.binds.get("FlywheelOff").onTrue(flywheel.off()); 
-        selectedOI.binds.get("ManualOuttake").whileTrue(intake.out()).onFalse(intake.off());
-        selectedOI.binds.get("TargetHotspot").onTrue(hotspotGen.targetClosest());
+        //Flywheel
+        selectedOI.binds.get("Shoot").onTrue(
+            intake.uptake().andThen(new WaitCommand(1)).andThen(intake.off()));
+        // selectedOI.binds.get("SpinUp").onTrue(flywheel.toggleSpinedUp()); 
+        selectedOI.binds.get("SpinUp").onTrue(flywheel.onFromSmartDashboard()); 
+        // selectedOI.binds.get("SpinUp").onTrue(flywheel.on(Constants.Flywheel.FLYWHEEL_SPEED, Constants.Flywheel.FLYWHEEL_SPEED)); 
+
+        //Climber 
+        selectedOI.binds.get("LeftClimberDown").onTrue(
+            climber.manualDown(Constants.Climber.ClimberSpeed, 0) 
+        );
+        selectedOI.binds.get("LeftClimberUp").onTrue(
+            climber.manualUp(Constants.Climber.ClimberSpeed, 0) 
+        );
+        selectedOI.binds.get("RightClimberDown").onTrue(
+            climber.manualDown(0, Constants.Climber.ClimberSpeed) 
+        );
+        selectedOI.binds.get("RightClimberUp").onTrue(
+            climber.manualUp(0, Constants.Climber.ClimberSpeed)
+        );
+        selectedOI.binds.get("SpinOff").onTrue(flywheel.off()); 
+
+        //Automatic
+        // selectedOI.binds.get("TargetHotspot").onTrue(new InstantCommand(() -> 
+        //     CommandScheduler.getInstance().schedule(hotspotGen.targetClosest())
+        // ));
+
+        selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
     }
 
-     private void configureTriggers() {
+    /**
+     * Adds all binds to triggers.
+     * Intended to be run in teleopInit.
+     */
+    private void configureTriggers() {
         Trigger infraredTrigger1 = new Trigger(intake::hasNote);
         infraredTrigger1.onTrue(intake.queueNote());
 
@@ -94,14 +129,27 @@ public class RobotContainer {
         
     }
 
-    //Calls methods from subsystems to update from preferences
+    /**
+     * Calls methods from subsystems to update from preferences.
+     * Intended to be run in teleopInit.
+     */
     private void configurePreferences() {
         selectedOI.setPreferences();
+        Vision.getInstance().setPreferences();
         swerveDrive.setPreferences();
     }
 
+    /**
+     * Prepares the robot for teleoperated control.
+     * Gets the OI selected, configures all binds, and calls any teleopInit
+     * methods on subsystems. CLEARS ALL DEFAULT EVENTLOOP BINDS
+     */
     public void teleopInit() {
-        //Gets the OI selected
+        //Turn everything "off"
+        flywheel.off().schedule();
+        intake.off().schedule();
+        arm.setGoal(arm.getMeasurement());
+
         switch (OI.oiChooser.getSelected()) {
             case 0:
               selectedOI = new OIs.GulikitController();
@@ -110,18 +158,26 @@ public class RobotContainer {
               selectedOI = new OIs.GulikitController();
               break;
         }
+        Robot.buttonEventLoop.clear();
         configurePreferences();
         configureButtonBindings();
         //configureTriggers();
         swerveDrive.setDefaultCommand(swerveDrive.applyRequest(() -> {
             TwoDControllerInput input = selectedOI.getXY();
             return drive.withVelocityX(-input.x() * Drive.kMaxDriveMeterS) // Drive forward with
-                .withVelocityY(-input.y() * Drive.kMaxDriveMeterS); // Drive left with negative X (left)
-                //.withRotationalRate(-selectedOI.getRotation() * Drive.kMaxAngularRadS); // Drive counterclockwise with negative X (left)
+                .withVelocityY(-input.y() * Drive.kMaxDriveMeterS) // Drive left with negative X (left)
+                .withRotationalRate(-selectedOI.getRotation() * Drive.kMaxAngularRadS); // Drive counterclockwise with negative X (left)
             }
         ));
+
+        //Subsystem enables
+        flywheel.teleopInit();
     }
-     
+    
+    /**
+     * Gets the autonomous command to be run from Robot.java
+     * @return
+     */
     public Command getAutonomousCommand() {
         // Test autonomous path 
         // PathPlannerPath path = PathPlannerPath.fromPathFile("Very_Basic"); 

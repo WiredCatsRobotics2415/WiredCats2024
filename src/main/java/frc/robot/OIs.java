@@ -1,14 +1,12 @@
 package frc.robot;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -24,20 +22,38 @@ public class OIs {
             SmartDashboard.putData("OI", oiChooser);
         }
 
-        //RECORDS
+        /**
+         * A convinience record to store two doubles without making a whole class
+         */
         public static record TwoDControllerInput(double x, double y) {};
 
         //PROPERTIES
+        /**
+         * The deadband of all controller axes, in raw controller input values [-1, 1]
+         */
         public double DEADBAND;
 
-        public Map<String, Trigger> binds;
+        /**
+         * The binds map of an OI
+         */
+        public Map<String, Trigger> binds = new HashMap<String, Trigger>();
 
         //JOYSTICKS
+        /**
+         * Get appropriately scaled translation values, in raw controller units [-1, 1]
+         */
         public abstract TwoDControllerInput getXY();
 
+        /**
+         * Get appropriately scaled rotation values, in raw controller units [-1, 1]
+         */
         public abstract double getRotation();
 
         //UTILS
+        /**
+         * Retrieves input preferences from RobotPreferences.
+         * Should be called from teleopInit()
+         */
         public abstract void setPreferences();
     }
     
@@ -73,18 +89,40 @@ public class OIs {
         public GulikitController() {
             controller = new CommandXboxController(0);
             numpad = new CommandJoystick(1);
-            EventLoop defaultEventLoop = CommandScheduler.getInstance().getDefaultButtonLoop();
-            binds = Map.of(
-                "PigeonReset", controller.button(7), // Minus
-                "FixAll", controller.button(8), // Plus
-                "Intake", controller.button(2), // A
-                "ReleaseClimber", controller.button(3), // Y
-                "RetractClimber", controller.button(1), // B 
-                "FlywheelOn", numpad.button(7, defaultEventLoop), // 7 
-                "FlywheelOff", numpad.button(8, defaultEventLoop), // 8
-                "ManualOuttake", controller.button(4), // X
-                "TargetHotspot", controller.button(9)
-            );
+
+            binds.put("PigeonReset", controller.button(7, Robot.buttonEventLoop)); //Minus
+            binds.put("TargetHotspot", controller.button(8, Robot.buttonEventLoop)); //Plus
+            binds.put("Amp", numpad.button(4, Robot.buttonEventLoop));
+
+            configClimberControls();
+            configArmControls();
+            configIntakeControls();
+            configFlywheelControls();
+        }
+
+        public void configClimberControls() {
+            binds.put("LeftClimberDown", controller.leftTrigger());
+            binds.put("LeftClimberUp", controller.button(5, Robot.buttonEventLoop)); //Left bumper
+            binds.put("RightClimberDown", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
+            binds.put("RightClimberUp", controller.button(6, Robot.buttonEventLoop)); //Right bumper
+            binds.put("ClimberMode1", numpad.button(1, Robot.buttonEventLoop));
+            binds.put("ClimberMode2", numpad.button(2, Robot.buttonEventLoop));
+        }
+
+        public void configArmControls() {
+            binds.put("LowerArm", controller.button(5, Robot.buttonEventLoop)); //left bumper
+            binds.put("RaiseArm", controller.button(6, Robot.buttonEventLoop)); //right bumper
+        }
+
+        public void configIntakeControls() {
+            binds.put("Intake", controller.button(2, Robot.buttonEventLoop)); //A
+            binds.put("ManualOuttake", controller.leftTrigger()); 
+        }
+
+        public void configFlywheelControls() {
+            binds.put("SpinUp", controller.button(3, Robot.buttonEventLoop)); // Y
+            binds.put("Shoot", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
+            binds.put("SpinOff", controller.button(4, Robot.buttonEventLoop)); // X
         }
 
         private double deadbandCompensation(double r) {

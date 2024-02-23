@@ -5,12 +5,13 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.sim.PhysicsSim;
 
 public class Climber extends SubsystemBase {
     // Initialize motors 
@@ -20,11 +21,29 @@ public class Climber extends SubsystemBase {
     // Guarantee only one instance of the Climber class exists 
     private static Climber instance;
 
+    // Declare limit switches 
+    private final DigitalInput leftTopSwitch;
+    private final DigitalInput rightTopSwitch; 
+    private final DigitalInput leftBotSwitch; 
+    private final DigitalInput rightBotSwitch; 
+
     private Climber() {
         //From the back of the robot
         right = new TalonFX(RobotMap.Climber.CLIMBER_MASTER, RobotMap.CANBUS_NAME); // Initialize right motor
         left = new TalonFX(RobotMap.Climber.CLIMBER_FOLLOWER, RobotMap.CANBUS_NAME); // Initialize left motor
+
+        // Initialize limit switches
+        leftTopSwitch = new DigitalInput(RobotMap.Climber.LEFT_TOP_LIMIT_SWITCH); 
+        rightTopSwitch = new DigitalInput(RobotMap.Climber.RIGHT_TOP_LIMIT_SWITCH); 
+        leftBotSwitch = new DigitalInput(RobotMap.Climber.LEFT_BOT_LIMIT_SWITCH);
+        rightBotSwitch = new DigitalInput(RobotMap.Climber.RIGHT_BOT_LIMIT_SWITCH); 
+
         configClimberMotors();
+
+        if (Robot.isSimulation()) {
+            PhysicsSim.getInstance().addTalonFX(left, 0.001);
+            PhysicsSim.getInstance().addTalonFX(right, 0.001);
+        }
     }
 
     public static Climber getInstance() {
@@ -32,16 +51,16 @@ public class Climber extends SubsystemBase {
           instance = new Climber();
         }
         return instance;
-      }
+    }
 
-    public void configClimberMotors() {
+    private void configClimberMotors() {
         TalonFXConfiguration configs = new TalonFXConfiguration();
         configs.Slot0.kP = 1.5;  // An error of 0.5 rotations results in 1.2 volts output
         configs.Slot0.kD = 0.00048; // A change of 1 rotation per second results in 0.1 volts output
 
         // Peak output of 8 volts
-        configs.Voltage.PeakForwardVoltage = 6;
-        configs.Voltage.PeakReverseVoltage = -6;
+        configs.Voltage.PeakForwardVoltage = 8;
+        configs.Voltage.PeakReverseVoltage = -8;
 
         /* Retry config apply up to 5 times, report if failure */
         StatusCode status = StatusCode.StatusCodeNotInitialized;
@@ -56,11 +75,12 @@ public class Climber extends SubsystemBase {
         /* Make sure we start at 0 */
         left.setPosition(0); 
         right.setPosition(0);
-
-        System.out.println("Right position=" + right.getRotorPosition());
-        System.out.println("Left position= " + left.getRotorPosition());
     }
-
+    
+    /**
+     * @return A command that releases both climbers (ie. moves them to thier resting position,
+     * which is up.)
+     */
     public Command releaseTop() {
         return runOnce(
             () -> {
@@ -68,6 +88,10 @@ public class Climber extends SubsystemBase {
             });
     }
 
+    /**
+     * @return A command that retracts both climbers (ie. moves them to thier climbed position,
+     * which is all the way down.)
+     */
     public Command retract() {
         return runOnce(
             () -> {
@@ -75,47 +99,83 @@ public class Climber extends SubsystemBase {
             });
     }
 
-    public Command runUntil() {
+    /**
+     * @return A command that sets the speed of individual climbers, to move them UP.
+     * Automatically stops the motors if the climbers have already reached max height,
+     * or the limit switches are pressed.
+     */
+    public Command manualUp(double leftSpeed, double rightSpeed) {
         return runOnce(
             () -> {
                 if (notMax()) {
-                    left.set(0.25);
-                    right.set(0.25);
+                    setMotorSpeeds(leftSpeed, rightSpeed);
                 } else {
-                    left.set(0);
-                    right.set(0);
+                    stop();
                 }
             });
     }
 
-    public Command stop() {
+    /**
+     * @return A command that sets the speed of individual climbers, to move them DOWN.
+     * Automatically stops the motors if the climbers have already reached minimum height,
+     * or the limit switches are pressed.
+     */
+    public Command manualDown(double leftSpeed, double rightSpeed) {
         return runOnce(
             () -> {
-                left.set(0);
-                right.set(0);
+                if (notMin()) {
+                    setMotorSpeeds(-leftSpeed, -rightSpeed);
+                } else {
+                    stop();
+                }
             });
     }
 
-    public Command release() {
-        return new ConditionalCommand(
-            run(
-                () -> {
-                    target(left.getRotorPosition().getValueAsDouble() + 6, right.getRotorPosition().getValueAsDouble() + 6); 
-                }
-            ), 
-            run(
-                () -> {
-                    target(left.getRotorPosition().getValueAsDouble(), right.getRotorPosition().getValueAsDouble()); 
-                }
-            ), () -> notMax()); 
+    /**
+     * Sets both motor's speeds to 0.
+     */
+    public void stop() {
+        setMotorSpeeds(0, 0);
     }
 
-    // Return true if the climber has not reached its max 
+    /**
+     * Sets each motor's SPEED (as opposed to position).
+     */
+    public void setMotorSpeeds(double leftSpeed, double rightSpeed) {
+        left.set(leftSpeed); 
+        right.set(rightSpeed);
+    }
+
+    /**
+     * @return true if the climber has not reached its minimum height, or true if the limit switches
+     * are not triggered. false if either of those conditions are true.
+     */
+    public boolean notMin() {
+        return (right.getRotorPosition().getValueAsDouble() > Constants.Climber.ClimberMin && 
+        left.getRotorPosition().getValueAsDouble() > Constants.Climber.ClimberMin && 
+        !limitSwitchTriggered()); 
+    }
+
+    /**
+     * @return true if the climber has not reached its maximum height, or true if the limit switches
+     * are not triggered. false if either of those conditions are true.
+     */
     public boolean notMax() {
-        return (right.getRotorPosition().getValueAsDouble() <= Constants.Climber.ClimberMax && left.getRotorPosition().getValueAsDouble() <= Constants.Climber.ClimberMax); 
+        return (right.getRotorPosition().getValueAsDouble() <= Constants.Climber.ClimberMax && 
+        left.getRotorPosition().getValueAsDouble() <= Constants.Climber.ClimberMax && 
+        !limitSwitchTriggered()); 
     }
 
-    // Set motors to travel a certain number of rotations 
+    /**
+     * @return true if ANY limit switches are triggered.
+     */
+    public boolean limitSwitchTriggered() {
+        return leftBotSwitch.get() && rightBotSwitch.get() && leftTopSwitch.get() && rightTopSwitch.get(); 
+    }
+
+    /**
+     * Sets a POSITION (as opposed to speed) goal for each motor.
+     */
     public void target(double leftGoal, double rightGoal) {
         right.setControl(positionOut.withPosition(leftGoal)); 
         left.setControl(positionOut.withPosition(rightGoal)); 
@@ -123,6 +183,6 @@ public class Climber extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Motor position", right.getRotorPosition().getValueAsDouble() / Constants.Climber.ClimberGearRatio);
+        //SmartDashboard.putNumber("Motor position", right.getRotorPosition().getValueAsDouble() / Constants.Climber.ClimberGearRatio);
     }
 }

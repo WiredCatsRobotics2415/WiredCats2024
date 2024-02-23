@@ -12,10 +12,6 @@ import frc.generated.TunerConstants;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.Drive;
-import frc.robot.OIs.OI;
-import frc.robot.OIs.OI.TwoDControllerInput;
-import frc.utils.Logger;
-import frc.utils.Logger.LogLevel;
 
 /**
  * The "FixAll" preset (FIX ALL subsystems to their ideal position for scoring).
@@ -24,7 +20,6 @@ import frc.utils.Logger.LogLevel;
  */
 public class FixAll extends Command {
     //GENERAL
-    private OI oi; //Cache instance
     private RobotContainer robotContainer; //Cache instance
 
     // SWERVE
@@ -50,7 +45,6 @@ public class FixAll extends Command {
     public void initialize() {
         //Cache instances of used objects
         robotContainer = RobotContainer.getInstance();
-        oi = robotContainer.getSelectedOI();
 
         //Do alliance preparations
         var alliance = DriverStation.getAlliance();
@@ -76,15 +70,13 @@ public class FixAll extends Command {
         Rotation2d heading = Rotation2d.fromRadians(
                 Math.atan2(speakerDist.getY(), speakerDist.getX())).plus(Rotation2d.fromDegrees(180));
 
-        TwoDControllerInput input = oi.getXY();
         TunerConstants.DriveTrain.setControl(driveHeading
-                .withTargetDirection(heading)
-                .withVelocityX(-input.x() * Drive.kMaxDriveMeterS)
-                .withVelocityY(-input.y() * Drive.kMaxDriveMeterS));
+                .withTargetDirection(heading));
     }
 
     @Override
     public void end(boolean interrupted) {
+
     }
 
     @Override

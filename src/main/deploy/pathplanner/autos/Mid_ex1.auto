@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4325073497617233,
-      "y": 5.544078206832009
+      "x": 1.4623131943436507,
+      "y": 5.585325649817966
     },
     "rotation": 0
   },
@@ -14,7 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MidIntake1"
+            "pathName": "(ex2)MidIntake1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "(ex2)MidIntake2-3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "(ex2)MidNote1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "(ex2)MidNote1Return"
           }
         },
         {
@@ -26,42 +44,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MidIntake2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MidNote1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MidNote1Return"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BotNote3"
+            "pathName": "(ex2)MidNote2"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Middle Paths",
   "choreoAuto": false
 }
