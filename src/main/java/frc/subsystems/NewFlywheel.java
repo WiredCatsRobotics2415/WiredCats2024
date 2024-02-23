@@ -104,6 +104,11 @@ public class NewFlywheel extends SubsystemBase {
         rightCfg.apply(new CurrentLimitsConfigs()
             .withStatorCurrentLimitEnable(true)
             .withStatorCurrentLimit(35)); 
+        rightCfg.apply(new CurrentLimitsConfigs()
+            .withSupplyCurrentLimitEnable(true)
+            .withSupplyCurrentLimit(35)
+            .withSupplyCurrentThreshold(60)
+            .withSupplyTimeThreshold(0.1));
         right.setInverted(true);
 
         TalonFXConfigurator leftCfg = left.getConfigurator();
@@ -112,6 +117,11 @@ public class NewFlywheel extends SubsystemBase {
         leftCfg.apply(new CurrentLimitsConfigs()
             .withStatorCurrentLimitEnable(true)
             .withStatorCurrentLimit(35)); 
+        leftCfg.apply(new CurrentLimitsConfigs()
+            .withSupplyCurrentLimitEnable(true)
+            .withSupplyCurrentLimit(35)
+            .withSupplyCurrentThreshold(60)
+            .withSupplyTimeThreshold(0.1)); 
         left.setInverted(false);
     }
 
