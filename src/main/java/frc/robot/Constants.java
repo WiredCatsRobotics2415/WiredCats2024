@@ -46,11 +46,11 @@ public final class Constants {
     public static class Flywheel {
       public static final Slot0Configs LEFT_PID = new Slot0Configs()
         .withKV(0.16)
-        .withKP(0.24); //TODO: may need adjustment
+        .withKP(0.24);
     
       public static final Slot0Configs RIGHT_PID = new Slot0Configs()
         .withKV(0.16)
-        .withKP(0.24); //TODO: may need adjustment
+        .withKP(0.24);
 
       public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()
         .withStatorCurrentLimitEnable(true)
@@ -61,23 +61,17 @@ public final class Constants {
         .withSupplyTimeThreshold(0.1);
       
       public static final MotorOutputConfigs COAST_CONFIG = new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast);
-
-      public static final double GEAR_RATIO = 3.4d;
       
       public static final double GOAL_TOLERANCE_RPM = 250;
- 
-      public static final double rpmToFalcon(double rpm) {
-        return (rpm / 60) / GEAR_RATIO;
+      
+      public static final double GEAR_RATIO = 3.4d;
+      
+      public static double rpsToRPM(double rps) {
+        return (rps * 60) * GEAR_RATIO;
       }
 
-      public static final double falconToRPM(double rotationsPerSecond) {
-        return (rotationsPerSecond * 60) * GEAR_RATIO;
-      }
-
-      public static final double FLYWHEEL_SPEED = rpm_to_rps(2000); 
-
-      public static double rpm_to_rps(double goal_rpm) {
-        return (goal_rpm / 60) / GEAR_RATIO; // Account for gear ratio --> The speed which the motors have to run at to achieve goal rpm of wheels
+      public static double rpmToRPS(double goalRPM) {
+        return (goalRPM / 60) / GEAR_RATIO; // Account for gear ratio --> The speed which the motors have to run at to achieve goal rpm of wheels
       }
     }
 

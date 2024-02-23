@@ -40,8 +40,7 @@ public class RobotContainer {
     //SUBSYSTEMS
     private final Intake intake = Intake.getInstance();
     private final Climber climber = Climber.getInstance(); 
-    //private final Flywheel flywheel = Flywheel.getInstance(); 
-    private final Flywheel new_flywheel = Flywheel.getInstance(); 
+    private final Flywheel flywheel = Flywheel.getInstance(); 
     private final Arm arm = Arm.getInstance();
     
     // HOTSPOT
@@ -90,9 +89,9 @@ public class RobotContainer {
         //Flywheel
         selectedOI.binds.get("Shoot").onTrue(
             intake.uptake().andThen(new WaitCommand(1)).andThen(intake.off()));
-        // selectedOI.binds.get("SpinUp").onTrue(new_flywheel.toggleSpinedUp()); 
-        selectedOI.binds.get("SpinUp").onTrue(new_flywheel.on(6000, 6000)); 
-        // selectedOI.binds.get("SpinUp").onTrue(new_flywheel.on(Constants.Flywheel.FLYWHEEL_SPEED, Constants.Flywheel.FLYWHEEL_SPEED)); 
+        // selectedOI.binds.get("SpinUp").onTrue(flywheel.toggleSpinedUp()); 
+        selectedOI.binds.get("SpinUp").onTrue(flywheel.onFromSmartDashboard()); 
+        // selectedOI.binds.get("SpinUp").onTrue(flywheel.on(Constants.Flywheel.FLYWHEEL_SPEED, Constants.Flywheel.FLYWHEEL_SPEED)); 
 
         //Climber 
         selectedOI.binds.get("LeftClimberDown").onTrue(
@@ -107,7 +106,7 @@ public class RobotContainer {
         selectedOI.binds.get("RightClimberUp").onTrue(
             climber.manualUp(0, Constants.Climber.ClimberSpeed)
         );
-        selectedOI.binds.get("Off").onTrue(new_flywheel.off()); 
+        selectedOI.binds.get("SpinOff").onTrue(flywheel.off()); 
 
         //Automatic
         // selectedOI.binds.get("TargetHotspot").onTrue(new InstantCommand(() -> 
@@ -145,7 +144,7 @@ public class RobotContainer {
      * methods on subsystems. CLEARS ALL DEFAULT EVENTLOOP BINDS
      */
     public void teleopInit() {
-        new_flywheel.off(); // Guarantee flywheel off on startup
+        flywheel.off(); // Guarantee flywheel off on startup
         arm.setGoal(arm.getMeasurement());
 
         switch (OI.oiChooser.getSelected()) {
@@ -169,7 +168,7 @@ public class RobotContainer {
         ));
 
         //Subsystem enables
-        new_flywheel.teleopInit();
+        flywheel.teleopInit();
     }
     
     /**

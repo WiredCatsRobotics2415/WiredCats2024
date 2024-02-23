@@ -21,6 +21,8 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.sim.PhysicsSim;
+import frc.utils.Logger;
+import frc.utils.Logger.LogLevel;
 
 public class Flywheel extends SubsystemBase {
     private enum TestType {
@@ -117,44 +119,46 @@ public class Flywheel extends SubsystemBase {
     public Command on(double leftSpeed, double rightSpeed) {
         return runOnce(
                 () -> {
-                    left.setControl(m_voltageVelocity.withVelocity(Constants.Flywheel.rpm_to_rps(leftSpeed)));
-                    right.setControl(m_voltageVelocity.withVelocity(Constants.Flywheel.rpm_to_rps(rightSpeed)));
+                    Logger.log(this, LogLevel.INFO, "Flywheel on", leftSpeed, rightSpeed);
+                    left.setControl(m_voltageVelocity.withVelocity(Constants.Flywheel.rpmToRPS(leftSpeed)));
+                    right.setControl(m_voltageVelocity.withVelocity(Constants.Flywheel.rpmToRPS(rightSpeed)));
+                });
+    }
+
+    /**
+     * @return Command that calls on with speeds set from SmartDashboard.
+     */
+    public Command onFromSmartDashboard() {
+        return runOnce(
+                () -> {
+                    Logger.log(this, LogLevel.INFO, "Flywheel onFromSmartDashboard");
+                    leftSpeedRatio = SmartDashboard.getNumber("Left:Right Ratio", leftSpeedRatio);
+                    leftSetRPM = SmartDashboard.getNumber("Set Speed (Left Motor - RPM)", leftSetRPM);
+                    on(leftSetRPM, leftSetRPM / leftSpeedRatio).schedule();
                 });
     }
 
     /**
      * @return Command that sets both motor's RPM to 0.
-     *         Note that the flywheel is in coast.
+     *         Note that the flywheels is in coast.
      */
     public Command off() {
         return runOnce(
                 () -> {
+                    Logger.log(this, LogLevel.INFO, "Flywheel off");
                     left.setControl(m_voltageVelocity.withVelocity(0));
                     right.setControl(m_voltageVelocity.withVelocity(0));
                 });
     }
 
     /**
-     * @return Command that toggles whether or not the flywheel should spin up to
-     *         its goal RPM.
-     *         If already spinned up, spin down to 0.
-     *         Otherwise, spin up to the goal.
-     */
-    public Command toggleSpinedUp() {
-        return runOnce(() -> {
-            System.out.println("Flywheel toggle " + (!shouldSpinUp ? "on" : "off"));
-            shouldSpinUp = !shouldSpinUp;
-        });
-    }
-
-    /**
      * True if the current speed of the left shooter motor is within + or -
      * GOAL_TOLERANCE_RPM
      */
-    public boolean withinGoal() {
-        double currentValue = Constants.Flywheel.falconToRPM(left.getRotorVelocity().getValue());
+    public boolean withinSetGoal() {
+        double currentValue = Constants.Flywheel.rpsToRPM(left.getRotorVelocity().getValue());
         if (shouldSpinUp) {
-            double goalValue = Constants.Flywheel.rpmToFalcon(leftSetRPM);
+            double goalValue = Constants.Flywheel.rpmToRPS(leftSetRPM);
             return currentValue < (goalValue + Constants.Flywheel.GOAL_TOLERANCE_RPM) ||
                     currentValue > (goalValue - Constants.Flywheel.GOAL_TOLERANCE_RPM);
         } else {
@@ -165,33 +169,21 @@ public class Flywheel extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putData(testChooser);
-        leftSpeedRatio = SmartDashboard.getNumber("Left:Right Ratio", leftSpeedRatio);
-        leftSetRPM = SmartDashboard.getNumber("Set Speed (Left Motor - RPM)", leftSetRPM);
-
         // Display current speed of both motors
-        SmartDashboard.putNumber("Current Motor Speed (Left - RPM)", left.getRotorVelocity().getValueAsDouble() * 60);
-        SmartDashboard.putNumber("Current Motor Speed (Right - RPM)", right.getRotorVelocity().getValueAsDouble() * 60);
-        print_wheel_rpm();
+        double leftSpeedRaw = left.getRotorVelocity().getValueAsDouble();
+        double rightSpeedRaw = right.getRotorVelocity().getValueAsDouble();
+        
+        SmartDashboard.putNumber("Current Motor Speed (Left - RPM)", leftSpeedRaw);
+        SmartDashboard.putNumber("Current Motor Speed (Right - RPM)", rightSpeedRaw);
 
-        // Set the speed of the motors
-        if (shouldSpinUp) {
-            on(leftSetRPM, leftSetRPM / leftSpeedRatio);
-        } else {
-            off();
-        }
+        SmartDashboard.putNumber("Current Wheel Speed (Left - RPM)", Constants.Flywheel.rpsToRPM(leftSpeedRaw));
+        SmartDashboard.putNumber("Current Wheel Speed (Right - RPM)", Constants.Flywheel.rpsToRPM(rightSpeedRaw));
 
-        rightGoal.setColor(getColorForRPM(leftSetRPM / leftSpeedRatio));
-        leftGoal.setColor(getColorForRPM(leftSetRPM));
+        rightGoal.setColor(getColorForRPM(Constants.Flywheel.rpsToRPM(rightSpeedRaw)));
+        leftGoal.setColor(getColorForRPM(Constants.Flywheel.rpsToRPM(leftSpeedRaw)));
     }
 
     private Color8Bit getColorForRPM(double rpm) {
         return new Color8Bit((int) ((rpm / 6380) * 255), 0, 0);
-    }
-
-    // Print the current speed of the wheels (not the motor)
-    public void print_wheel_rpm() {
-        SmartDashboard.putNumber("Current Wheel Speed (Left - RPM)", left.getRotorVelocity().getValueAsDouble() * 60 * Constants.Flywheel.GEAR_RATIO);
-        SmartDashboard.putNumber("Current Wheel Speed (Right - RPM)", right.getRotorVelocity().getValueAsDouble() * 60 * Constants.Flywheel.GEAR_RATIO);
     }
 }
