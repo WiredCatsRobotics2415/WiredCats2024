@@ -54,9 +54,9 @@ public final class Constants {
 
       public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()
         .withStatorCurrentLimitEnable(true)
-        .withStatorCurrentLimit(35)
+        .withStatorCurrentLimit(80)
         .withSupplyCurrentLimitEnable(true)
-        .withSupplyCurrentLimit(35)
+        .withSupplyCurrentLimit(30)
         .withSupplyCurrentThreshold(60)
         .withSupplyTimeThreshold(0.1);
       
@@ -110,7 +110,7 @@ public final class Constants {
       }
       public static final EncoderOption ENCODER_TO_USE = EncoderOption.ANALOG_POT;
   
-      public static final double POT_OFFSET = 0.35; //In DEGREES (added before reading is converted to rotations)
+      public static final double POT_OFFSET = 0.42; //In ROTATIONS (added before reading is converted to rotations)
   
       public static final float KS = 0.293f;
       public static final float KV = 0.09f;

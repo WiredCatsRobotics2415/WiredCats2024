@@ -144,7 +144,9 @@ public class RobotContainer {
      * methods on subsystems. CLEARS ALL DEFAULT EVENTLOOP BINDS
      */
     public void teleopInit() {
-        flywheel.off(); // Guarantee flywheel off on startup
+        //Turn everything "off"
+        flywheel.off().schedule();
+        intake.off().schedule();
         arm.setGoal(arm.getMeasurement());
 
         switch (OI.oiChooser.getSelected()) {
