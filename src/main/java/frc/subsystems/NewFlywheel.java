@@ -2,6 +2,7 @@ package frc.subsystems;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -100,11 +101,21 @@ public class NewFlywheel extends SubsystemBase {
         TalonFXConfigurator rightCfg = right.getConfigurator();
         rightCfg.apply(Constants.Flywheel.RIGHT_PID);
         rightCfg.apply(Constants.Flywheel.COAST_CONFIG);
+        rightCfg.apply(new CurrentLimitsConfigs()
+            .withSupplyCurrentLimitEnable(true)
+            .withSupplyCurrentLimit(35)
+            .withSupplyCurrentThreshold(60)
+            .withSupplyTimeThreshold(0.1)); 
         right.setInverted(true);
 
         TalonFXConfigurator leftCfg = left.getConfigurator();
         leftCfg.apply(Constants.Flywheel.LEFT_PID);
         leftCfg.apply(Constants.Flywheel.COAST_CONFIG);
+        leftCfg.apply(new CurrentLimitsConfigs()
+            .withSupplyCurrentLimitEnable(true)
+            .withSupplyCurrentLimit(35)
+            .withSupplyCurrentThreshold(60)
+            .withSupplyTimeThreshold(0.1)); 
         left.setInverted(false);
     }
 
