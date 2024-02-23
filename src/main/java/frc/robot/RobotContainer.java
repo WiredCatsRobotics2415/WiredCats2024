@@ -107,6 +107,7 @@ public class RobotContainer {
         selectedOI.binds.get("RightClimberUp").onTrue(
             climber.manualUp(0, Constants.Climber.ClimberSpeed)
         );
+        selectedOI.binds.get("Off").onTrue(new_flywheel.off()); 
 
         //Automatic
         // selectedOI.binds.get("TargetHotspot").onTrue(new InstantCommand(() -> 
@@ -145,6 +146,7 @@ public class RobotContainer {
      */
     public void teleopInit() {
         new_flywheel.off(); // Guarantee flywheel off on startup
+        arm.setGoal(arm.getMeasurement());
 
         switch (OI.oiChooser.getSelected()) {
             case 0:

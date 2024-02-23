@@ -116,7 +116,7 @@ public final class Constants {
       public static final float KP = 30f;
       public static final float KD = 0.9f;
   
-      public static final float KG_PROPORTION = 0.000f; //How much to modify KG by;
+      public static final float KG_PROPORTION = 0.1f; //How much to modify KG by;
       //applied KG = (Proportion * angle in degrees) * KG 
   
       public static final float VELO_MAX = 0.5f; //No more than 45 deg per second
@@ -124,7 +124,7 @@ public final class Constants {
   
       public static final float ROTOR_TO_ARM_GEAR_RATIO = 280/1; //(# encoder rotations per 1 full rotation)
   
-      public static final double MAX_ROTATIONS = 120/360.0; //Max angle of arm
+      public static final double MAX_ROTATIONS = 60/360.0; //Max angle of arm
       public static final double MIN_ROTATIONS = 0.0; //Min angle of arm
       
       public static double rotationsToFalcon(double rotations) {

@@ -80,6 +80,7 @@ public class Arm extends SubsystemBase {
 
     leftMotor = new TalonFX(RobotMap.Arm.LEFT_MOTOR_PORT);
     leftMotor.getConfigurator().apply(feedbackConfigs);
+    leftMotor.setInverted(true);
 
     rightMotor = new TalonFX(RobotMap.Arm.RIGHT_MOTOR_PORT);
     rightMotor.setControl(new StrictFollower(leftMotor.getDeviceID()));
@@ -128,7 +129,7 @@ public class Arm extends SubsystemBase {
    *         If in simulation, use the analog port window to control the simulated
    *         position.
    */
-  private double getMeasurement() {
+  public double getMeasurement() {
     if (Robot.isSimulation()) {
       return getPotRotations();
     }
