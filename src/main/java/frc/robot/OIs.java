@@ -112,6 +112,7 @@ public class OIs {
         public void configArmControls() {
             binds.put("LowerArm", controller.button(5, Robot.buttonEventLoop)); //left bumper
             binds.put("RaiseArm", controller.button(6, Robot.buttonEventLoop)); //right bumper
+            binds.put("AmpPreset", controller.button(1, Robot.buttonEventLoop));
         }
 
         public void configIntakeControls() {

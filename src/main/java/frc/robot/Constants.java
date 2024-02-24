@@ -45,18 +45,18 @@ public final class Constants {
 
     public static class Flywheel {
       public static final Slot0Configs LEFT_PID = new Slot0Configs()
-        .withKV(0.16)
-        .withKP(0.24);
+        .withKV(0.16) //initial: v = .16, p = .24
+        .withKP(0.25);
     
       public static final Slot0Configs RIGHT_PID = new Slot0Configs()
-        .withKV(0.16)
-        .withKP(0.24);
+        .withKV(0.15) //initial: same as above
+        .withKP(0.22);
 
       public static final CurrentLimitsConfigs CURRENT_LIMITS = new CurrentLimitsConfigs()
         .withStatorCurrentLimitEnable(true)
-        .withStatorCurrentLimit(80)
+        .withStatorCurrentLimit(80) //initial: 80
         .withSupplyCurrentLimitEnable(true)
-        .withSupplyCurrentLimit(30)
+        .withSupplyCurrentLimit(30) //initial: 30
         .withSupplyCurrentThreshold(60)
         .withSupplyTimeThreshold(0.1);
       
@@ -145,7 +145,7 @@ public final class Constants {
       }
       public static final EncoderOption ENCODER_TO_USE = EncoderOption.ANALOG_POT;
   
-      public static final double POT_OFFSET = 0.42; //In ROTATIONS (added before reading is converted to rotations)
+      public static final double POT_OFFSET = 0.4727; //In ROTATIONS (added before reading is converted to rotations)
   
       public static final float KS = 0.293f;
       public static final float KV = 0.09f;
@@ -154,15 +154,15 @@ public final class Constants {
       public static final float KP = 30f;
       public static final float KD = 0.9f;
   
-      public static final float KG_PROPORTION = 0.1f; //How much to modify KG by;
+      public static final float KG_PROPORTION = 0.125f; //How much to modify KG by;
       //applied KG = (Proportion * angle in degrees) * KG 
   
-      public static final float VELO_MAX = 0.5f; //No more than 45 deg per second
-      public static final float ACCEL_MAX = 0.25f;
+      public static final float VELO_MAX = 10f;
+      public static final float ACCEL_MAX = 6f;
   
       public static final float ROTOR_TO_ARM_GEAR_RATIO = 280/1; //(# encoder rotations per 1 full rotation)
   
-      public static final double MAX_ROTATIONS = 60/360.0; //Max angle of arm
+      public static final double MAX_ROTATIONS = 64/360.0; //Max angle of arm (81 is amp)
       public static final double MIN_ROTATIONS = 0.0; //Min angle of arm
       
       public static double rotationsToFalcon(double rotations) {
