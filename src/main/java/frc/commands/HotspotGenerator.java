@@ -18,14 +18,16 @@ public class HotspotGenerator {
      * according to hotspots.webp.
      */
     public HotspotGenerator() {
-        hotspots.add(new Hotspot(1.5, 2.1)); // Subwoofer bottom 
-        hotspots.add(new Hotspot(1.9, 3.2)); // Subwoofer middle 
-        hotspots.add(new Hotspot(1.5, 4.0)); // Subwoofer top 
+        hotspots.add(new Hotspot(0.66, 4.39)); // Subwoofer bottom 
+        hotspots.add(new Hotspot(1.3, 5.54)); // Subwoofer middle 
+        hotspots.add(new Hotspot(0.74, 6.64)); // Subwoofer top 
+        /* 
         hotspots.add(new Hotspot(2.6, 0.96)); // Amp 
         hotspots.add(new Hotspot(2.6, 5.6)); // Furthest down 
         hotspots.add(new Hotspot(3.6, 1.7)); // Top note 
         hotspots.add(new Hotspot(3.6, 3.1)); // Middle note
         hotspots.add(new Hotspot(3.6, 4.8)); // Bottom note  
+        */ 
     }
 
     public static HotspotGenerator getInstance() {

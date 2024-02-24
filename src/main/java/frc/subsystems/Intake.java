@@ -41,8 +41,8 @@ public class Intake extends SubsystemBase {
   public Intake() {
     motor = new TalonFX(RobotMap.Intake.INTAKE_MOTOR);
     motor.optimizeBusUtilization();
-    rightIR = new AnalogInput(RobotMap.Intake.TOP_IR);
-    leftIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR);
+    leftIR = new AnalogInput(RobotMap.Intake.TOP_IR);
+    rightIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR);
     motor.setInverted(true);
     state = false;
 
@@ -177,7 +177,16 @@ public class Intake extends SubsystemBase {
         }
       });
     }
-        
+  
+  @Override
+  public void periodic() {
+    System.out.println("IR: "+ leftIRTrue());
+    // SmartDashboard.putNumber("IR", leftIR.getValue()); 
+  }
+
+  public boolean leftIRTrue() { // Returns true if the ir sensor laser reaches detector
+    return leftIR.getValue() > Constants.Intake.IRThreshold; 
+  }
 
   public boolean hasNote() {
       return ((rightIR.getValue() > Constants.Intake.IRThreshold) || (leftIR.getValue() > Constants.Intake.IRThreshold)) && isBeingIntook;

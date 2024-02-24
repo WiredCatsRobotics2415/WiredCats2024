@@ -14,7 +14,7 @@ public class RobotMap {
 
     public static class Intake {
         public static final int INTAKE_MOTOR = 18;
-        public static final int TOP_IR = 1; 
+        public static final int TOP_IR = 5; 
         public static final int BOTTOM_IR = 2; 
     }
 

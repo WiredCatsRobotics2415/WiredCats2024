@@ -97,7 +97,7 @@ public class Flywheel extends SubsystemBase {
         MechanismRoot2d rightGoalRoot = flywheelMech2d.getRoot("rightGoal", 1.6, 0.25);
         rightGoal = rightGoalRoot.append(new MechanismLigament2d("rightGoal", 0.1, 0));
 
-        Shuffleboard.getTab("Mechanism2d").add("Flywheel Mechanism", flywheelMech2d);
+        // Shuffleboard.getTab("Mechanism2d").add("Flywheel Mechanism", flywheelMech2d);
     }
 
     private void configMotors() {
