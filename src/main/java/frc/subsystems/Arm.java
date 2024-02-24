@@ -120,7 +120,7 @@ public class Arm extends SubsystemBase {
    */
   private double getPotRotations() {
     double measure = MathUtil.applyDeadband(potentiometer.get(), 0.01);
-    return 1 - (measure + Constants.Arm.POT_OFFSET);
+    return (1 - (measure + Constants.Arm.POT_OFFSET)) * 1.23;
   }
 
   /**
@@ -170,8 +170,8 @@ public class Arm extends SubsystemBase {
         goalInRotations = Constants.Arm.MAX_ROTATIONS;
         return;
       }
-      goalInRotations += (1 / 360.0d);
-      System.out.println("Goal increase: " + goalInRotations);
+      goalInRotations += (0.5 / 360.0d);
+      System.out.println("Goal increase: " + goalInRotations*360);
       this.setGoal(goalInRotations);
     }));
   }
@@ -186,8 +186,8 @@ public class Arm extends SubsystemBase {
         goalInRotations = Constants.Arm.MIN_ROTATIONS;
         return;
       }
-      goalInRotations -= (1 / 360.0d);
-      System.out.println("Goal decrease: " + goalInRotations);
+      goalInRotations -= (0.5 / 360.0d);
+      System.out.println("Goal decrease: " + goalInRotations*360);
       this.setGoal(goalInRotations);
     }));
   }
@@ -195,7 +195,7 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     double measurement = getMeasurement();
-    SmartDashboard.putNumber("Arm Measurement", measurement);
+    SmartDashboard.putNumber("Arm Measurement", measurement*360);
     useOutput(pid.calculate(measurement), pid.getSetpoint());
     positionLigament.setAngle(measurement * 360);
     goalLigament.setAngle(goalInRotations * 360);

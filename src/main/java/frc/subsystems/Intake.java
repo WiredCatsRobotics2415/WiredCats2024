@@ -180,7 +180,6 @@ public class Intake extends SubsystemBase {
   
   @Override
   public void periodic() {
-    System.out.println("IR: "+ leftIRTrue());
     // SmartDashboard.putNumber("IR", leftIR.getValue()); 
   }
 

@@ -60,6 +60,7 @@ public class RobotContainer {
         // Configure auto chooser
         autoChooser = AutoBuilder.buildAutoChooser("Basic_Auto"); 
         SmartDashboard.putData("Auto Chooser", autoChooser);
+        arm.setGoal(arm.getMeasurement());
     }
 
     public static RobotContainer getInstance() {
@@ -113,6 +114,10 @@ public class RobotContainer {
         selectedOI.binds.get("TargetHotspot").onTrue(new InstantCommand(() -> 
              CommandScheduler.getInstance().schedule(hotspotGen.targetClosest())
         ));
+
+        selectedOI.binds.get("AmpPreset").onTrue(new InstantCommand(() -> {
+            arm.setGoalInDegrees(81);
+        }));
 
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
     }

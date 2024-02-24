@@ -31,7 +31,7 @@ public class Flywheel extends SubsystemBase {
         RATIO
     }
 
-    private double leftSpeedRatio = 1.0d;
+    private double rightSetRPM = 0d;
     private double leftSetRPM = 0d;
 
     private TestType currentMode = TestType.LOCK;
@@ -53,7 +53,10 @@ public class Flywheel extends SubsystemBase {
     private Flywheel() {
         left = new TalonFX(RobotMap.Flywheel.LEFT_FLYWHEEL);
         right = new TalonFX(RobotMap.Flywheel.RIGHT_FLYWHEEL);
-        BaseStatusSignal.setUpdateFrequencyForAll(50, left.getRotorVelocity(), right.getRotorVelocity());
+        BaseStatusSignal.setUpdateFrequencyForAll(50, 
+            left.getRotorVelocity(), right.getRotorVelocity(),
+            left.getDeviceTemp(), right.getDeviceTemp(),
+            left.getStatorCurrent(), right.getStatorCurrent());
         m_voltageVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
         configMotors();
         configSmartDashboard();
@@ -85,7 +88,7 @@ public class Flywheel extends SubsystemBase {
     private void configSmartDashboard() {
         testChooser.setDefaultOption(TestType.LOCK.toString(), TestType.LOCK);
         testChooser.addOption(TestType.RATIO.toString(), TestType.RATIO);
-        SmartDashboard.setDefaultNumber("Left:Right Ratio", leftSpeedRatio);
+        SmartDashboard.setDefaultNumber("Set Speed (Right Motor - RPM)", rightSetRPM);
         SmartDashboard.setDefaultNumber("Set Speed (Left Motor - RPM)", leftSetRPM);
         SmartDashboard.setDefaultNumber("Current Speed (Left)", left.getRotorVelocity().getValueAsDouble());
         SmartDashboard.setDefaultNumber("Current Speed (Right)", right.getRotorVelocity().getValueAsDouble());
@@ -133,9 +136,9 @@ public class Flywheel extends SubsystemBase {
         return runOnce(
                 () -> {
                     Logger.log(this, LogLevel.INFO, "Flywheel onFromSmartDashboard");
-                    leftSpeedRatio = SmartDashboard.getNumber("Left:Right Ratio", leftSpeedRatio);
+                    rightSetRPM = SmartDashboard.getNumber("Set Speed (Right Motor - RPM)", rightSetRPM);
                     leftSetRPM = SmartDashboard.getNumber("Set Speed (Left Motor - RPM)", leftSetRPM);
-                    on(leftSetRPM, leftSetRPM / leftSpeedRatio).schedule();
+                    on(leftSetRPM, rightSetRPM).schedule();
                 });
     }
 
@@ -173,9 +176,6 @@ public class Flywheel extends SubsystemBase {
         // Display current speed of both motors
         double leftSpeedRaw = left.getRotorVelocity().getValueAsDouble();
         double rightSpeedRaw = right.getRotorVelocity().getValueAsDouble();
-        
-        SmartDashboard.putNumber("Current Motor Speed (Left - RPM)", leftSpeedRaw);
-        SmartDashboard.putNumber("Current Motor Speed (Right - RPM)", rightSpeedRaw);
 
         SmartDashboard.putNumber("Current Wheel Speed (Left - RPM)", Constants.Flywheel.rpsToRPM(leftSpeedRaw));
         SmartDashboard.putNumber("Current Wheel Speed (Right - RPM)", Constants.Flywheel.rpsToRPM(rightSpeedRaw));
