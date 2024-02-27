@@ -172,6 +172,9 @@ public final class Constants {
       public static double falconToRotations(double rotations) {
         return rotations / ROTOR_TO_ARM_GEAR_RATIO;
       }
+
+      public static double MAX_VOLT = 0.52; 
+      public static final double MAX_ANGLE = 90;
     }
 
     /**

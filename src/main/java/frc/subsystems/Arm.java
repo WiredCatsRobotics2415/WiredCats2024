@@ -10,7 +10,9 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -32,6 +34,7 @@ public class Arm extends SubsystemBase {
   private TalonFX leftMotor;
   private TalonFX rightMotor;
   private AnalogPotentiometer potentiometer;
+  private AnalogInput input; 
   private ArmFeedforward ff = new ArmFeedforward(Constants.Arm.KA, 0, Constants.Arm.KV, Constants.Arm.KA);
   private ProfiledPIDController pid = new ProfiledPIDController(
       Constants.Arm.KP,
@@ -49,7 +52,9 @@ public class Arm extends SubsystemBase {
   private static Arm instance;
 
   public Arm() {
-    potentiometer = new AnalogPotentiometer(RobotMap.Arm.ANALOG_POT_PORT);
+    //potentiometer = new AnalogPotentiometer(RobotMap.Arm.ANALOG_POT_PORT, 1);
+    input = new AnalogInput(RobotMap.Arm.ANALOG_POT_PORT); 
+    Constants.Arm.MAX_VOLT = input.getAverageVoltage(); 
 
     configureMotors();
 
@@ -86,8 +91,8 @@ public class Arm extends SubsystemBase {
     rightMotor.setControl(new StrictFollower(leftMotor.getDeviceID()));
     rightMotor.setInverted(true);
 
-    leftMotor.setNeutralMode(NeutralModeValue.Brake);
-    rightMotor.setNeutralMode(NeutralModeValue.Brake);
+    leftMotor.setNeutralMode(NeutralModeValue.Coast); // Change: Brake
+    rightMotor.setNeutralMode(NeutralModeValue.Coast); // Change: Brake
   }
 
   public static Arm getInstance() {
@@ -118,12 +123,27 @@ public class Arm extends SubsystemBase {
    * @return potentiometer value in rotations. Note that the potentiometer is flipped, so
    * this code is esentially: 1 - pot value + offset
    */
+
   private double getPotRotations() {
-    double measure = potentiometer.get(); 
+    // double measure = input.getAverageVoltage(); 
+    double measure = Constants.Arm.MAX_ANGLE - ((input.getAverageVoltage() / Constants.Arm.MAX_VOLT) * Constants.Arm.MAX_ANGLE); 
+    // double measure = 105 - (((input.getAverageVoltage() / RobotController.getVoltage3V3()) * 105));
+    // double measure = potentiometer.get(); 
+    
+    /* 
+    if (measure < 1) {
+      measure = 0.0;
+    }
+    */ 
+     
+    /* 
     if (potentiometer.get() < 0.01) {
       measure = 0.0;
     }
-    return (1 - (measure + Constants.Arm.POT_OFFSET));
+    */
+    
+    return measure; 
+    //return (1 - (measure + Constants.Arm.POT_OFFSET));
   }
 
   /**
@@ -198,7 +218,7 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     double measurement = getMeasurement();
-    SmartDashboard.putNumber("Arm Measurement", measurement*360);
+    SmartDashboard.putNumber("Arm Measurement", measurement);
     useOutput(pid.calculate(measurement), pid.getSetpoint());
     positionLigament.setAngle(measurement * 360);
     goalLigament.setAngle(goalInRotations * 360);
