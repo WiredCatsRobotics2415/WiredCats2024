@@ -125,25 +125,13 @@ public class Arm extends SubsystemBase {
    */
 
   private double getPotRotations() {
-    // double measure = input.getAverageVoltage(); 
     double measure = Constants.Arm.MAX_ANGLE - ((input.getAverageVoltage() / Constants.Arm.MAX_VOLT) * Constants.Arm.MAX_ANGLE); 
-    // double measure = 105 - (((input.getAverageVoltage() / RobotController.getVoltage3V3()) * 105));
-    // double measure = potentiometer.get(); 
-    
-    /* 
+        
     if (measure < 1) {
       measure = 0.0;
     }
-    */ 
-     
-    /* 
-    if (potentiometer.get() < 0.01) {
-      measure = 0.0;
-    }
-    */
     
     return measure; 
-    //return (1 - (measure + Constants.Arm.POT_OFFSET));
   }
 
   /**
