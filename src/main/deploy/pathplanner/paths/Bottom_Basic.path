@@ -16,19 +16,41 @@
     },
     {
       "anchor": {
-        "x": 2.8960297133557233,
-        "y": 1.6413248243163152
+        "x": 7.800466725933451,
+        "y": 0.7612483419411289
       },
       "prevControl": {
-        "x": 1.5505578603749806,
-        "y": 1.6673945662706133
+        "x": 7.572037931469045,
+        "y": 0.7668496610391069
+      },
+      "nextControl": {
+        "x": 8.032956565913132,
+        "y": 0.7555474416504392
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.7417791758660457,
+        "y": 4.390789550809871
+      },
+      "prevControl": {
+        "x": 1.1108759254555547,
+        "y": 3.0733197160838768
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -47,6 +69,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "Intake Marker",
+      "waypointRelativePos": 1.05,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -57,7 +96,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": -55.3182408805976,
     "rotateFast": false
   },
   "reversed": false,
