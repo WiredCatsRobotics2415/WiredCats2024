@@ -64,18 +64,25 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "run_intake",
-      "waypointRelativePos": 0.65,
+      "name": "Intake Marker",
+      "waypointRelativePos": 1.0,
       "command": {
         "type": "sequential",
         "data": {
-          "commands": []
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
         }
       }
     },
     {
-      "name": "stop_intake",
-      "waypointRelativePos": 1.3,
+      "name": "Shoot Marker",
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -84,12 +91,19 @@
       }
     },
     {
-      "name": "shoot",
-      "waypointRelativePos": 0.45,
+      "name": "Shoot Marker 2",
+      "waypointRelativePos": 1.7999999999999998,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
-          "commands": []
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot"
+              }
+            }
+          ]
         }
       }
     }

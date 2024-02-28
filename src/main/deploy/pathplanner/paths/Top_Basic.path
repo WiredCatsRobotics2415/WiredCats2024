@@ -78,7 +78,7 @@
       "name": "Shoot Marker",
       "waypointRelativePos": 0.0,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -95,7 +95,7 @@
       "name": "Shoot Marker 2",
       "waypointRelativePos": 2.0,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -112,7 +112,7 @@
       "name": "Intake Marker",
       "waypointRelativePos": 1.1500000000000001,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -138,7 +138,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Basic Paths",
   "previewStartingState": {
     "rotation": 60.0,
     "velocity": 0
