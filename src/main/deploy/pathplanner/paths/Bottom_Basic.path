@@ -16,46 +16,24 @@
     },
     {
       "anchor": {
-        "x": 3.7564017482945684,
-        "y": 2.290193383400159
+        "x": 2.8960297133557233,
+        "y": 1.6413248243163152
       },
       "prevControl": {
-        "x": 2.4836359542608357,
-        "y": 2.9066893148852486
-      },
-      "nextControl": {
-        "x": 5.0193704280780835,
-        "y": 1.6784429291300187
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.527177605508486,
-        "y": 2.105685590649455
-      },
-      "prevControl": {
-        "x": 6.43923481423829,
-        "y": 2.1022468145411346
+        "x": 1.5505578603749806,
+        "y": 1.6673945662706133
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.75,
-      "rotationDegrees": 125.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "shoot",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {
@@ -72,13 +50,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 22.709220825191004,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Basic Paths",
   "previewStartingState": {
-    "rotation": 120.0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

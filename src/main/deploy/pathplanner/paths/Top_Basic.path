@@ -16,28 +16,112 @@
     },
     {
       "anchor": {
-        "x": 1.1167230026767763,
-        "y": 7.27
+        "x": 2.5283810289842803,
+        "y": 7.016620570278177
       },
       "prevControl": {
-        "x": 0.7857756798507096,
-        "y": 7.27
+        "x": 1.8857172724574798,
+        "y": 7.016620570278177
+      },
+      "nextControl": {
+        "x": 3.0045549669188483,
+        "y": 7.016620570278177
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.75,
+        "y": 6.74
+      },
+      "prevControl": {
+        "x": 0.44244252145899,
+        "y": 6.74
+      },
+      "nextControl": {
+        "x": 1.05755747854101,
+        "y": 6.74
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.967534972106981,
+        "y": 7.016620570278177
+      },
+      "prevControl": {
+        "x": 3.309616576409142,
+        "y": 6.916316287077018
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.5,
+      "rotationDegrees": 70.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "shoot",
+      "name": "Shoot Marker",
       "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
-          "commands": []
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Shoot Marker 2",
+      "waypointRelativePos": 2.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake Marker",
+      "waypointRelativePos": 1.1500000000000001,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
         }
       }
     }
@@ -54,7 +138,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Basic Paths",
+  "folder": null,
   "previewStartingState": {
     "rotation": 60.0,
     "velocity": 0

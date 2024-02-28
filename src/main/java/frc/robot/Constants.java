@@ -158,7 +158,7 @@ public final class Constants {
       //applied KG = (Proportion * angle in degrees) * KG 
   
       public static final float VELO_MAX = 10f;
-      public static final float ACCEL_MAX = 6f;
+      public static final float ACCEL_MAX = 10f; // 6
   
       public static final float ROTOR_TO_ARM_GEAR_RATIO = 280/1; //(# encoder rotations per 1 full rotation)
   

@@ -69,6 +69,7 @@ public class Arm extends SubsystemBase {
     positionLigament.setColor(new Color8Bit(Color.kGreen));
 
     Shuffleboard.getTab("Mechanism2d").add("Arm Mechanism", armMechanism2d);
+    SmartDashboard.setDefaultNumber("Arm Goal", getPotRotations()); 
 
     if (Robot.isSimulation()) {
       PhysicsSim.getInstance().addTalonFX(leftMotor, 0.001);
