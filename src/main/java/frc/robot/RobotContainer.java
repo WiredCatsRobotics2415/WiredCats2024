@@ -185,13 +185,13 @@ public class RobotContainer {
      * @return
      */
     public Command getAutonomousCommand() {
-        // Test autonomous path 
-        // PathPlannerPath path = PathPlannerPath.fromPathFile("Very_Basic"); 
-
         // An example command will be run in autonomous
         //return Autos.exampleAuto(m_exampleSubsystem);
         // return AutoBuilder.followPath(path); 
-        return new PathPlannerAuto("Auto");
+        // Test autonomous path 
+        // PathPlannerPath path = PathPlannerPath.fromPathFile("Very_Basic"); 
+        String chosenAuto = autoChooser.getSelected().getName();
+        return new PathPlannerAuto(chosenAuto); 
     }
 
     /**
