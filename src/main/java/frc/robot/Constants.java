@@ -126,6 +126,11 @@ public final class Constants {
       public static final double IRThreshold = 200; 
     }
 
+    public static class Finger {
+      public static final double FINGER_GEAR_RATIO = 20; // 20:1 gear ratio
+      public static final double DISTANCE = 1; // rotations
+    }
+
     public final static ArrayList<Hotspot> Hotspots = new ArrayList<Hotspot>();
     static {
         Hotspots.add(new Hotspot(136.5, 200)); 

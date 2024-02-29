@@ -22,6 +22,7 @@ import frc.commands.FixAll;
 import frc.commands.HotspotGenerator;
 import frc.generated.TunerConstants;
 import frc.robot.Constants.Drive;
+import frc.subsystems.Finger;
 import frc.robot.OIs.OI;
 import frc.robot.OIs.OI.TwoDControllerInput;
 import frc.subsystems.SwerveDrive;
@@ -45,6 +46,7 @@ public class RobotContainer {
     private final Climber climber = Climber.getInstance(); 
     private final Flywheel flywheel = Flywheel.getInstance(); 
     private final Arm arm = Arm.getInstance();
+    private final Finger finger = Finger.getInstance();
     
     // HOTSPOT
     private final HotspotGenerator hotspotGen = HotspotGenerator.getInstance(); 
@@ -95,8 +97,12 @@ public class RobotContainer {
         selectedOI.binds.get("LowerArm").whileTrue(arm.decreaseGoal()); 
 
         //Flywheel
+        /* Old 
         selectedOI.binds.get("Shoot").onTrue(
             intake.uptake().andThen(new WaitCommand(1)).andThen(intake.off()));
+        */
+        selectedOI.binds.get("Shoot").onTrue(
+            finger.run(Constants.Finger.DISTANCE));
         // selectedOI.binds.get("SpinUp").onTrue(flywheel.toggleSpinedUp()); 
         selectedOI.binds.get("SpinUp").onTrue(flywheel.onFromSmartDashboard()); 
         // selectedOI.binds.get("SpinUp").onTrue(flywheel.on(Constants.Flywheel.FLYWHEEL_SPEED, Constants.Flywheel.FLYWHEEL_SPEED)); 
