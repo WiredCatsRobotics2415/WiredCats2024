@@ -171,6 +171,13 @@ public class Flywheel extends SubsystemBase {
         }
     }
 
+    // run the neo one full rotation to feed note into flywheel
+    /* 
+    public Command fire() {
+
+    }
+    */ 
+
     @Override
     public void periodic() {
         // Display current speed of both motors

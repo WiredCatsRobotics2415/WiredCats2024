@@ -28,4 +28,8 @@ public class RobotMap {
         public static final int LEFT_FLYWHEEL = 20; 
         public static final int RIGHT_FLYWHEEL = 16; 
     }
+
+    public static class Finger {
+        public static final int FINGER_MOTOR = 0; // need to change 
+    }
 }

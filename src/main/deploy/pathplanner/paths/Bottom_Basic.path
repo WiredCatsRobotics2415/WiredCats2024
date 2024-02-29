@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3535296301361852,
-        "y": 3.7297043824856893
+        "x": 1.0134261611115818,
+        "y": 3.3730326719912704
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +36,8 @@
         "y": 4.390789550809871
       },
       "prevControl": {
-        "x": 1.1108759254555547,
-        "y": 3.0733197160838768
+        "x": 1.2033374020451746,
+        "y": 3.17106640231799
       },
       "nextControl": null,
       "isLocked": false,
@@ -81,6 +81,23 @@
               "type": "named",
               "data": {
                 "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Shoot Marker 2",
+      "waypointRelativePos": 2.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot"
               }
             }
           ]

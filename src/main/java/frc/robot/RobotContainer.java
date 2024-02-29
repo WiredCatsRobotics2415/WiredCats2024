@@ -9,6 +9,8 @@ import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -58,8 +60,12 @@ public class RobotContainer {
 
     private RobotContainer() {
         // Configure auto chooser
-        autoChooser = AutoBuilder.buildAutoChooser("Basic_Auto"); 
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        autoChooser = AutoBuilder.buildAutoChooser("Auto"); 
+        Shuffleboard.getTab("Auto")
+            .add("Auto Chooser", autoChooser)
+            .withSize(4, 2);
+
+        // SmartDashboard.putData("Auto Chooser", autoChooser);
         arm.setGoal(arm.getMeasurement());
     }
 
