@@ -24,7 +24,7 @@ public class Vision extends SubsystemBase {
 
     private Vision() {
         if (Robot.isSimulation()) {
-            SmartDashboard.setDefaultNumber("Note detection Y", 0.0d);
+            SmartDashboard.setDefaultNumber("Note detection X", 0.0d);
         }
     }
 
@@ -75,10 +75,34 @@ public class Vision extends SubsystemBase {
     /**
      * @return Gets the horizontal angle returned by the intake limelight's note detection.
      */
-    public double getNoteAngleOnY() {
+    public double getNoteAngleOnX() {
         if (Robot.isSimulation()) {
-            return SmartDashboard.getNumber("Note Detection Y", 0.0d);
+            return SmartDashboard.getNumber("Note Detection X", 0.0d);
         }
-        return cachedIntakeTargetResults.targetingResults.targets_Detector[0].ty;
+        return cachedIntakeTargetResults.targetingResults.targets_Detector[0].tx;
+    }
+
+    public double getNoteAngleOnY() {
+            if (Robot.isSimulation()) {
+                return SmartDashboard.getNumber("Note Detection Y", 0.0d);
+            }
+            return cachedIntakeTargetResults.targetingResults.targets_Detector[0].ty;
+        }
+
+    public double getNoteTa() {
+                if (Robot.isSimulation()) {
+                    return SmartDashboard.getNumber("Note Detection Y", 0.0d);
+                }
+                return cachedIntakeTargetResults.targetingResults.targets_Detector[0].ta;
+            }
+
+    public boolean getNote() {
+        if (Robot.isSimulation()) {
+            return SmartDashboard.getBoolean("Note", false);
+        } else if (cachedIntakeTargetResults.targetingResults.targets_Detector[0].ta > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

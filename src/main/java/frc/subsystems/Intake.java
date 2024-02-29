@@ -17,12 +17,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.subsystems.sensors.IR;
 
 public class Intake extends SubsystemBase {
   private TalonFX motor;
   private static Intake instance;
-  private AnalogInput rightIR;
-  private AnalogInput leftIR;
+  private IR ir;
   private PositionVoltage positionOut = new PositionVoltage(0, 0, false, 0, 0, false, false, false); 
   
   private final Flywheel flywheel = Flywheel.getInstance();
@@ -41,8 +41,6 @@ public class Intake extends SubsystemBase {
   public Intake() {
     motor = new TalonFX(RobotMap.Intake.INTAKE_MOTOR);
     motor.optimizeBusUtilization();
-    leftIR = new AnalogInput(RobotMap.Intake.TOP_IR);
-    rightIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR);
     motor.setInverted(true);
     state = false;
 
@@ -184,15 +182,15 @@ public class Intake extends SubsystemBase {
   }
 
   public boolean leftIRTrue() { // Returns true if the ir sensor laser reaches detector
-    return leftIR.getValue() > Constants.Intake.IRThreshold; 
+    return ir.leftIR.getValue() > Constants.Intake.IRThreshold; 
   }
 
   public boolean hasNote() {
-      return ((rightIR.getValue() > Constants.Intake.IRThreshold) || (leftIR.getValue() > Constants.Intake.IRThreshold)) && isBeingIntook;
+      return ((ir.rightIR.getValue() > Constants.Intake.IRThreshold) || (ir.leftIR.getValue() > Constants.Intake.IRThreshold)) && isBeingIntook;
   }
 
   public boolean noteIsQueued() { // note reversed and is clear from shooter
-    return ((rightIR.getValue() < Constants.Intake.IRThreshold) && (leftIR.getValue() < Constants.Intake.IRThreshold)) && isBeingQueued;
+    return ((ir.rightIR.getValue() < Constants.Intake.IRThreshold) && (ir.leftIR.getValue() < Constants.Intake.IRThreshold)) && isBeingQueued;
   }
 
   public boolean getisBeingIntook(){
