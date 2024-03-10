@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.generated.TunerConstants;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.Drive;
+import frc.robot.Constants.DriverControl;
 
 /**
  * The "FixAll" preset (FIX ALL subsystems to their ideal position for scoring).
@@ -24,7 +24,7 @@ public class FixAll extends Command {
 
     // SWERVE
     private final SwerveRequest.FieldCentricFacingAngle driveHeading = new SwerveRequest.FieldCentricFacingAngle()
-            .withDeadband(Drive.kMaxDriveMeterS * 0.05)
+            .withDeadband(DriverControl.kMaxDriveMeterS * 0.05)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private Translation2d speakerLocation;

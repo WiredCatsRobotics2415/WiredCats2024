@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
+import frc.robot.Constants.DriverControl;
 import frc.utils.RobotPreferences;
 
 /**
@@ -36,7 +38,11 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
+
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
+    public final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+      .withDeadband(DriverControl.kMaxDriveMeterS * 0.05).withRotationalDeadband(DriverControl.kMaxAngularRadS * 0.05) // Add a 5% deadband
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private Vision vision;
     private boolean shouldUseLimelight = false;

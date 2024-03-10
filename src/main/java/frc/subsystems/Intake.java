@@ -200,11 +200,11 @@ public class Intake extends SubsystemBase {
     return ((ir.rightIR.getValue() < Constants.Intake.IRThreshold) && (ir.leftIR.getValue() < Constants.Intake.IRThreshold)) && isBeingQueued;
   }
 
-  public boolean getisBeingIntook(){
+  public boolean isBeingIntook(){
     return isBeingIntook;
   }
 
-  public boolean getisBeingQueued(){
+  public boolean isBeingQueued(){
     return isBeingQueued;
   }
 
