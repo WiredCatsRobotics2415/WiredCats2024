@@ -6,13 +6,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -28,13 +25,11 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
   private TalonFX leftMotor;
   private TalonFX rightMotor;
-  private AnalogPotentiometer potentiometer;
   private AnalogInput input; 
   private ArmFeedforward ff = new ArmFeedforward(Constants.Arm.KA, 0, Constants.Arm.KV, Constants.Arm.KA);
   private ProfiledPIDController pid = new ProfiledPIDController(
@@ -53,7 +48,6 @@ public class Arm extends SubsystemBase {
   private static Arm instance;
 
   public Arm() {
-    //potentiometer = new AnalogPotentiometer(RobotMap.Arm.ANALOG_POT_PORT, 1);
     input = new AnalogInput(RobotMap.Arm.ANALOG_POT_PORT); 
     Constants.Arm.MAX_VOLT = input.getAverageVoltage(); 
 

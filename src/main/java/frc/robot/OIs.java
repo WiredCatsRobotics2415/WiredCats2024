@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.Drive;
+import frc.robot.Constants.DriverControl;
 import frc.utils.RobotPreferences;
 
 public class OIs {
@@ -26,12 +26,6 @@ public class OIs {
          * A convinience record to store two doubles without making a whole class
          */
         public static record TwoDControllerInput(double x, double y) {};
-
-        //PROPERTIES
-        /**
-         * The deadband of all controller axes, in raw controller input values [-1, 1]
-         */
-        public double DEADBAND;
 
         /**
          * The binds map of an OI
@@ -94,33 +88,20 @@ public class OIs {
             binds.put("TargetHotspot", controller.button(8, Robot.buttonEventLoop)); //Plus
             binds.put("Amp", numpad.button(4, Robot.buttonEventLoop));
 
-            configClimberControls();
-            configArmControls();
-            configIntakeControls();
-            configFlywheelControls();
-        }
-
-        public void configClimberControls() {
             binds.put("LeftClimberDown", controller.leftTrigger());
             binds.put("LeftClimberUp", controller.button(5, Robot.buttonEventLoop)); //Left bumper
             binds.put("RightClimberDown", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
             binds.put("RightClimberUp", controller.button(6, Robot.buttonEventLoop)); //Right bumper
             binds.put("ClimberMode1", numpad.button(1, Robot.buttonEventLoop));
             binds.put("ClimberMode2", numpad.button(2, Robot.buttonEventLoop));
-        }
 
-        public void configArmControls() {
             binds.put("LowerArm", controller.button(5, Robot.buttonEventLoop)); //left bumper
             binds.put("RaiseArm", controller.button(6, Robot.buttonEventLoop)); //right bumper
             binds.put("AmpPreset", controller.button(1, Robot.buttonEventLoop));
-        }
 
-        public void configIntakeControls() {
             binds.put("Intake", controller.button(2, Robot.buttonEventLoop)); //A
-            binds.put("ManualOuttake", controller.leftTrigger()); 
-        }
+            binds.put("ManualOuttake", controller.leftTrigger());
 
-        public void configFlywheelControls() {
             binds.put("SpinUp", controller.button(3, Robot.buttonEventLoop)); // Y
             binds.put("Shoot", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
             binds.put("SpinOff", controller.button(4, Robot.buttonEventLoop)); // X
@@ -131,7 +112,7 @@ public class OIs {
         }
 
         private double minimumPowerCompensation(double r) {
-            return r * (1 - Drive.MinimumDrivePower) + Drive.MinimumDrivePower;
+            return r * (1 - DriverControl.MinimumDrivePower) + DriverControl.MinimumDrivePower;
         }
 
         public TwoDControllerInput getXY() {
