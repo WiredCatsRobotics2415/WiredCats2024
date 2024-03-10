@@ -46,11 +46,17 @@
           "open": true
         }
       }
+    },
+    "Timing": {
+      "window": {
+        "visible": false
+      }
     }
   },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Auto/Auto Chooser": "String Chooser",
       "/Shuffleboard/Mechanism2d/Arm Mechanism": "Mechanism2d",
       "/Shuffleboard/Mechanism2d/Flywheel Mechanism": "Mechanism2d",
       "/Shuffleboard/Mechanism2d/Intake Mechanism": "Mechanism2d",
@@ -66,6 +72,34 @@
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/SendableChooser[1]": "String Chooser",
       "/SmartDashboard/Zero Pose": "Command"
+    },
+    "windows": {
+      "/Shuffleboard/Mechanism2d/Arm Mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Mechanism2d/Flywheel Mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Mechanism2d/Intake Mechanism": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Field": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {
@@ -79,9 +113,6 @@
         "open": true
       },
       "SmartDashboard": {
-        "Field": {
-          "open": true
-        },
         "open": true
       }
     }

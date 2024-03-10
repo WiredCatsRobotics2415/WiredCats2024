@@ -30,7 +30,6 @@ import frc.subsystems.Vision;
 public class RobotContainer {
     private static RobotContainer instance;
 
-    // SWERVE
     private final SwerveDrive swerveDrive = TunerConstants.DriveTrain;
     private final Intake intake = Intake.getInstance();
     private final Climber climber = Climber.getInstance();

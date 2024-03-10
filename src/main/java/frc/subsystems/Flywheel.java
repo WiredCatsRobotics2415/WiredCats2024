@@ -53,7 +53,7 @@ public class Flywheel extends SubsystemBase {
 
     public static Flywheel getInstance() {
         if (instance == null) {
-            return new Flywheel();
+            instance = new Flywheel();
         }
         return instance;
     }
