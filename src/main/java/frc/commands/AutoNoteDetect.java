@@ -65,7 +65,6 @@ public class AutoNoteDetect extends Command {
             if (ir.rightIR.getValue() > Constants.Intake.IRThreshold) {
                 end(false);
             }
-            //TODO: stop intake after 3 sec so doesn't cross line?
         } else {
             intake();
             if (ir.rightIR.getValue() > Constants.Intake.IRThreshold) {

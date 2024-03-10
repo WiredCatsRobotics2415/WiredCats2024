@@ -124,6 +124,13 @@ public class Intake extends SubsystemBase {
     return runOnce(() -> motorOut());
   }
 
+  /*public Command auto() {
+    while (ir.rightIR.getValue() < Constants.Intake.IRThreshold) {
+      return runOnce(() -> motorIn());
+    }
+    return runOnce(() -> motorOff());
+  }*/
+
   /**
    * @return Command that sets the motor speed to IntakeSpeed.
    */

@@ -69,6 +69,11 @@ public class RobotContainer {
 
         // SmartDashboard.putData("Auto Chooser", autoChooser);
         arm.setGoal(arm.getMeasurement());
+
+        //autonomous named commands
+        NamedCommands.registerCommand("Intake", intake.in());
+        NamedCommands.registerCommand("StopIntake", intake.off());
+        //TODO: add in commands for shooting and dropping notes
     }
 
     public static RobotContainer getInstance() {
