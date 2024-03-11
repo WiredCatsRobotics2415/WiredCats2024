@@ -86,7 +86,14 @@
       "command": {
         "type": "parallel",
         "data": {
-          "commands": []
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot"
+              }
+            }
+          ]
         }
       }
     },
@@ -101,6 +108,23 @@
               "type": "named",
               "data": {
                 "name": "Shoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopIntake",
+      "waypointRelativePos": 1.35,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "StopIntake"
               }
             }
           ]

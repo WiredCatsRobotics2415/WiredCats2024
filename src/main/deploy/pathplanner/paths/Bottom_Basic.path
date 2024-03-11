@@ -103,6 +103,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "StopIntake",
+      "waypointRelativePos": 1.2,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "StopIntake"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {

@@ -6,7 +6,7 @@ public class RobotMap {
     public static class Climber { 
         public static final int CLIMBER_MASTER = 0; // Drive motor - FR (Testing)
         public static final int CLIMBER_FOLLOWER = 0; // Drive motor - FL (Testing)
-        public static final int LEFT_TOP_LIMIT_SWITCH = 0; // NOT REAL PORTS 
+        public static final int LEFT_TOP_LIMIT_SWITCH = 0; //TODO: NOT REAL PORTS 
         public static final int LEFT_BOT_LIMIT_SWITCH = 1; 
         public static final int RIGHT_TOP_LIMIT_SWITCH = 2; 
         public static final int RIGHT_BOT_LIMIT_SWITCH = 3; 
@@ -30,6 +30,6 @@ public class RobotMap {
     }
 
     public static class Finger {
-        public static final int FINGER_MOTOR = 0; // need to change 
+        public static final int FINGER_MOTOR = 0; //TODO: need to change 
     }
 }

@@ -8,11 +8,11 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.subsystems.SwerveDrive;
 import frc.generated.TunerConstants;
-import frc.robot.Constants;
-import frc.robot.Constants.Drive;
+import frc.robot.Constants.DriverControl;
 import frc.subsystems.Vision;
 import frc.generated.TunerConstants;
 import frc.subsystems.sensors.IR;
@@ -32,7 +32,7 @@ public class AutoNoteDetect extends Command {
 
     //SWERVE
     private final SwerveRequest.FieldCentricFacingAngle driveHeading = new SwerveRequest.FieldCentricFacingAngle()
-    .withDeadband(Drive.kMaxDriveMeterS * 0.05)
+    .withDeadband(DriverControl.kMaxDriveMeterS * 0.05)
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     public void intake() {
@@ -65,9 +65,11 @@ public class AutoNoteDetect extends Command {
             if (ir.rightIR.getValue() > Constants.Intake.IRThreshold) {
                 end(false);
             }
-            //TODO: stop intake after 3 sec so doesn't cross line?
         } else {
             intake();
+            if (ir.rightIR.getValue() > Constants.Intake.IRThreshold) {
+                end(false);
+            }
         }
     }
 
