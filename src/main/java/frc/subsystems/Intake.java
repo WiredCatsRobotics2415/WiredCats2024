@@ -22,7 +22,7 @@ import frc.subsystems.sensors.IR;
 public class Intake extends SubsystemBase {
   private TalonFX motor;
   private static Intake instance;
-  private IR ir;
+  private IR ir = IR.getInstance();
   private PositionVoltage positionOut = new PositionVoltage(0, 0, false, 0, 0, false, false, false); 
   
   private final Flywheel flywheel = Flywheel.getInstance();

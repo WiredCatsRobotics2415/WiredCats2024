@@ -27,7 +27,7 @@ public class AutoNoteDetect extends Command {
     //GENERAL
     private RobotContainer robotContainer; //Cache instance
     private Vision vision;
-    private IR ir;
+    private IR ir = IR.getInstance();
     private Intake intake = Intake.getInstance();
 
     //SWERVE

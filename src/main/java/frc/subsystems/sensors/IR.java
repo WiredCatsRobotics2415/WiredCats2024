@@ -9,9 +9,17 @@ import frc.robot.RobotMap;
 public class IR {
     public AnalogInput rightIR;
     public AnalogInput leftIR;
+    private static IR instance;
 
     public IR() {
         leftIR = new AnalogInput(RobotMap.Intake.TOP_IR);
         rightIR = new AnalogInput(RobotMap.Intake.BOTTOM_IR);
+    }
+
+    public static IR getInstance() {
+        if (instance == null) {
+            instance = new IR();
+        }
+        return instance;
     }
 }
