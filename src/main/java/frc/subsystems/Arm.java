@@ -41,12 +41,11 @@ public class Arm extends SubsystemBase {
                     Constants.Arm.KD,
                     new TrapezoidProfile.Constraints(
                             Constants.Arm.VELO_MAX, Constants.Arm.ACCEL_MAX));
-    private double newGravityVolts = 0.0d;
 
     private MechanismLigament2d goalLigament;
     private MechanismLigament2d positionLigament;
 
-    private double goalInRotations = Constants.Arm.MIN_ROTATIONS;
+    private double goalInDegrees = Constants.Arm.MIN_DEGREES;
     private static Arm instance;
 
     public Arm() {
@@ -59,6 +58,8 @@ public class Arm extends SubsystemBase {
         if (Robot.isSimulation()) {
             PhysicsSim.getInstance().addTalonFX(leftMotor, 0.001);
             PhysicsSim.getInstance().addTalonFX(rightMotor, 0.001);
+
+            Constants.Arm.MAX_VOLT = 3.3d; //Necesary in order to prevent division by 0
         }
     }
 
@@ -113,7 +114,7 @@ public class Arm extends SubsystemBase {
         // Calculate the feedforward from the sepoint
         double feedforward = ff.calculate(setpoint.position, setpoint.velocity);
         // Add the feedforward to the PID output to get the motor output
-        double voltOut = newGravityVolts + output + feedforward;
+        double voltOut = output + feedforward;
         leftMotor.setVoltage(voltOut);
         SmartDashboard.putNumber("Arm Volt out", voltOut);
     }
@@ -129,7 +130,7 @@ public class Arm extends SubsystemBase {
                                 * Constants.Arm.MAX_ANGLE);
 
         if (measure < 1) {
-            measure = 0.0;
+            measure = 0.0d;
         }
 
         return measure;
@@ -150,23 +151,18 @@ public class Arm extends SubsystemBase {
         } else {
             rotations = Constants.Arm.falconToRotations(leftMotor.getPosition().getValue());
         }
-        newGravityVolts = (Constants.Arm.KG_PROPORTION * (rotations * 360)) * Constants.Arm.KG;
         return rotations;
     }
 
     /**
-     * Sets the goal of the arm in rotations. Does NOT account for the goal being a value outside of
-     * the minimum or maximum rotations.
+     * Sets the goal of the arm in degrees. Does NOT account for the goal being a value outside of
+     * the minimum or maximum degrees.
      *
      * @param goalInRotations
      */
-    public void setGoal(double goalInRotations) {
-        this.goalInRotations = goalInRotations;
-        pid.setGoal(new TrapezoidProfile.State(goalInRotations, 0));
-    }
-
-    public void setGoalInDegrees(double angle) {
-        setGoal(angle / 360);
+    public void setGoal(double goalInDegrees) {
+        this.goalInDegrees = goalInDegrees;
+        pid.setGoal(new TrapezoidProfile.State(goalInDegrees, 0));
     }
 
     /**
@@ -177,13 +173,13 @@ public class Arm extends SubsystemBase {
         return new RepeatCommand(
                 new InstantCommand(
                         () -> {
-                            if (goalInRotations >= Constants.Arm.MAX_ROTATIONS) {
-                                goalInRotations = Constants.Arm.MAX_ROTATIONS;
+                            if (goalInDegrees >= Constants.Arm.MAX_DEGREES) {
+                                goalInDegrees = Constants.Arm.MAX_DEGREES;
                                 return;
                             }
-                            goalInRotations += (0.25 / 360.0d);
-                            System.out.println("Goal increase: " + goalInRotations * 360);
-                            this.setGoal(goalInRotations);
+                            goalInDegrees += 1;
+                            System.out.println("Goal increase: " + goalInDegrees);
+                            this.setGoal(goalInDegrees);
                         }));
     }
 
@@ -195,13 +191,13 @@ public class Arm extends SubsystemBase {
         return new RepeatCommand(
                 new InstantCommand(
                         () -> {
-                            if (goalInRotations <= Constants.Arm.MIN_ROTATIONS) {
-                                goalInRotations = Constants.Arm.MIN_ROTATIONS;
+                            if (goalInDegrees <= Constants.Arm.MIN_DEGREES) {
+                                goalInDegrees = Constants.Arm.MIN_DEGREES;
                                 return;
                             }
-                            goalInRotations -= (0.25 / 360.0d);
-                            System.out.println("Goal decrease: " + goalInRotations * 360);
-                            this.setGoal(goalInRotations);
+                            goalInDegrees -= (0.25 / 360.0d);
+                            System.out.println("Goal decrease: " + goalInDegrees);
+                            this.setGoal(goalInDegrees);
                         }));
     }
 
@@ -210,13 +206,13 @@ public class Arm extends SubsystemBase {
         double measurement = getMeasurement();
         SmartDashboard.putNumber("Arm Measurement", measurement);
         useOutput(pid.calculate(measurement), pid.getSetpoint());
-        positionLigament.setAngle(measurement * 360);
-        goalLigament.setAngle(goalInRotations * 360);
+        positionLigament.setAngle(measurement);
+        goalLigament.setAngle(goalInDegrees);
 
         // control arm with smartdashboard
-        double desiredAngle = SmartDashboard.getNumber("Arm Goal", 0);
-        if (desiredAngle != 0) {
-            setGoalInDegrees(desiredAngle);
+        double desiredAngle = SmartDashboard.getNumber("Arm Goal", 0.0d);
+        if (desiredAngle != 0.0d) {
+            setGoal(desiredAngle);
         }
     }
 }

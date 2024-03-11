@@ -17,12 +17,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.subsystems.sensors.IR;
 
 public class Intake extends SubsystemBase {
   private TalonFX motor;
   private static Intake instance;
-  private IR ir;
+  private AnalogInput closeToFlywheelSensor;
+  private AnalogInput closeToIntakeSensor;
   private PositionVoltage positionOut = new PositionVoltage(0, 0, false, 0, 0, false, false, false); 
   
   private final Flywheel flywheel = Flywheel.getInstance();
@@ -58,6 +58,9 @@ public class Intake extends SubsystemBase {
     if (Robot.isSimulation()) {
       PhysicsSim.getInstance().addTalonFX(motor, 0.001);
     }
+
+    closeToFlywheelSensor = new AnalogInput(RobotMap.Intake.FLYWHEEL_IR);
+    closeToIntakeSensor = new AnalogInput(RobotMap.Intake.INTAKE_IR);
   }
 
   /**
@@ -188,16 +191,20 @@ public class Intake extends SubsystemBase {
     // SmartDashboard.putNumber("IR", leftIR.getValue()); 
   }
 
-  public boolean leftIRTrue() { // Returns true if the ir sensor laser reaches detector
-    return ir.leftIR.getValue() > Constants.Intake.IRThreshold; 
-  }
-
+  /**
+   * @return true if the note has been intook (used to signal intake off)
+   */
   public boolean hasNote() {
-      return ((ir.rightIR.getValue() > Constants.Intake.IRThreshold) || (ir.leftIR.getValue() > Constants.Intake.IRThreshold)) && isBeingIntook;
+      //return ((ir.rightIR.getValue() > Constants.Intake.IRThreshold) || (ir.leftIR.getValue() > Constants.Intake.IRThreshold)) && isBeingIntook;
+      return closeToFlywheelSensor.getValue() > Constants.Intake.IRThreshold;
   }
 
-  public boolean noteIsQueued() { // note reversed and is clear from shooter
-    return ((ir.rightIR.getValue() < Constants.Intake.IRThreshold) && (ir.leftIR.getValue() < Constants.Intake.IRThreshold)) && isBeingQueued;
+  /**
+   * @return true if note is queued for shooting (clear from flywheel)
+   */
+  public boolean noteIsQueued() {
+    return closeToFlywheelSensor.getValue() < Constants.Intake.IRThreshold;
+    //return ((ir.rightIR.getValue() < Constants.Intake.IRThreshold) && (ir.leftIR.getValue() < Constants.Intake.IRThreshold)) && isBeingQueued;
   }
 
   public boolean isBeingIntook(){

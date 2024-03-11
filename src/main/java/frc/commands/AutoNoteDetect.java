@@ -4,30 +4,19 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.subsystems.SwerveDrive;
 import frc.generated.TunerConstants;
 import frc.robot.Constants.DriverControl;
 import frc.subsystems.Vision;
-import frc.generated.TunerConstants;
-import frc.subsystems.sensors.IR;
 import frc.subsystems.Intake;
 
 /**
- * The "FixAll" preset (FIX ALL subsystems to their ideal position for scoring).
- * Instance can be reused (ie. you can construct this command once for a button binding).
- * Automatically compensates for alliance.
+ * Automatically drives towards and intakes a note.
  */
 public class AutoNoteDetect extends Command {
     //GENERAL
-    private RobotContainer robotContainer; //Cache instance
-    private Vision vision;
-    private IR ir;
+    private Vision vision = Vision.getInstance();
     private Intake intake = Intake.getInstance();
 
     //SWERVE
@@ -46,7 +35,7 @@ public class AutoNoteDetect extends Command {
         driveHeading.HeadingController = Constants.Swerve.headingPIDController;
 
         //if there's no note, end
-        if (vision.getNote() == false) {
+        if (!vision.isNoteVisible()) {
             end(true);
         }
     }
@@ -62,12 +51,12 @@ public class AutoNoteDetect extends Command {
 
             //start intake, end when IR sensor is passed
             intake();
-            if (ir.rightIR.getValue() > Constants.Intake.IRThreshold) {
+            if (intake.hasNote()) {
                 end(false);
             }
         } else {
             intake();
-            if (ir.rightIR.getValue() > Constants.Intake.IRThreshold) {
+            if (intake.hasNote()) {
                 end(false);
             }
         }
@@ -84,5 +73,4 @@ public class AutoNoteDetect extends Command {
     public boolean isFinished() {
         return true;
     }
-
 }

@@ -1,15 +1,9 @@
 package frc.robot;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathConstraints;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -55,7 +49,7 @@ public class RobotContainer {
                 .withSize(4, 2);
 
         // SmartDashboard.putData("Auto Chooser", autoChooser);
-        arm.setGoal(arm.getMeasurement());
+        neutralizeSubsystems();
 
         //autonomous named commands
         NamedCommands.registerCommand("Intake", intake.in());
@@ -152,7 +146,7 @@ public class RobotContainer {
 
         // Automatic
         selectedOI.binds.get("AmpPreset").onTrue(new InstantCommand(() -> {
-            arm.setGoalInDegrees(81);
+            arm.setGoal(81);
         }, arm));
 
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
@@ -163,11 +157,8 @@ public class RobotContainer {
      * Intended to be run in teleopInit.
      */
     private void configureTriggers() {
-        // Trigger infraredTrigger1 = new Trigger(intake::hasNote);
-        // infraredTrigger1.onTrue(intake.queueNote());
-
-        // Trigger infraredTrigger2 = new Trigger(intake::noteIsQueued);
-        // infraredTrigger2.onTrue(intake.stopNoteForShooting());
+        new Trigger(intake::hasNote).onTrue(intake.queueNote());
+        new Trigger(intake::noteIsQueued).onTrue(intake.stopNoteForShooting());
     }
 
     /**

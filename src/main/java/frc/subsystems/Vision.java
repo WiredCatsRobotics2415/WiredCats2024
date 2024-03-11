@@ -96,7 +96,7 @@ public class Vision extends SubsystemBase {
                 return cachedIntakeTargetResults.targetingResults.targets_Detector[0].ta;
             }
 
-    public boolean getNote() {
+    public boolean isNoteVisible() {
         if (Robot.isSimulation()) {
             return SmartDashboard.getBoolean("Note", false);
         } else if (cachedIntakeTargetResults.targetingResults.targets_Detector[0].ta > 0) {
