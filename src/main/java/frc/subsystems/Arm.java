@@ -50,7 +50,7 @@ public class Arm extends SubsystemBase {
 
     public Arm() {
         input = new AnalogInput(RobotMap.Arm.ANALOG_POT_PORT);
-        Constants.Arm.MAX_VOLT = input.getAverageVoltage();
+        // Constants.Arm.MAX_VOLT = input.getAverageVoltage();
 
         configureMotors();
         configureMechansim2dWidget();
@@ -205,6 +205,7 @@ public class Arm extends SubsystemBase {
     public void periodic() {
         double measurement = getMeasurement();
         SmartDashboard.putNumber("Arm Measurement", measurement);
+        SmartDashboard.putNumber("Arm Voltage", input.getAverageVoltage()); 
         useOutput(pid.calculate(measurement), pid.getSetpoint());
         positionLigament.setAngle(measurement);
         goalLigament.setAngle(goalInDegrees);
