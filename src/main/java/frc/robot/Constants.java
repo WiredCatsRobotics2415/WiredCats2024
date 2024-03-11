@@ -161,9 +161,6 @@ public final class Constants {
         public static final float KP = 0.24f;
         public static final float KD = 0.005f;
 
-        public static final float KG_PROPORTION = 0.125f; // How much to modify KG by;
-        // applied KG = (Proportion * angle in degrees) * KG
-
         public static final float VELO_MAX = 10f;
         public static final float ACCEL_MAX = 10f; // 6
 

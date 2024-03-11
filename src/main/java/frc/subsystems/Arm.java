@@ -33,7 +33,7 @@ public class Arm extends SubsystemBase {
     private TalonFX rightMotor;
     private AnalogInput input;
     private ArmFeedforward ff =
-            new ArmFeedforward(Constants.Arm.KA, 0, Constants.Arm.KV, Constants.Arm.KA);
+            new ArmFeedforward(Constants.Arm.KS, Constants.Arm.KG, Constants.Arm.KV, Constants.Arm.KA);
     private ProfiledPIDController pid =
             new ProfiledPIDController(
                     Constants.Arm.KP,
