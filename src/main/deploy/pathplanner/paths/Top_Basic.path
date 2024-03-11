@@ -84,7 +84,7 @@
             {
               "type": "named",
               "data": {
-                "name": "Shoot"
+                "name": "ShootSpeaker"
               }
             }
           ]
@@ -101,7 +101,7 @@
             {
               "type": "named",
               "data": {
-                "name": "Shoot"
+                "name": "ShootSpeaker"
               }
             }
           ]
@@ -119,23 +119,6 @@
               "type": "named",
               "data": {
                 "name": "Intake"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "StopIntake",
-      "waypointRelativePos": 1.4,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "StopIntake"
               }
             }
           ]
