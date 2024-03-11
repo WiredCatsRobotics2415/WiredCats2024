@@ -54,6 +54,7 @@ public class RobotContainer {
         //autonomous named commands
         NamedCommands.registerCommand("Intake", intake.in());
         NamedCommands.registerCommand("StopIntake", intake.off());
+        NamedCommands.registerCommand("Drop", intake.out());
         //TODO: add in commands for shooting and dropping notes
     }
 
