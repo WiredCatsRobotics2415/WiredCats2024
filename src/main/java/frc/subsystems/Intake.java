@@ -11,8 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -78,14 +79,14 @@ public class Intake extends SubsystemBase {
     /** Sets the motor's speed to the IntakeSpeed. */
     private void motorIn() {
         Logger.log(this, LogLevel.INFO, "motor in at " + intakeSpeed);
-        motor.set(SmartDashboard.getNumber("Intake", intakeSpeed));
+        motor.set(Constants.Intake.IntakeSpeed);
         speed.setColor(new Color8Bit(0, (int) (intakeSpeed * 255), 0));
     }
 
     /** Sets the motor's speed to the UptakeSpeed. */
     private void motorUptake() {
         Logger.log(this, LogLevel.INFO, "motor uptaking at " + uptakeSpeed);
-        motor.set(SmartDashboard.getNumber("Uptake", uptakeSpeed));
+        motor.set(Constants.Intake.UptakeSpeed);
         speed.setColor(new Color8Bit(0, (int) (uptakeSpeed * 255), 0));
     }
 
@@ -170,7 +171,6 @@ public class Intake extends SubsystemBase {
                 () -> {
                     isBeingIntook = false;
                     isBeingQueued = false;
-
                     flywheel.on(500, 500).schedule();
                     motorOff();
                 });
@@ -235,5 +235,16 @@ public class Intake extends SubsystemBase {
     public void motorInWithRotations(double rotations) {
         motor.setControl(
                 positionOut.withPosition(rotations)); // Not 100% Sure PositionOut uses rotations
+    }
+
+    /*
+     * Run the intake for a set amount of time to intake the note during autonomous. 
+     */
+    public Command intakeAuto() {
+      return new SequentialCommandGroup(
+        in(), 
+        new WaitCommand(1), 
+        off()
+      ); 
     }
 }

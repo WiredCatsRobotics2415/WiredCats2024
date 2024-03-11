@@ -19,9 +19,7 @@ public class Finger extends SubsystemBase{
 
     public Finger() {
         motor = new CANSparkMax(RobotMap.Finger.FINGER_MOTOR, CANSparkMax.MotorType.kBrushless); // initialize motor
-
         configureMotor();
-
         relativeEncoder.setPosition(0);
     }
 
@@ -41,7 +39,7 @@ public class Finger extends SubsystemBase{
         relativeEncoder = motor.getEncoder(); // getEncoder​(SparkRelativeEncoder.Type encoderType, int countsPerRev) // absolute encoder
         pidController = motor.getPIDController();
 
-        // pidController.setFeedbackDevice(m_encoder); // absolute encoder 
+        // pidController.setFeedbackDevice(m_encoder); // Absolute encoder 
 
         // PID coefficients
         kP = 0.1; 
@@ -61,12 +59,19 @@ public class Finger extends SubsystemBase{
         pidController.setOutputRange(kMinOutput, kMaxOutput);
     }
 
+    // Run finger a certain number of rotations. 
     public Command run(double position) {
         return new InstantCommand(() -> pidController.setReference(position * Constants.Finger.FINGER_GEAR_RATIO, CANSparkMax.ControlType.kPosition));
     }
 
+    // Return current position of the finger. 
     public double getPosition() {
         return relativeEncoder.getPosition();
+    }
+
+    // Fire note by running finger 1 full rotation. 
+    public Command fire() {
+        return run(Constants.Finger.DISTANCE); 
     }
 
     @Override

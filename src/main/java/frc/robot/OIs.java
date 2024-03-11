@@ -86,25 +86,32 @@ public class OIs {
 
             binds.put("PigeonReset", controller.button(7, Robot.buttonEventLoop)); //Minus
             binds.put("TargetHotspot", controller.button(8, Robot.buttonEventLoop)); //Plus
-            binds.put("Amp", numpad.button(4, Robot.buttonEventLoop));
 
+            // Climber
             binds.put("LeftClimberDown", controller.leftTrigger());
             binds.put("LeftClimberUp", controller.button(5, Robot.buttonEventLoop)); //Left bumper
             binds.put("RightClimberDown", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
             binds.put("RightClimberUp", controller.button(6, Robot.buttonEventLoop)); //Right bumper
             binds.put("ClimberMode1", numpad.button(1, Robot.buttonEventLoop));
             binds.put("ClimberMode2", numpad.button(2, Robot.buttonEventLoop));
-
+            
+            // Arm
             binds.put("LowerArm", controller.button(5, Robot.buttonEventLoop)); //left bumper
             binds.put("RaiseArm", controller.button(6, Robot.buttonEventLoop)); //right bumper
-            binds.put("AmpPreset", controller.button(1, Robot.buttonEventLoop));
 
+            // Intake 
             binds.put("Intake", controller.button(2, Robot.buttonEventLoop)); //A
             binds.put("ManualOuttake", controller.leftTrigger());
-
+            
+            // Testing flywheel 
             binds.put("SpinUp", controller.button(3, Robot.buttonEventLoop)); // Y
             binds.put("Shoot", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
             binds.put("SpinOff", controller.button(4, Robot.buttonEventLoop)); // X
+
+            // Presets 
+            binds.put("Amp", numpad.button(4, Robot.buttonEventLoop)); // Amp 
+            binds.put("ShootClose", numpad.button(3, Robot.buttonEventLoop)); // Subwoofer
+
         }
 
         private double deadbandCompensation(double r) {

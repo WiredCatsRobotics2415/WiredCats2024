@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.commands.ShootingPresets;
 import frc.generated.TunerConstants;
 import frc.subsystems.Finger;
 import frc.robot.Constants.DriverControl;
@@ -34,6 +35,9 @@ public class RobotContainer {
     // PUBLIC OBJECTS
     private OIs.OI selectedOI;
 
+    // LOAD SHOOTING PRESETS
+    private final ShootingPresets shooterPre = new ShootingPresets();
+
     public OIs.OI getSelectedOI() {
         return selectedOI;
     }
@@ -51,10 +55,10 @@ public class RobotContainer {
         // SmartDashboard.putData("Auto Chooser", autoChooser);
         neutralizeSubsystems();
 
-        //autonomous named commands
-        NamedCommands.registerCommand("Intake", intake.in());
-        NamedCommands.registerCommand("StopIntake", intake.off());
-        NamedCommands.registerCommand("Drop", intake.out());
+        // Autonomous named commands
+        NamedCommands.registerCommand("Intake", intake.intakeAuto());
+        NamedCommands.registerCommand("ShootSub", shooterPre.subwooferAuto()); // Shoot next to subwoofer. 
+        NamedCommands.registerCommand("Amp", shooterPre.shootAmp()); // Score in Amp.  
         //TODO: add in commands for shooting and dropping notes
     }
 
@@ -129,10 +133,14 @@ public class RobotContainer {
         selectedOI.binds.get("RaiseArm").whileTrue(arm.increaseGoal());
         selectedOI.binds.get("LowerArm").whileTrue(arm.decreaseGoal());
 
-        // Flywheel
+        // Fire 
         selectedOI.binds.get("Shoot").onTrue(
-                finger.run(Constants.Finger.DISTANCE));
-        selectedOI.binds.get("SpinUp").onTrue(flywheel.onFromSmartDashboard());
+                finger.fire());
+
+        // Presets 
+        selectedOI.binds.get("SpinUp").onTrue(flywheel.onFromSmartDashboard()); // TESTING ONLY
+        selectedOI.binds.get("ShootClose").onTrue(shooterPre.shootClose()); // Subwoofer
+        selectedOI.binds.get("Amp").onTrue(shooterPre.shootAmp()); // Amp 
 
         // Climber
         selectedOI.binds.get("LeftClimberDown").onTrue(
@@ -146,9 +154,7 @@ public class RobotContainer {
         selectedOI.binds.get("SpinOff").onTrue(flywheel.off());
 
         // Automatic
-        selectedOI.binds.get("AmpPreset").onTrue(new InstantCommand(() -> {
-            arm.setGoal(81);
-        }, arm));
+        selectedOI.binds.get("AmpPreset").onTrue(shooterPre.shootAmp());
 
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
     }

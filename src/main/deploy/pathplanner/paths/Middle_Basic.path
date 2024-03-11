@@ -90,7 +90,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShootSpeaker"
+                "name": "ShootSub"
               }
             }
           ]
@@ -107,7 +107,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShootSpeaker"
+                "name": "ShootSub"
               }
             }
           ]
