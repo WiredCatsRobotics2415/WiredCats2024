@@ -226,9 +226,7 @@ public class Arm extends SubsystemBase {
         // resetPotentiometer();
 
         // control arm with smartdashboard
-        double desiredAngle = SmartDashboard.getNumber("Arm Goal", 0.0d);
-        if (desiredAngle != 0.0d) {
-            setGoal(desiredAngle);
-        }
+        double desiredAngle = SmartDashboard.getNumber("Arm Goal", getMeasurement());
+        setGoal(desiredAngle);
     }
 }
