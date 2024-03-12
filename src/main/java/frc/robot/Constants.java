@@ -178,8 +178,8 @@ public final class Constants {
             return rotations / ROTOR_TO_ARM_GEAR_RATIO;
         }
 
-        public static double MAX_VOLT = 3.34d;
-        public static double MIN_VOLT = 2.47d;
+        public static double MAX_VOLT = 3.1d;
+        public static double MIN_VOLT = 1.95d;
         public static final double MAX_ANGLE = 90d;
     }
 
