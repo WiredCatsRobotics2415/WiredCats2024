@@ -96,8 +96,8 @@ public class Arm extends SubsystemBase {
         rightMotor.setControl(new StrictFollower(leftMotor.getDeviceID()));
         rightMotor.setInverted(true);
 
-        leftMotor.setNeutralMode(NeutralModeValue.Coast); // TODO: Change to Brake
-        rightMotor.setNeutralMode(NeutralModeValue.Coast); // TODO: Change to Brake
+        leftMotor.setNeutralMode(NeutralModeValue.Brake); // TODO: Change to Brake
+        rightMotor.setNeutralMode(NeutralModeValue.Brake); // TODO: Change to Brake
     }
 
     public static Arm getInstance() {
