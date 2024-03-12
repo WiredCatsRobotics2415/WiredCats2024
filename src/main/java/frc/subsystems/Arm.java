@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -32,6 +33,8 @@ public class Arm extends SubsystemBase {
     private TalonFX leftMotor;
     private TalonFX rightMotor;
     private AnalogInput input;
+    private DigitalInput limitSwitch;
+  
     private ArmFeedforward ff =
             new ArmFeedforward(Constants.Arm.KS, Constants.Arm.KG, Constants.Arm.KV, Constants.Arm.KA);
     private ProfiledPIDController pid =
@@ -51,6 +54,7 @@ public class Arm extends SubsystemBase {
     public Arm() {
         input = new AnalogInput(RobotMap.Arm.ANALOG_POT_PORT);
         // Constants.Arm.MAX_VOLT = input.getAverageVoltage();
+        limitSwitch = new DigitalInput(RobotMap.Arm.LIMITSWITCH_PORT);
 
         configureMotors();
         configureMechansim2dWidget();
@@ -201,6 +205,15 @@ public class Arm extends SubsystemBase {
                         }));
     }
 
+    /**
+     * @return Resets the Potentiometer's Max Voltage when the Limit Switch is hit.
+     */
+    public void resetPotentiometer(){
+      if(limitSwitch.get()){
+        Constants.Arm.MAX_VOLT = input.getAverageVoltage();
+      }
+    }
+
     @Override
     public void periodic() {
         double measurement = getMeasurement();
@@ -209,6 +222,8 @@ public class Arm extends SubsystemBase {
         useOutput(pid.calculate(measurement), pid.getSetpoint());
         positionLigament.setAngle(measurement);
         goalLigament.setAngle(goalInDegrees);
+
+        resetPotentiometer();
 
         // control arm with smartdashboard
         double desiredAngle = SmartDashboard.getNumber("Arm Goal", 0.0d);
