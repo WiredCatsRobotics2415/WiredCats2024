@@ -154,7 +154,7 @@ public class RobotContainer {
         selectedOI.binds.get("SpinOff").onTrue(flywheel.off());
 
         // Automatic
-        selectedOI.binds.get("AmpPreset").onTrue(shooterPre.shootAmp());
+        // selectedOI.binds.get("Amp").onTrue(shooterPre.shootAmp());
 
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
     }

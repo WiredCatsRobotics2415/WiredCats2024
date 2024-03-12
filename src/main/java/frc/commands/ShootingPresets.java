@@ -39,7 +39,7 @@ public class ShootingPresets {
         }
 
         public static class amp {
-            public static double arm = 81.0;
+            public static double arm = 80.0;
         }
     }
 

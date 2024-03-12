@@ -161,8 +161,8 @@ public final class Constants {
         public static final float KP = 0.24f;
         public static final float KD = 0.005f;
 
-        public static final float VELO_MAX = 10f;
-        public static final float ACCEL_MAX = 10f; // 6
+        public static final float VELO_MAX = 20f;
+        public static final float ACCEL_MAX = 20f; // 6
 
         public static final float ROTOR_TO_ARM_GEAR_RATIO =
                 280 / 1; // (# encoder rotations per 1 full rotation)
@@ -178,7 +178,8 @@ public final class Constants {
             return rotations / ROTOR_TO_ARM_GEAR_RATIO;
         }
 
-        public static double MAX_VOLT = 0.52d;
+        public static double MAX_VOLT = 3.34d;
+        public static double MIN_VOLT = 2.52d;
         public static final double MAX_ANGLE = 90d;
     }
 

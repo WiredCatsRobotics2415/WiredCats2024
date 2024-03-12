@@ -92,8 +92,8 @@ public class Arm extends SubsystemBase {
         rightMotor.setControl(new StrictFollower(leftMotor.getDeviceID()));
         rightMotor.setInverted(true);
 
-        leftMotor.setNeutralMode(NeutralModeValue.Coast); // TODO: Change to Brake
-        rightMotor.setNeutralMode(NeutralModeValue.Coast); // TODO: Change to Brake
+        leftMotor.setNeutralMode(NeutralModeValue.Brake); // TODO: Change to Brake
+        rightMotor.setNeutralMode(NeutralModeValue.Brake); // TODO: Change to Brake
     }
 
     public static Arm getInstance() {
@@ -124,9 +124,7 @@ public class Arm extends SubsystemBase {
      *     code is esentially: 1 - pot value + offset
      */
     private double getPotRotations() {
-        double measure =
-                Constants.Arm.MAX_ANGLE
-                        - ((input.getAverageVoltage() / Constants.Arm.MAX_VOLT)
+        double measure = Constants.Arm.MAX_ANGLE - (((input.getAverageVoltage() - Constants.Arm.MIN_VOLT) / (Constants.Arm.MAX_VOLT - Constants.Arm.MIN_VOLT))
                                 * Constants.Arm.MAX_ANGLE);
 
         if (measure < 1) {
