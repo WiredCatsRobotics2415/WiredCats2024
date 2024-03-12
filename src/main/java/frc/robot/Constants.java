@@ -179,7 +179,7 @@ public final class Constants {
         }
 
         public static double MAX_VOLT = 3.34d;
-        public static double MIN_VOLT = 2.52d;
+        public static double MIN_VOLT = 2.47d;
         public static final double MAX_ANGLE = 90d;
     }
 

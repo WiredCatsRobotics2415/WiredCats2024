@@ -30,7 +30,7 @@ public class RobotContainer {
     private final Climber climber = Climber.getInstance();
     private final Flywheel flywheel = Flywheel.getInstance();
     private final Arm arm = Arm.getInstance();
-    private final Finger finger = Finger.getInstance();
+    // private final Finger finger = Finger.getInstance();
 
     // PUBLIC OBJECTS
     private OIs.OI selectedOI;
@@ -134,9 +134,11 @@ public class RobotContainer {
         selectedOI.binds.get("LowerArm").whileTrue(arm.decreaseGoal());
 
         // Fire 
+        /* 
         selectedOI.binds.get("Shoot").onTrue(
                 finger.fire());
-
+        */ 
+        
         // Presets 
         selectedOI.binds.get("SpinUp").onTrue(flywheel.onFromSmartDashboard()); // TESTING ONLY
         selectedOI.binds.get("ShootClose").onTrue(shooterPre.shootClose()); // Subwoofer

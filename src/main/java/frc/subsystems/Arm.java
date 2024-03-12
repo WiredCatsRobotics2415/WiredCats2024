@@ -54,7 +54,7 @@ public class Arm extends SubsystemBase {
     public Arm() {
         input = new AnalogInput(RobotMap.Arm.ANALOG_POT_PORT);
         // Constants.Arm.MAX_VOLT = input.getAverageVoltage();
-        limitSwitch = new DigitalInput(RobotMap.Arm.LIMITSWITCH_PORT);
+        // limitSwitch = new DigitalInput(RobotMap.Arm.LIMITSWITCH_PORT);
 
         configureMotors();
         configureMechansim2dWidget();
@@ -96,8 +96,8 @@ public class Arm extends SubsystemBase {
         rightMotor.setControl(new StrictFollower(leftMotor.getDeviceID()));
         rightMotor.setInverted(true);
 
-        leftMotor.setNeutralMode(NeutralModeValue.Brake); // TODO: Change to Brake
-        rightMotor.setNeutralMode(NeutralModeValue.Brake); // TODO: Change to Brake
+        leftMotor.setNeutralMode(NeutralModeValue.Coast); // TODO: Change to Brake
+        rightMotor.setNeutralMode(NeutralModeValue.Coast); // TODO: Change to Brake
     }
 
     public static Arm getInstance() {
@@ -206,11 +206,13 @@ public class Arm extends SubsystemBase {
     /**
      * @return Resets the Potentiometer's Max Voltage when the Limit Switch is hit.
      */
+    /* 
     public void resetPotentiometer(){
       if(limitSwitch.get()){
         Constants.Arm.MAX_VOLT = input.getAverageVoltage();
       }
     }
+    */ 
 
     @Override
     public void periodic() {
@@ -221,7 +223,7 @@ public class Arm extends SubsystemBase {
         positionLigament.setAngle(measurement);
         goalLigament.setAngle(goalInDegrees);
 
-        resetPotentiometer();
+        // resetPotentiometer();
 
         // control arm with smartdashboard
         double desiredAngle = SmartDashboard.getNumber("Arm Goal", 0.0d);
