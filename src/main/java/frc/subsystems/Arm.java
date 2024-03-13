@@ -96,8 +96,8 @@ public class Arm extends SubsystemBase {
         rightMotor.setControl(new StrictFollower(leftMotor.getDeviceID()));
         rightMotor.setInverted(true);
 
-        leftMotor.setNeutralMode(NeutralModeValue.Brake); // TODO: Change to Brake
-        rightMotor.setNeutralMode(NeutralModeValue.Brake); // TODO: Change to Brake
+        leftMotor.setNeutralMode(NeutralModeValue.Brake);
+        rightMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
     public static Arm getInstance() {
@@ -204,13 +204,11 @@ public class Arm extends SubsystemBase {
     }
 
     /**
-     * @return Resets the Potentiometer's Max Voltage when the Limit Switch is hit.
-     */
+     * When the arm is hitting the limit switch (on the left bottom hard stop),
+     * set the maximum voltage of the potentiometer to the current voltage
     /* 
-    public void resetPotentiometer(){
-      if(limitSwitch.get()){
-        Constants.Arm.MAX_VOLT = input.getAverageVoltage();
-      }
+    private void resetPotentiometerIfAtZero(){
+      if (limitSwitch.get()) Constants.Arm.MAX_VOLT = input.getAverageVoltage();
     }
     */ 
 
@@ -223,7 +221,7 @@ public class Arm extends SubsystemBase {
         positionLigament.setAngle(measurement);
         goalLigament.setAngle(goalInDegrees);
 
-        // resetPotentiometer();
+        // resetPotentiometerIfAtZero();
 
         // control arm with smartdashboard
         double desiredAngle = SmartDashboard.getNumber("Arm Goal", getMeasurement());

@@ -59,21 +59,25 @@ public class Finger extends SubsystemBase{
         pidController.setOutputRange(kMinOutput, kMaxOutput);
     }
 
-    // Run finger a certain number of rotations. 
+    /**
+     * @param position rotation number to run the finger
+     * @return Command that runs finger a certain number of rotations. 
+     */
     public Command run(double position) {
         return new InstantCommand(() -> pidController.setReference(position * Constants.Finger.FINGER_GEAR_RATIO, CANSparkMax.ControlType.kPosition));
     }
 
-    // Return current position of the finger. 
+    /**
+     * @return current position of the finger. 
+     */
     public double getPosition() {
         return relativeEncoder.getPosition();
     }
 
-    // Fire note by running finger 1 full rotation. 
+    /**
+     * @return Command that fires note by running the finger 1 full rotation.
+     */ 
     public Command fire() {
         return run(Constants.Finger.DISTANCE); 
     }
-
-    @Override
-    public void periodic() {}
 }

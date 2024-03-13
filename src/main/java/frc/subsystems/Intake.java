@@ -32,7 +32,7 @@ public class Intake extends SubsystemBase {
 
     private final Flywheel flywheel = Flywheel.getInstance();
 
-    private MechanismLigament2d speed;
+    private MechanismLigament2d speedWidget;
 
     private double uptakeSpeed = Constants.Intake.UptakeSpeed;
     private double intakeSpeed = Constants.Intake.IntakeSpeed;
@@ -72,7 +72,7 @@ public class Intake extends SubsystemBase {
         Mechanism2d intakeMech2d = new Mechanism2d(3, 3);
 
         MechanismRoot2d root = intakeMech2d.getRoot("intake", 1.2, 0.25);
-        speed = root.append(new MechanismLigament2d("intake", 0.1, 0));
+        speedWidget = root.append(new MechanismLigament2d("intake", 0.1, 0));
 
         Shuffleboard.getTab("Mechanism2d").add("Intake Mechanism", intakeMech2d);
     }
@@ -81,14 +81,14 @@ public class Intake extends SubsystemBase {
     private void motorIn() {
         Logger.log(this, LogLevel.INFO, "motor in at " + intakeSpeed);
         motor.set(Constants.Intake.IntakeSpeed);
-        speed.setColor(new Color8Bit(0, (int) (intakeSpeed * 255), 0));
+        speedWidget.setColor(new Color8Bit(0, (int) (intakeSpeed * 255), 0));
     }
 
     /** Sets the motor's speed to the UptakeSpeed. */
     private void motorUptake() {
         Logger.log(this, LogLevel.INFO, "motor uptaking at " + uptakeSpeed);
         motor.set(Constants.Intake.UptakeSpeed);
-        speed.setColor(new Color8Bit(0, (int) (uptakeSpeed * 255), 0));
+        speedWidget.setColor(new Color8Bit(0, (int) (uptakeSpeed * 255), 0));
     }
 
     /**
@@ -98,14 +98,14 @@ public class Intake extends SubsystemBase {
     private void motorOff() {
         Logger.log(this, LogLevel.INFO, "motor off");
         motor.set(0);
-        speed.setColor(new Color8Bit(0, 0, 0));
+        speedWidget.setColor(new Color8Bit(0, 0, 0));
     }
 
     /** Sets the motor's speed to the OuttakeSpeed */
     private void motorOut() {
         Logger.log(this, LogLevel.INFO, "motor outtaking at " + outtakeSpeed);
         motor.set(SmartDashboard.getNumber("Outtake", outtakeSpeed));
-        speed.setColor(new Color8Bit(0, 0, (int) (outtakeSpeed * 255)));
+        speedWidget.setColor(new Color8Bit(0, 0, (int) (outtakeSpeed * 255)));
     }
 
     // COMMANDS
@@ -135,13 +135,6 @@ public class Intake extends SubsystemBase {
                 });
     }
 
-    /*public Command auto() {
-      while (ir.rightIR.getValue() < Constants.Intake.IRThreshold) {
-        return runOnce(() -> motorIn());
-      }
-      return runOnce(() -> motorOff());
-    }*/
-
     /**
      * @return Command that sets the motor speed to IntakeSpeed.
      */
@@ -167,12 +160,15 @@ public class Intake extends SubsystemBase {
                 });
     }
 
+    /**
+     * @return Command used in conjunction with the IR sensor to stop the motor
+     * from queueing the note.
+     */
     public Command stopNoteForShooting() {
         return runOnce(
                 () -> {
                     isBeingIntook = false;
                     isBeingQueued = false;
-                    flywheel.on(500, 500).schedule();
                     motorOff();
                 });
     }
