@@ -175,11 +175,11 @@ public class Arm extends SubsystemBase {
         return new RepeatCommand(
                 new InstantCommand(
                         () -> {
-                            if (goalInDegrees >= Constants.Arm.MAX_DEGREES) {
-                                goalInDegrees = Constants.Arm.MAX_DEGREES;
+                            if (goalInDegrees >= Constants.Arm.MAX_ANGLE) {
+                                goalInDegrees = Constants.Arm.MAX_ANGLE;
                                 return;
                             }
-                            goalInDegrees += 1;
+                            goalInDegrees += 0.5;
                             System.out.println("Goal increase: " + goalInDegrees);
                             this.setGoal(goalInDegrees);
                         }));
@@ -197,7 +197,7 @@ public class Arm extends SubsystemBase {
                                 goalInDegrees = Constants.Arm.MIN_DEGREES;
                                 return;
                             }
-                            goalInDegrees -= (0.25 / 360.0d);
+                            goalInDegrees -= 0.5;
                             System.out.println("Goal decrease: " + goalInDegrees);
                             this.setGoal(goalInDegrees);
                         }));

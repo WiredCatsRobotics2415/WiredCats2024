@@ -161,8 +161,8 @@ public final class Constants {
         public static final float KP = 0.24f;
         public static final float KD = 0.005f;
 
-        public static final float VELO_MAX = 20f;
-        public static final float ACCEL_MAX = 20f; // 6
+        public static final float VELO_MAX = 40f;
+        public static final float ACCEL_MAX = 40f; // 6
 
         public static final float ROTOR_TO_ARM_GEAR_RATIO =
                 280 / 1; // (# encoder rotations per 1 full rotation)
