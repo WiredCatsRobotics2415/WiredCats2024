@@ -216,7 +216,7 @@ public class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // SmartDashboard.putNumber("IR", leftIR.getValue());
+        System.out.println(closeToFlywheelSensor.getValue());
     }
 
     /**
@@ -225,14 +225,14 @@ public class Intake extends SubsystemBase {
     public boolean hasNote() {
         // return ((ir.rightIR.getValue() > Constants.Intake.IRThreshold) || (ir.leftIR.getValue() >
         // Constants.Intake.IRThreshold)) && isBeingIntook;
-        return (closeToFlywheelSensor.getValue() > Constants.Intake.IRThreshold) && isBeingIntook;
+        return (closeToFlywheelSensor.getValue() < Constants.Intake.IRThreshold) && isBeingIntook;
     }
 
     /**
      * @return true if note is queued for shooting (used to clear note from flywheel)
      */
     public boolean noteIsQueued() {
-        return (closeToFlywheelSensor.getValue() < Constants.Intake.IRThreshold) && isBeingQueued;
+        return (closeToFlywheelSensor.getValue() > Constants.Intake.IRThreshold) && isBeingQueued;
         // return ((ir.rightIR.getValue() < Constants.Intake.IRThreshold) && (ir.leftIR.getValue() <
         // Constants.Intake.IRThreshold)) && isBeingQueued;
     }

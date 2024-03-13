@@ -122,7 +122,7 @@ public final class Constants {
         public static final double UptakeSpeed = 1;
         public static final double IntakeSpeed = 0.9;
         public static final double OuttakeSpeed = -0.4;
-        public static final double IRThreshold = 200;
+        public static final double IRThreshold = 100;
     }
 
     public static class Finger {
