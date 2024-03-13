@@ -154,12 +154,12 @@ public final class Constants {
         public static final double POT_OFFSET =
                 0.4727; // In ROTATIONS (added before reading is converted to rotations)
 
-        public static final float KS = 0.293f;
-        public static final float KV = 0.09f;
-        public static final float KA = 0.018f;
-        public static final float KG = 0.1f;
-        public static final float KP = 0.24f;
-        public static final float KD = 0.005f;
+        public static final float KS = 0.238f;
+        public static final float KV = 0.0f;
+        public static final float KA = 0.0f;
+        public static final float KG = 0.04f;
+        public static final float KP = 0.18f;
+        public static final float KD = 0.0033f;
 
         public static final float VELO_MAX = 80f;
         public static final float ACCEL_MAX = 80f; // 6
@@ -179,8 +179,8 @@ public final class Constants {
         }
 
         public static double MAX_VOLT = 3.07d;
-        public static double MIN_VOLT = 1.94d;
-        public static final double MAX_ANGLE = 90d;
+        public static double MIN_VOLT = 1.74d;
+        public static final double MAX_ANGLE = 105.7d;
     }
 
     /**

@@ -59,6 +59,8 @@ public class Arm extends SubsystemBase {
         configureMotors();
         configureMechansim2dWidget();
 
+        SmartDashboard.putData("Coast", coast());
+
         if (Robot.isSimulation()) {
             PhysicsSim.getInstance().addTalonFX(leftMotor, 0.001);
             PhysicsSim.getInstance().addTalonFX(rightMotor, 0.001);
@@ -179,6 +181,18 @@ public class Arm extends SubsystemBase {
                             System.out.println("Goal increase: " + goalInDegrees);
                             this.setGoal(goalInDegrees);
                         }));
+    }
+
+    
+
+    public Command coast() {
+        return runOnce(
+            () -> {
+                rightMotor.setNeutralMode(NeutralModeValue.Coast);
+                leftMotor.setNeutralMode(NeutralModeValue.Coast);
+                System.out.println("coasted");
+            }   
+        );
     }
 
     /**

@@ -4,6 +4,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -169,6 +170,7 @@ public class RobotContainer {
     private void configureTriggers() { //shouldn't be needed anymore with Sequential Command
         //new Trigger(intake::hasNote).onTrue(intake.queueNote());
         //new Trigger(intake::noteIsQueued).onTrue(intake.stopNoteForShooting());
+        //new Trigger(RobotController::getUserButton).onTrue(arm.coast().ignoringDisable(true));
     }
 
     /**
