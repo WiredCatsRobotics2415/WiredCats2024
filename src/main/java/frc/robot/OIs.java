@@ -102,6 +102,7 @@ public class OIs {
             // Intake 
             binds.put("Intake", controller.button(2, Robot.buttonEventLoop)); //A
             binds.put("ManualOuttake", controller.leftTrigger());
+            binds.put("Manual Intake", numpad.button(8, Robot.buttonEventLoop));
             
             // Testing flywheel 
             binds.put("SpinUp", controller.button(3, Robot.buttonEventLoop)); // Y

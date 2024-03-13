@@ -137,6 +137,20 @@ public class Intake extends SubsystemBase {
     }
 
     /**
+     * @return Command that operates the complete intake using the IR sensors. The Note is intaked then cleared of the flywheels.
+     */
+
+    public Command intakeNote(){
+        return new SequentialCommandGroup(
+          in(),
+          new WaitUntilCommand(() -> hasNote()),
+          queueNote(), 
+          new WaitUntilCommand(() -> noteIsQueued()), 
+          stopNoteForShooting() 
+        ); 
+    }
+
+    /**
      * @return Command that sets the motor speed to IntakeSpeed.
      */
     public Command in() {
@@ -149,17 +163,16 @@ public class Intake extends SubsystemBase {
     }
 
     /**
-     * @return Command that slightly outtakes the note, used in conjucntion with the IR sensor to
+     * @return Command that slightly outtakes the note, used in conjunction with the IR sensor to
      *     clear the note from the flywheels
      */
     public Command queueNote() {
-        isBeingIntook = false;
-        isBeingQueued = true;
-        return new SequentialCommandGroup(
-          new InstantCommand(() -> motor.set(-0.05)), 
-          new WaitUntilCommand(() -> noteIsQueued()), 
-          stopNoteForShooting() 
-        ); 
+        return runOnce(
+                () -> {
+                    isBeingIntook = false;
+                    isBeingQueued = true;
+                    motor.set(-0.05);
+                });
     }
 
     /**
@@ -191,10 +204,11 @@ public class Intake extends SubsystemBase {
         return runOnce(
                 () -> {
                     if (state == true) {
-                        motorOff();
+                        intakeNote().cancel();
+                        off();
                         state = false;
                     } else {
-                        motorIn();
+                        intakeNote();
                         state = true;
                     }
                 });
@@ -211,14 +225,14 @@ public class Intake extends SubsystemBase {
     public boolean hasNote() {
         // return ((ir.rightIR.getValue() > Constants.Intake.IRThreshold) || (ir.leftIR.getValue() >
         // Constants.Intake.IRThreshold)) && isBeingIntook;
-        return closeToFlywheelSensor.getValue() > Constants.Intake.IRThreshold;
+        return (closeToFlywheelSensor.getValue() > Constants.Intake.IRThreshold) && isBeingIntook;
     }
 
     /**
      * @return true if note is queued for shooting (used to clear note from flywheel)
      */
     public boolean noteIsQueued() {
-        return closeToFlywheelSensor.getValue() < Constants.Intake.IRThreshold;
+        return (closeToFlywheelSensor.getValue() < Constants.Intake.IRThreshold) && isBeingQueued;
         // return ((ir.rightIR.getValue() < Constants.Intake.IRThreshold) && (ir.leftIR.getValue() <
         // Constants.Intake.IRThreshold)) && isBeingQueued;
     }

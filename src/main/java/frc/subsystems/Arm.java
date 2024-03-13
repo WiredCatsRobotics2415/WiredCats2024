@@ -54,7 +54,7 @@ public class Arm extends SubsystemBase {
     public Arm() {
         input = new AnalogInput(RobotMap.Arm.ANALOG_POT_PORT);
         // Constants.Arm.MAX_VOLT = input.getAverageVoltage();
-        // limitSwitch = new DigitalInput(RobotMap.Arm.LIMITSWITCH_PORT);
+        limitSwitch = new DigitalInput(RobotMap.Arm.LIMITSWITCH_PORT);
 
         configureMotors();
         configureMechansim2dWidget();
@@ -207,10 +207,11 @@ public class Arm extends SubsystemBase {
      * When the arm is hitting the limit switch (on the left bottom hard stop),
      * set the maximum voltage of the potentiometer to the current voltage
     /* 
+    */ 
+    
     private void resetPotentiometerIfAtZero(){
       if (limitSwitch.get()) Constants.Arm.MAX_VOLT = input.getAverageVoltage();
     }
-    */ 
 
     @Override
     public void periodic() {
@@ -221,7 +222,8 @@ public class Arm extends SubsystemBase {
         positionLigament.setAngle(measurement);
         goalLigament.setAngle(goalInDegrees);
 
-        // resetPotentiometerIfAtZero();
+        resetPotentiometerIfAtZero();
+        System.out.println("limit switch value: " + limitSwitch.get());
 
         // control arm with smartdashboard
         double desiredAngle = SmartDashboard.getNumber("Arm Goal", getMeasurement());

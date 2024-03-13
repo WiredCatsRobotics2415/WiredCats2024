@@ -128,6 +128,7 @@ public class RobotContainer {
         // Intake
         selectedOI.binds.get("Intake").onTrue(intake.toggleIntake());
         selectedOI.binds.get("ManualOuttake").onTrue(intake.out()).onFalse(intake.off());
+        selectedOI.binds.get("ManualIntake").onTrue(intake.in()).onFalse(intake.off());
 
         // Arm manual
         selectedOI.binds.get("RaiseArm").whileTrue(arm.increaseGoal());
@@ -165,9 +166,9 @@ public class RobotContainer {
      * Adds all binds to triggers.
      * Intended to be run in teleopInit.
      */
-    private void configureTriggers() {
-        new Trigger(intake::hasNote).onTrue(intake.queueNote());
-        new Trigger(intake::noteIsQueued).onTrue(intake.stopNoteForShooting());
+    private void configureTriggers() { //shouldn't be needed anymore with Sequential Command
+        //new Trigger(intake::hasNote).onTrue(intake.queueNote());
+        //new Trigger(intake::noteIsQueued).onTrue(intake.stopNoteForShooting());
     }
 
     /**
