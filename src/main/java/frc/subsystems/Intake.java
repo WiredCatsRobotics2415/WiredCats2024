@@ -216,7 +216,7 @@ public class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println(closeToFlywheelSensor.getValue());
+        SmartDashboard.putNumber("IR Sensor", closeToFlywheelSensor.getValue());
     }
 
     /**

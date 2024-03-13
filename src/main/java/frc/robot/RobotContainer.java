@@ -128,7 +128,7 @@ public class RobotContainer {
         // Intake
         selectedOI.binds.get("Intake").onTrue(intake.toggleIntake());
         selectedOI.binds.get("ManualOuttake").onTrue(intake.out()).onFalse(intake.off());
-        selectedOI.binds.get("ManualIntake").onTrue(intake.in()).onFalse(intake.off());
+        //selectedOI.binds.get("ManualIntake").onTrue(intake.in()).onFalse(intake.off());
 
         // Arm manual
         selectedOI.binds.get("RaiseArm").whileTrue(arm.increaseGoal());

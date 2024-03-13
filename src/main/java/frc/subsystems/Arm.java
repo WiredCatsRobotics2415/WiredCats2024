@@ -131,10 +131,6 @@ public class Arm extends SubsystemBase {
         double measure = Constants.Arm.MAX_ANGLE - (((input.getAverageVoltage() - Constants.Arm.MIN_VOLT) / (Constants.Arm.MAX_VOLT - Constants.Arm.MIN_VOLT))
                                 * Constants.Arm.MAX_ANGLE);
 
-        if (measure < 1) {
-            measure = 0.0d;
-        }
-
         return measure;
     }
 
@@ -223,7 +219,7 @@ public class Arm extends SubsystemBase {
         goalLigament.setAngle(goalInDegrees);
 
         resetPotentiometerIfAtZero();
-        System.out.println("limit switch value: " + limitSwitch.get());
+        SmartDashboard.putBoolean("Limit Switch", limitSwitch.get());
 
         // control arm with smartdashboard
         double desiredAngle = SmartDashboard.getNumber("Arm Goal", getMeasurement());
