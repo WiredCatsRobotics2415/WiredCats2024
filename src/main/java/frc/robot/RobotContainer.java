@@ -22,6 +22,7 @@ import frc.subsystems.Climber;
 import frc.subsystems.Intake;
 import frc.subsystems.Flywheel;
 import frc.subsystems.Vision;
+import frc.utils.DriverFeedback;
 
 public class RobotContainer {
     private static RobotContainer instance;
@@ -31,7 +32,7 @@ public class RobotContainer {
     private final Climber climber = Climber.getInstance();
     private final Flywheel flywheel = Flywheel.getInstance();
     private final Arm arm = Arm.getInstance();
-    // private final Finger finger = Finger.getInstance();
+    private final Finger finger = Finger.getInstance();
 
     // PUBLIC OBJECTS
     private OIs.OI selectedOI;
@@ -171,6 +172,7 @@ public class RobotContainer {
         //new Trigger(intake::hasNote).onTrue(intake.queueNote());
         //new Trigger(intake::noteIsQueued).onTrue(intake.stopNoteForShooting());
         //new Trigger(RobotController::getUserButton).onTrue(arm.coast().ignoringDisable(true));
+        new Trigger(intake::hasNote).onTrue(DriverFeedback.blinkInConfirmation());
     }
 
     /**
