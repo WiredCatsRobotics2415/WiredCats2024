@@ -62,6 +62,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("ShootSub", shooterPre.subwooferAuto()); // Shoot next to subwoofer. 
         NamedCommands.registerCommand("Amp", shooterPre.shootAmp()); // Score in Amp.  
         //TODO: add in commands for shooting and dropping notes
+
+        configureStartupTriggers();
     }
 
     public static RobotContainer getInstance() {
@@ -69,6 +71,13 @@ public class RobotContainer {
             instance = new RobotContainer();
         }
         return instance;
+    }
+
+    /**
+     * Triggers intended to be run on startup
+     */
+    private void configureStartupTriggers() {
+        new Trigger(RobotController::getUserButton).onTrue(arm.coast().ignoringDisable(true));
     }
 
     /**
@@ -91,6 +100,7 @@ public class RobotContainer {
         flywheel.off().schedule();
         intake.off().schedule();
         arm.setGoal(arm.getMeasurement());
+        arm.brake();
     }
 
     /**
@@ -168,10 +178,9 @@ public class RobotContainer {
      * Adds all binds to triggers.
      * Intended to be run in teleopInit.
      */
-    private void configureTriggers() { //shouldn't be needed anymore with Sequential Command
+    private void configureTriggers() {
         //new Trigger(intake::hasNote).onTrue(intake.queueNote());
         //new Trigger(intake::noteIsQueued).onTrue(intake.stopNoteForShooting());
-        //new Trigger(RobotController::getUserButton).onTrue(arm.coast().ignoringDisable(true));
         new Trigger(intake::hasNote).onTrue(DriverFeedback.blinkInConfirmation());
     }
 

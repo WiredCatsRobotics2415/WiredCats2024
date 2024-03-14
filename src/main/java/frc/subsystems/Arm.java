@@ -28,6 +28,8 @@ import frc.robot.Constants.Arm.EncoderOption;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.sim.PhysicsSim;
+import frc.utils.Logger;
+import frc.utils.Logger.LogLevel;
 
 public class Arm extends SubsystemBase {
     private TalonFX leftMotor;
@@ -183,16 +185,26 @@ public class Arm extends SubsystemBase {
                         }));
     }
 
-    
-
+    /**
+     * @return a command that sets the motors to coast mode
+     */
     public Command coast() {
         return runOnce(
             () -> {
                 rightMotor.setNeutralMode(NeutralModeValue.Coast);
                 leftMotor.setNeutralMode(NeutralModeValue.Coast);
-                System.out.println("coasted");
+                Logger.log(this, LogLevel.INFO, "Motors put into coast mode");
             }   
         );
+    }
+
+    /**
+    * Sets the motors to brake mode
+    */
+    public void brake() {
+        rightMotor.setNeutralMode(NeutralModeValue.Brake);
+        leftMotor.setNeutralMode(NeutralModeValue.Brake);
+        Logger.log(this, LogLevel.INFO, "Motors put into brake mode");
     }
 
     /**
