@@ -142,8 +142,6 @@ public class Intake extends SubsystemBase {
         return new SequentialCommandGroup(
           in(),
           new WaitUntilCommand(() -> hasNote()),
-          queueNote(), 
-          new WaitUntilCommand(() -> noteIsQueued()), 
           stopNoteForShooting() 
         ); 
     }
@@ -202,11 +200,10 @@ public class Intake extends SubsystemBase {
         return runOnce(
                 () -> {
                     if (state == true) {
-                        intakeNote().cancel();
-                        off();
+                        off().schedule();
                         state = false;
                     } else {
-                        intakeNote();
+                        intakeNote().schedule();
                         state = true;
                     }
                 });

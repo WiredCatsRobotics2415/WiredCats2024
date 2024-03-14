@@ -29,7 +29,7 @@ public class RobotContainer {
 
     private final SwerveDrive swerveDrive = TunerConstants.DriveTrain;
     private final Intake intake = Intake.getInstance();
-    private final Climber climber = Climber.getInstance();
+    //private final Climber climber = Climber.getInstance();
     private final Flywheel flywheel = Flywheel.getInstance();
     private final Arm arm = Arm.getInstance();
     private final Finger finger = Finger.getInstance();
@@ -132,13 +132,13 @@ public class RobotContainer {
                     .withVelocityY(-input.y() * DriverControl.kMaxDriveMeterS)
                     .withRotationalRate(-selectedOI.getRotation() * DriverControl.kMaxAngularRadS);
         }));
-
         selectedOI.binds.get("PigeonReset").onTrue(new InstantCommand(() -> {
             swerveDrive.seedFieldRelative();
         }, swerveDrive));
 
         // Intake
-        selectedOI.binds.get("Intake").onTrue(intake.toggleIntake());
+        //selectedOI.binds.get("Intake").onTrue(intake.toggleIntake());
+        selectedOI.binds.get("Intake").onTrue(intake.intakeNote());
         selectedOI.binds.get("ManualOuttake").onTrue(intake.out()).onFalse(intake.off());
         //selectedOI.binds.get("ManualIntake").onTrue(intake.in()).onFalse(intake.off());
 
@@ -147,30 +147,34 @@ public class RobotContainer {
         selectedOI.binds.get("LowerArm").whileTrue(arm.decreaseGoal());
 
         // Fire 
-        /* 
-        selectedOI.binds.get("Shoot").onTrue(
-                finger.fire());
-        */ 
+        selectedOI.binds.get("Shoot").onTrue(finger.fire());
         
-        // Presets 
-        selectedOI.binds.get("SpinUp").onTrue(flywheel.onFromSmartDashboard()); // TESTING ONLY
-        selectedOI.binds.get("ShootClose").onTrue(shooterPre.shootClose()); // Subwoofer
-        selectedOI.binds.get("Amp").onTrue(shooterPre.shootAmp()); // Amp 
+        // Flywheel 
+        //TODO: change call to onFromSmartDashboard to a call to on(flwyheelSppeds)
+        selectedOI.binds.get("SpinUpToShoot").onTrue(flywheel.onFromSmartDashboard());
+        selectedOI.binds.get("SpinOff").onTrue(flywheel.off());
+        selectedOI.binds.get("SpinUpToAmp").onTrue(flywheel.on(3000, 3000));
 
         // Climber
-        selectedOI.binds.get("LeftClimberDown").onTrue(
-                climber.manualDown(Constants.Climber.ClimberSpeed, 0));
-        selectedOI.binds.get("LeftClimberUp").onTrue(
-                climber.manualUp(Constants.Climber.ClimberSpeed, 0));
-        selectedOI.binds.get("RightClimberDown").onTrue(
-                climber.manualDown(0, Constants.Climber.ClimberSpeed));
-        selectedOI.binds.get("RightClimberUp").onTrue(
-                climber.manualUp(0, Constants.Climber.ClimberSpeed));
-        selectedOI.binds.get("SpinOff").onTrue(flywheel.off());
+        // selectedOI.binds.get("LeftClimberDown").onTrue(
+        //         climber.manualDown(Constants.Climber.ClimberSpeed, 0));
+        // selectedOI.binds.get("LeftClimberUp").onTrue(
+        //         climber.manualUp(Constants.Climber.ClimberSpeed, 0));
+        // selectedOI.binds.get("RightClimberDown").onTrue(
+        //         climber.manualDown(0, Constants.Climber.ClimberSpeed));
+        // selectedOI.binds.get("RightClimberUp").onTrue(
+        //         climber.manualUp(0, Constants.Climber.ClimberSpeed));
 
-        // Automatic
-        // selectedOI.binds.get("Amp").onTrue(shooterPre.shootAmp());
+        // Presets
 
+        selectedOI.binds.get("Amp").onTrue(shooterPre.shootAmp());
+        selectedOI.binds.get("ArmDrivePreset").onTrue(new InstantCommand(() -> {
+            arm.setGoal(5);
+        }));
+        selectedOI.binds.get("ArmIntakePosition").onTrue(new InstantCommand(() -> {
+            arm.setGoal(0);
+        }));
+        selectedOI.binds.get("ShootClose").onTrue(shooterPre.shootClose()); // Subwoofer
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
     }
 

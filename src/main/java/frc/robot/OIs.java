@@ -104,15 +104,22 @@ public class OIs {
             binds.put("ManualOuttake", controller.leftTrigger());
             binds.put("Manual Intake", numpad.button(8, Robot.buttonEventLoop));
             
-            // Testing flywheel 
-            binds.put("SpinUp", controller.button(3, Robot.buttonEventLoop)); // Y
+            // Flywheel (testing, using controller)
+            // binds.put("SpinUp", controller.button(3, Robot.buttonEventLoop)); // Y
+            // binds.put("SpinOff", controller.button(4, Robot.buttonEventLoop)); // X
+
+            // Flywheel (competition controls, using numpad)
+            binds.put("SpinUpToShoot", numpad.button(7, Robot.buttonEventLoop));
+            binds.put("SpinOff", numpad.button(8, Robot.buttonEventLoop));
+            binds.put("SpinUpToAmp", numpad.button(9, Robot.buttonEventLoop));
+
             binds.put("Shoot", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
-            binds.put("SpinOff", controller.button(4, Robot.buttonEventLoop)); // X
 
             // Presets 
-            binds.put("Amp", numpad.button(4, Robot.buttonEventLoop)); // Amp 
+            binds.put("Amp", numpad.button(4, Robot.buttonEventLoop));
+            binds.put("ArmDrivePreset", numpad.button(5, Robot.buttonEventLoop));
+            binds.put("ArmIntakePosition", numpad.button(6, Robot.buttonEventLoop));
             binds.put("ShootClose", numpad.button(3, Robot.buttonEventLoop)); // Subwoofer
-
         }
 
         private double deadbandCompensation(double r) {

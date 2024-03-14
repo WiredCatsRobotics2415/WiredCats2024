@@ -49,12 +49,12 @@ public final class Constants {
     public static class Flywheel {
         public static final Slot0Configs LEFT_PID =
                 new Slot0Configs()
-                        .withKV(0.16) // initial: v = .16, p = .24
-                        .withKP(0.25);
+                        .withKV(0.245)
+                        .withKP(0.345);
         public static final Slot0Configs RIGHT_PID =
                 new Slot0Configs()
-                        .withKV(0.15) // initial: same as above
-                        .withKP(0.22);
+                        .withKV(0.15)
+                        .withKP(0.19);
 
         public static final CurrentLimitsConfigs CURRENT_LIMITS =
                 new CurrentLimitsConfigs()
@@ -120,8 +120,8 @@ public final class Constants {
 
     public static class Intake {
         public static final double UptakeSpeed = 1;
-        public static final double IntakeSpeed = 0.9;
-        public static final double OuttakeSpeed = -0.4;
+        public static final double IntakeSpeed = 1;
+        public static final double OuttakeSpeed = -1;
         public static final double IRThreshold = 100;
     }
 

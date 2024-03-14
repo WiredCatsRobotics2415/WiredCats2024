@@ -193,7 +193,7 @@ public class Arm extends SubsystemBase {
             () -> {
                 rightMotor.setNeutralMode(NeutralModeValue.Coast);
                 leftMotor.setNeutralMode(NeutralModeValue.Coast);
-                Logger.log(this, LogLevel.INFO, "Motors put into coast mode");
+                Logger.log(this, LogLevel.INFO, "Motors put into COAST mode");
             }   
         );
     }
@@ -204,7 +204,7 @@ public class Arm extends SubsystemBase {
     public void brake() {
         rightMotor.setNeutralMode(NeutralModeValue.Brake);
         leftMotor.setNeutralMode(NeutralModeValue.Brake);
-        Logger.log(this, LogLevel.INFO, "Motors put into brake mode");
+        Logger.log(this, LogLevel.INFO, "Motors put into BRAKE mode");
     }
 
     /**
