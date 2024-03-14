@@ -223,7 +223,8 @@ public class Arm extends SubsystemBase {
       if (limitSwitch.get()) {
         double oldMaxVolt = Constants.Arm.MAX_VOLT; 
         Constants.Arm.MAX_VOLT = input.getAverageVoltage(); 
-        Constants.Arm.MIN_VOLT = 
+        double oldMinVolt = Constants.Arm.MIN_VOLT; 
+        Constants.Arm.MIN_VOLT = (Constants.Arm.MAX_VOLT - oldMaxVolt) + oldMinVolt; 
       } 
     }
 
