@@ -31,6 +31,6 @@ public class RobotMap {
     }
 
     public static class Finger {
-        public static final int FINGER_MOTOR = 0; //TODO: need to change 
+        public static final int FINGER_MOTOR = 15; //TODO: need to change 
     }
 }

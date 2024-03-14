@@ -80,4 +80,9 @@ public class Finger extends SubsystemBase{
     public Command fire() {
         return run(Constants.Finger.DISTANCE); 
     }
+
+    @Override
+    public void periodic() {
+        System.out.println(getPosition());
+    }
 }
