@@ -220,7 +220,11 @@ public class Arm extends SubsystemBase {
     */ 
     
     private void resetPotentiometerIfAtZero(){
-      if (limitSwitch.get()) Constants.Arm.MAX_VOLT = input.getAverageVoltage();
+      if (limitSwitch.get()) {
+        double oldMaxVolt = Constants.Arm.MAX_VOLT; 
+        Constants.Arm.MAX_VOLT = input.getAverageVoltage(); 
+        Constants.Arm.MIN_VOLT = 
+      } 
     }
 
     @Override

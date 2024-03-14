@@ -167,9 +167,6 @@ public final class Constants {
         public static final float ROTOR_TO_ARM_GEAR_RATIO =
                 280 / 1; // (# encoder rotations per 1 full rotation)
 
-        public static final double MAX_DEGREES = 64d / 360.0d; // Max angle of arm (81 is amp)
-        public static final double MIN_DEGREES = 0.0d; // Min angle of arm
-
         public static double rotationsToFalcon(double rotations) {
             return rotations * ROTOR_TO_ARM_GEAR_RATIO;
         }
@@ -181,6 +178,7 @@ public final class Constants {
         public static double MAX_VOLT = 3.07d;
         public static double MIN_VOLT = 1.74d;
         public static final double MAX_ANGLE = 105.7d;
+        public static final double MIN_DEGREES = 0.0d; // Min angle of arm
     }
 
     /**
