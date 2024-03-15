@@ -36,10 +36,9 @@ public class Finger extends SubsystemBase{
         motor.restoreFactoryDefaults();
 
         // motor.setInverted(true);
-        //motor.setSmartCurrentLimit(30);
+        // motor.setSmartCurrentLimit(30);
 
         relativeEncoder = motor.getEncoder(); // getEncoder​(SparkRelativeEncoder.Type encoderType, int countsPerRev) // absolute encoder
-
         motor.setOpenLoopRampRate(0.1);
     }
 

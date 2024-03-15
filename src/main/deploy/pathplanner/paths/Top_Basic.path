@@ -3,75 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.75,
-        "y": 6.72
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 1.0657421699458787,
-        "y": 7.085076883999923
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.5283810289842803,
-        "y": 7.016620570278177
-      },
-      "prevControl": {
-        "x": 1.8857172724574798,
-        "y": 7.016620570278177
-      },
-      "nextControl": {
-        "x": 3.0045549669188483,
-        "y": 7.016620570278177
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
         "x": 0.7516461186768542,
         "y": 6.739121939782341
       },
-      "prevControl": {
-        "x": 0.44408864013584415,
-        "y": 6.739121939782341
-      },
+      "prevControl": null,
       "nextControl": {
-        "x": 1.0592035972178642,
-        "y": 6.739121939782341
+        "x": 1.0673882886227328,
+        "y": 7.104198823782264
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.967534972106981,
-        "y": 7.016620570278177
+        "x": 4.779999106294509,
+        "y": 7.073154498160848
       },
       "prevControl": {
-        "x": 3.309616576409142,
-        "y": 6.916316287077018
+        "x": 3.12208071059667,
+        "y": 6.972850214959689
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 0.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 1.5,
-      "rotationDegrees": 70.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -85,40 +42,6 @@
               "type": "named",
               "data": {
                 "name": "ShootSub"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Shoot Marker 2",
-      "waypointRelativePos": 2.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "ShootSub"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Intake Marker",
-      "waypointRelativePos": 1.1500000000000001,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Intake"
               }
             }
           ]

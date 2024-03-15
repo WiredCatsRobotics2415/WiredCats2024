@@ -32,7 +32,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Amp"
+            "name": "Drop"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Amp"
+            "name": "Drop"
           }
         },
         {
@@ -68,7 +68,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Amp"
+            "name": "Drop"
           }
         }
       ]
