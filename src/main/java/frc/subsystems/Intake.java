@@ -2,6 +2,7 @@ package frc.subsystems;
 
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -43,8 +44,7 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
         motor = new TalonFX(RobotMap.Intake.INTAKE_MOTOR);
-        motor.optimizeBusUtilization();
-        motor.setInverted(true);
+        configureMotor();
 
         closeToFlywheelSensor = new AnalogInput(RobotMap.Intake.FLYWHEEL_IR);
         closeToIntakeSensor = new AnalogInput(RobotMap.Intake.INTAKE_IR);
@@ -61,6 +61,12 @@ public class Intake extends SubsystemBase {
             instance = new Intake();
         }
         return instance;
+    }
+
+    private void configureMotor() {
+        motor.optimizeBusUtilization();
+        motor.setInverted(true);
+        motor.setNeutralMode(NeutralModeValue.Brake);
     }
 
     private void configureSmartDashboardWidgets() {
