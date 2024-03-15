@@ -206,6 +206,7 @@ public class Intake extends SubsystemBase {
         return runOnce(
                 () -> {
                     if (state == true) {
+                        intakeNote().cancel();
                         off().schedule();
                         state = false;
                     } else {

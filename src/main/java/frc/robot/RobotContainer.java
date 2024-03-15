@@ -138,8 +138,8 @@ public class RobotContainer {
         }, swerveDrive));
 
         // Intake
-        //selectedOI.binds.get("Intake").onTrue(intake.toggleIntake());
-        selectedOI.binds.get("Intake").onTrue(intake.intakeNote());
+        selectedOI.binds.get("Intake").onTrue(intake.toggleIntake());
+        //selectedOI.binds.get("Intake").onTrue(intake.intakeNote());
         selectedOI.binds.get("ManualOuttake").onTrue(intake.out()).onFalse(intake.off());
         //selectedOI.binds.get("ManualIntake").onTrue(intake.in()).onFalse(intake.off());
 
