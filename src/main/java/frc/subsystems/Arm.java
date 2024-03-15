@@ -123,6 +123,7 @@ public class Arm extends SubsystemBase {
         double feedforward = ff.calculate(setpoint.position, setpoint.velocity);
         // Add the feedforward to the PID output to get the motor output
         double voltOut = output + feedforward;
+        //if (!limitSwitch.get()) leftMotor.setVoltage(voltOut);
         leftMotor.setVoltage(voltOut);
         SmartDashboard.putNumber("Arm Volt out", voltOut);
     }
@@ -253,7 +254,9 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putBoolean("Limit Switch", limitSwitch.get());
 
         // control arm with smartdashboard
-        double desiredAngle = SmartDashboard.getNumber("Arm Goal", getMeasurement());
-        setGoal(desiredAngle);
+        //double desiredAngle = SmartDashboard.getNumber("Arm Goal", getMeasurement());
+        //setGoal(desiredAngle);
+
+        //System.out.println(limitSwitch.get());
     }
 }

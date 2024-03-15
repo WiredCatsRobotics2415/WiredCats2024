@@ -42,7 +42,7 @@ public class Finger extends SubsystemBase{
         pidController = motor.getPIDController();
 
         // set PID coefficients
-        pidController.setFF(Constants.Finger.Ks);
+        //pidController.setFF(Constants.Finger.Ks);
         pidController.setP(Constants.Finger.Kp);
         pidController.setD(Constants.Finger.Kd);
         pidController.setOutputRange(-Constants.Finger.outputExtrema, Constants.Finger.outputExtrema);
@@ -105,8 +105,8 @@ public class Finger extends SubsystemBase{
         return relativeEncoder.getPosition();
     }
 
-    @Override
-    public void periodic() {
-        // System.out.println(getPosition());
-    }
+    // @Override
+    // public void periodic() {
+    //     System.out.println(getPosition());
+    // }
 }

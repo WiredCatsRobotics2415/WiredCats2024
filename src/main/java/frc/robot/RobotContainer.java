@@ -148,11 +148,12 @@ public class RobotContainer {
         selectedOI.binds.get("LowerArm").whileTrue(arm.decreaseGoal());
 
         // Fire 
-        selectedOI.binds.get("Shoot").onTrue(finger.fire());
+        selectedOI.binds.get("Shoot").onTrue(finger.shootInTeleOp());
+        //selectedOI.binds.get("Shoot").onTrue(finger.fire());
         
         // Flywheel 
         //TODO: change call to onFromSmartDashboard to a call to on(flwyheelSppeds)
-        selectedOI.binds.get("SpinUpToShoot").onTrue(flywheel.onFromSmartDashboard());
+        //selectedOI.binds.get("SpinUpToShoot").onTrue(flywheel.onFromSmartDashboard());
         selectedOI.binds.get("SpinOff").onTrue(flywheel.off());
         selectedOI.binds.get("SpinUpToAmp").onTrue(flywheel.on(3000, 3000));
 
@@ -175,7 +176,7 @@ public class RobotContainer {
         selectedOI.binds.get("ArmIntakePosition").onTrue(new InstantCommand(() -> {
             arm.setGoal(0);
         }));
-        selectedOI.binds.get("ShootClose").onTrue(shooterPre.shootClose()); // Subwoofer
+        selectedOI.binds.get("ShootClose").onTrue(flywheel.on(6000, 8000)); // Subwoofer
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
         
     }
@@ -187,7 +188,13 @@ public class RobotContainer {
     private void configureTriggers() {
         //new Trigger(intake::hasNote).onTrue(intake.queueNote());
         //new Trigger(intake::noteIsQueued).onTrue(intake.stopNoteForShooting());
-        new Trigger(intake::hasNote).onTrue(DriverFeedback.blinkInConfirmation());
+        // new Trigger(intake::hasNote).onTrue(
+        //     finger.preventNoteFromContactingNote().andThen(
+        //     DriverFeedback.blinkInConfirmation())
+        // );
+        new Trigger(intake::hasNote).onTrue(
+            DriverFeedback.blinkInConfirmation()
+        );
     }
 
     /**

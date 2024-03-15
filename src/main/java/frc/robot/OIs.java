@@ -109,7 +109,7 @@ public class OIs {
             // binds.put("SpinOff", controller.button(4, Robot.buttonEventLoop)); // X
 
             // Flywheel (competition controls, using numpad)
-            binds.put("SpinUpToShoot", numpad.button(7, Robot.buttonEventLoop));
+            //binds.put("SpinUpToShoot", numpad.button(7, Robot.buttonEventLoop));
             binds.put("SpinOff", numpad.button(8, Robot.buttonEventLoop));
             binds.put("SpinUpToAmp", numpad.button(9, Robot.buttonEventLoop));
 
@@ -119,7 +119,7 @@ public class OIs {
             binds.put("Amp", numpad.button(4, Robot.buttonEventLoop));
             binds.put("ArmDrivePreset", numpad.button(5, Robot.buttonEventLoop));
             binds.put("ArmIntakePosition", numpad.button(6, Robot.buttonEventLoop));
-            binds.put("ShootClose", numpad.button(3, Robot.buttonEventLoop)); // Subwoofer
+            binds.put("ShootClose", numpad.button(7, Robot.buttonEventLoop)); // Subwoofer
         }
 
         private double deadbandCompensation(double r) {
