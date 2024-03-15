@@ -7,13 +7,15 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.utils.Logger;
+import frc.utils.Logger.LogLevel;
 
 public class Finger extends SubsystemBase{
     private CANSparkMax motor; 
     private SparkPIDController pidController;
-    private double kP, kI, kD, kIzone, kFF, kMaxOutput, kMinOutput;
     private RelativeEncoder relativeEncoder;
     private static Finger instance; 
 
@@ -34,43 +36,56 @@ public class Finger extends SubsystemBase{
         motor.restoreFactoryDefaults();
 
         // motor.setInverted(true);
-        // motor.setSmartCurrentLimit(30);
+        motor.setSmartCurrentLimit(30);
 
-        relativeEncoder = motor.getEncoder(); // getEncoder​(SparkRelativeEncoder.Type encoderType, int countsPerRev) // absolute encoder
+        relativeEncoder = motor.getEncoder();
         pidController = motor.getPIDController();
 
-        // pidController.setFeedbackDevice(m_encoder); // Absolute encoder 
-
-        // PID coefficients
-        kP = 1; 
-        kD = 0.2; 
-        kFF = 1; 
-        kMaxOutput = 1; 
-        kMinOutput = -1;
-
         // set PID coefficients
-        pidController.setP(kP);
-        pidController.setD(kD);
-        pidController.setFF(kFF);
-        pidController.setOutputRange(kMinOutput, kMaxOutput);
+        pidController.setFF(Constants.Finger.Ks);
+        pidController.setP(Constants.Finger.Kp);
+        pidController.setD(Constants.Finger.Kd);
+        pidController.setOutputRange(-Constants.Finger.outputExtrema, Constants.Finger.outputExtrema);
     }
 
     /**
-     * @param position rotation number to run the finger
+     * @param position rotation number to run the finger, relative to where it is
      * @return Command that runs finger a certain number of rotations. 
      */
     public Command run(double position) {
         return new InstantCommand(() -> {
-            pidController.setReference(position * Constants.Finger.FINGER_GEAR_RATIO, CANSparkMax.ControlType.kPosition);
-            System.out.println("finger");
+            double toMove = getPosition() + (position * Constants.Finger.FINGER_GEAR_RATIO);
+            pidController.setReference(toMove, CANSparkMax.ControlType.kPosition);
+            Logger.log(this, LogLevel.INFO, "Finger set to  " + toMove);
         });
     }
 
     /**
-     * @return current position of the finger. 
+     * @return Command that moves the finger to shoot a preloaded note, and go back to its start position
+     * (flush with the shintake plate, not interfering with camera or note path)
      */
-    public double getPosition() {
-        return relativeEncoder.getPosition();
+    public Command shootPreloadedAndGoToStartPosition() {
+        return run(0.625d)
+            .andThen(new WaitCommand(0.25))
+            .andThen(run(0.375d));
+    }
+
+    /**
+     * @return Command that moves the finger to interfere with the note path.
+     * intended to be used to prevent note from contacting flywheels
+     */
+    public Command preventNoteFromContactingNote() {
+        return run(-0.75d);
+    }
+
+    /**
+     * @return Command that shoots a note that has been intook, then moves back to its start position
+     * (explained in {@link shootPreloadedAndGoToStartPosition})
+     */
+    public Command shootInTeleOp() {
+        return run(1.375)
+        .andThen(new WaitCommand(0.25))
+        .andThen(run(0.625d));
     }
 
     /**
@@ -81,7 +96,13 @@ public class Finger extends SubsystemBase{
             pidController.setReference(getPosition() + (Constants.Finger.DISTANCE * Constants.Finger.FINGER_GEAR_RATIO), CANSparkMax.ControlType.kPosition);
             System.out.println("finger");
         });
-        //return run(Constants.Finger.DISTANCE); 
+    }
+
+    /**
+     * @return current position of the finger. 
+     */
+    public double getPosition() {
+        return relativeEncoder.getPosition();
     }
 
     @Override
