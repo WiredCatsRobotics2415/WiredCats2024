@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.commands.ShootingPresets;
 import frc.generated.TunerConstants;
 import frc.subsystems.Finger;
@@ -176,6 +177,7 @@ public class RobotContainer {
         }));
         selectedOI.binds.get("ShootClose").onTrue(shooterPre.shootClose()); // Subwoofer
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
+        
     }
 
     /**
