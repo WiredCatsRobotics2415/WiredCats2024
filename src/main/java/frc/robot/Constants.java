@@ -127,7 +127,7 @@ public final class Constants {
 
     public static class Finger {
         public static final double FINGER_GEAR_RATIO = 12; // 20:1 gear ratio
-        public static final double DISTANCE = 1; // rotations
+        public static final double DISTANCE = 1-(1/120.0); // rotations
 
         public static final double Ks = 0.14;
         // public static final double Kp = 3.0;

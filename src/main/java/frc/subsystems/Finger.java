@@ -86,7 +86,7 @@ public class Finger extends SubsystemBase{
             double old_offset = offset; 
             offset = 0;
             relativeEncoder.setPosition(0);
-            run(Constants.Finger.DISTANCE - old_offset).schedule();
+            run(Constants.Finger.DISTANCE + old_offset).schedule();
         });
     }
 
