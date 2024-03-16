@@ -49,8 +49,8 @@ public final class Constants {
     public static class Flywheel {
         public static final Slot0Configs LEFT_PID =
                 new Slot0Configs()
-                        .withKV(0.245)
-                        .withKP(0.345);
+                        .withKV(0.14)
+                        .withKP(0.22);
         public static final Slot0Configs RIGHT_PID =
                 new Slot0Configs()
                         .withKV(0.15)
