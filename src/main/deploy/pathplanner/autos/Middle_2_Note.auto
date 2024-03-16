@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7319122330552369,
-      "y": 4.380922607999063
+      "x": 1.34,
+      "y": 5.53
     },
-    "rotation": -58.78159723565359
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom_2_Note"
+            "pathName": "Middle_2_Note"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom_Leave"
+            "pathName": "Middle_Leave"
           }
         }
       ]
