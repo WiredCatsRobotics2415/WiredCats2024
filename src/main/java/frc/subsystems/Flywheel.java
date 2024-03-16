@@ -34,6 +34,7 @@ public class Flywheel extends SubsystemBase {
     private MechanismLigament2d rightGoal;
 
     private boolean shouldSpinUp = false;
+    private boolean isOn = false;
 
     private Flywheel() {
         left = new TalonFX(RobotMap.Flywheel.LEFT_FLYWHEEL);
@@ -94,6 +95,7 @@ public class Flywheel extends SubsystemBase {
     public Command on(double leftSpeed, double rightSpeed) {
         return runOnce(
                 () -> {
+                    isOn = true;
                     Logger.log(this, LogLevel.INFO, "Flywheel on", leftSpeed, rightSpeed);
                     left.setControl(voltageVelocity.withVelocity(Constants.Flywheel.rpmToRPS(leftSpeed)));
                     right.setControl(voltageVelocity.withVelocity(Constants.Flywheel.rpmToRPS(rightSpeed)));
@@ -106,6 +108,7 @@ public class Flywheel extends SubsystemBase {
     public Command onFromSmartDashboard() {
         return runOnce(
                 () -> {
+                    isOn = true;
                     Logger.log(this, LogLevel.INFO, "Flywheel on from smart dashboard");
                     rightSetRPM = SmartDashboard.getNumber("Set Speed (Right Motor - RPM)", rightSetRPM);
                     leftSetRPM = SmartDashboard.getNumber("Set Speed (Left Motor - RPM)", leftSetRPM);
@@ -120,6 +123,7 @@ public class Flywheel extends SubsystemBase {
     public Command off() {
         return runOnce(
                 () -> {
+                    isOn = false;
                     Logger.log(this, LogLevel.INFO, "Flywheel off");
                     left.setControl(voltageVelocity.withVelocity(0));
                     right.setControl(voltageVelocity.withVelocity(0));
@@ -153,6 +157,8 @@ public class Flywheel extends SubsystemBase {
 
         rightGoal.setColor(getColorForRPM(Constants.Flywheel.rpsToRPM(rightSpeedRaw)));
         leftGoal.setColor(getColorForRPM(Constants.Flywheel.rpsToRPM(leftSpeedRaw)));
+
+        SmartDashboard.putBoolean("Shooter isOn", isOn);
     }
 
     private Color8Bit getColorForRPM(double rpm) {

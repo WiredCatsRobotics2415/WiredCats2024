@@ -219,6 +219,7 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("IR Sensor", closeToFlywheelSensor.getValue());
+        SmartDashboard.putBoolean("Intake isOn", isBeingIntook);
     }
 
     /**
