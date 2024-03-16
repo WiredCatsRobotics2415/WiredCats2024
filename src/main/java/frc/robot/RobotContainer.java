@@ -149,6 +149,7 @@ public class RobotContainer {
 
         // Fire 
         selectedOI.binds.get("Shoot").onTrue(finger.shootInTeleOp());
+        selectedOI.binds.get("ReverseFinger").onTrue(finger.reverse()); 
         //selectedOI.binds.get("Shoot").onTrue(finger.fire());
         
         // Flywheel 

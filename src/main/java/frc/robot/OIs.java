@@ -85,7 +85,7 @@ public class OIs {
             numpad = new CommandJoystick(1);
 
             binds.put("PigeonReset", controller.button(7, Robot.buttonEventLoop)); //Minus
-            binds.put("TargetHotspot", controller.button(8, Robot.buttonEventLoop)); //Plus
+            // binds.put("TargetHotspot", controller.button(8, Robot.buttonEventLoop)); //Plus (in use by finger reverse)
 
             // Climber
             binds.put("LeftClimberDown", controller.leftTrigger());
@@ -114,6 +114,7 @@ public class OIs {
             binds.put("SpinUpToAmp", numpad.button(9, Robot.buttonEventLoop));
 
             binds.put("Shoot", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
+            binds.put("ReverseFinger", controller.button(8, Robot.buttonEventLoop));
 
             // Presets 
             binds.put("Amp", numpad.button(4, Robot.buttonEventLoop));

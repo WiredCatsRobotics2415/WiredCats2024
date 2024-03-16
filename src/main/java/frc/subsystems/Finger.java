@@ -61,20 +61,10 @@ public class Finger extends SubsystemBase{
     }
 
     /**
-     * @return Command that moves the finger to shoot a preloaded note, and go back to its start position
-     * (flush with the shintake plate, not interfering with camera or note path)
-     */
-    public Command shootPreloadedAndGoToStartPosition() {
-        return run(0.625d)
-            .andThen(new WaitCommand(0.25))
-            .andThen(run(0.375d));
-    }
-
-    /**
      * @return Command that moves the finger to interfere with the note path.
      * intended to be used to prevent note from contacting flywheels
      */
-    public Command preventNoteFromContactingNote() {
+    public Command reverse() {
         return run(-0.75d);
     }
 
