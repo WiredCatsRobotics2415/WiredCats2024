@@ -161,19 +161,6 @@ public class Intake extends SubsystemBase {
     }
 
     /**
-     * @return Command that slightly outtakes the note, used in conjunction with the IR sensor to
-     *     clear the note from the flywheels
-     */
-    public Command queueNote() {
-        return runOnce(
-                () -> {
-                    isBeingIntook = false;
-                    isBeingQueued = true;
-                    motor.set(-0.05);
-                });
-    }
-
-    /**
      * @return Command used in conjunction with the IR sensor to stop the motor
      * from queueing the note.
      */
@@ -246,17 +233,5 @@ public class Intake extends SubsystemBase {
     public void motorInWithRotations(double rotations) {
         motor.setControl(
                 positionOut.withPosition(rotations)); // Not 100% Sure PositionOut uses rotations
-    }
-
-    /*
-     * Run the intake for a set amount of time to intake the note during autonomous. 
-     */
-    public Command intakeAuto() {
-      return new SequentialCommandGroup(
-        in(), 
-        new WaitUntilCommand(() -> hasNote()),
-        queueNote(), 
-        off()
-      ); 
     }
 }
