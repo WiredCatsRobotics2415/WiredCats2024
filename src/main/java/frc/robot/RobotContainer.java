@@ -4,6 +4,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -152,9 +153,9 @@ public class RobotContainer {
         // Fire 
         //selectedOI.binds.get("Shoot").onTrue(new ConditionalCommand(finger.fire(), new InstantCommand(() -> {}), flywheel::withinSetGoal));
         selectedOI.binds.get("Shoot").onTrue(finger.fire());
-        //selectedOI.binds.get("Shoot").onTrue(finger.fire());
+        //selectedOI.binds.get("ReverseFinger").whileTrue(new RepeatCommand(finger.reverse()));
         selectedOI.binds.get("ReverseFinger").onTrue(finger.reverse());
-
+        
         // Flywheel 
         //TODO: change call to onFromSmartDashboard to a call to on(flwyheelSppeds)
         //selectedOI.binds.get("SpinUpToShoot").onTrue(flywheel.onFromSmartDashboard());
@@ -217,5 +218,9 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         String chosenAuto = autoChooser.getSelected().getName();
         return new PathPlannerAuto(chosenAuto);
+    }
+
+    public static Pose2d getStartingPose(String autoName) {
+        return new PathPlannerAuto(autoName).getStaringPoseFromAutoFile(autoName);
     }
 }
