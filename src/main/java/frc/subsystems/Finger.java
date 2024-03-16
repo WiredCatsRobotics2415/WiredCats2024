@@ -48,6 +48,9 @@ public class Finger extends SubsystemBase{
         pidController.setP(Constants.Finger.Kp);
         pidController.setD(Constants.Finger.Kd);
         pidController.setOutputRange(-Constants.Finger.outputExtrema, Constants.Finger.outputExtrema);
+        pidController.setPositionPIDWrappingEnabled(true);
+        pidController.setPositionPIDWrappingMaxInput(1);
+        pidController.setPositionPIDWrappingMinInput(-1);
     }
 
     /**
@@ -57,8 +60,8 @@ public class Finger extends SubsystemBase{
     public Command run(double position) {
         return new InstantCommand(() -> {
             //double toMove = getPosition() + (position * Constants.Finger.FINGER_GEAR_RATIO);
-            pidController.setReference(position, CANSparkMax.ControlType.kPosition);
-            Logger.log(this, LogLevel.INFO, "Finger set to  " + position);
+            pidController.setReference(getPosition() + position, CANSparkMax.ControlType.kPosition);
+            Logger.log(this, LogLevel.INFO, "Finger set to  " + getPosition() + position);
         });
     }
 
@@ -67,7 +70,7 @@ public class Finger extends SubsystemBase{
      * intended to be used to prevent note from contacting flywheels
      */
     public Command reverse() {
-        return run(getPosition() - 0.05d);
+        return run(getPosition() + 0.05d);
     }
 
     /**
@@ -81,17 +84,23 @@ public class Finger extends SubsystemBase{
      * @return current position of the finger. 
      */
     public double getPosition() {
+        // double raw = relativeEncoder.getPosition();
+        // if (raw >= 0.99) return 1;
+        // if (raw <= -0.99) return -1;
         return relativeEncoder.getPosition();
     }
 
     @Override
     public void periodic() {
-       if(getPosition()  >= 1){
-        relativeEncoder.setPosition(getPosition()-1);
-        run(getPosition()).schedule();
-       } else if(getPosition() <= -1){
-        relativeEncoder.setPosition(getPosition()+1);
-        run(getPosition()).schedule();
-       }
+    //    if(getPosition()  >= 1){
+    //     relativeEncoder.setPosition(getPosition()-1);
+    //     run(getPosition()).schedule();
+    //     Logger.log(this, LogLevel.INFO, "go above 1");
+    //    } else if(getPosition() <= 1){
+    //     relativeEncoder.setPosition(getPosition()+1);
+    //     run(getPosition()).schedule();
+    //     Logger.log(this, LogLevel.INFO, "go below -1");
+    //    }
+       Logger.log(this, LogLevel.INFO, getPosition());
     }
 }

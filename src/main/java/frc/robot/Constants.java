@@ -130,8 +130,10 @@ public final class Constants {
         public static final double DISTANCE = 1; // rotations
 
         public static final double Ks = 0.14;
-        public static final double Kp = 3.0;
-        public static final double Kd = 0.01;
+        // public static final double Kp = 3.0;
+        // public static final double Kd = 0.01;
+        public static final double Kp = 1.0;
+        public static final double Kd = 0.005;
         public static final double outputExtrema = 0.83;
     }
 

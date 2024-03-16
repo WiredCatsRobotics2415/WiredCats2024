@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         buttonEventLoop.poll();
         CommandScheduler.getInstance().run();
-        SmartDashboard.putNumber("Voltage", pdp.getVoltage());
+        //SmartDashboard.putNumber("Voltage", pdp.getVoltage());
     }
 
     @Override
