@@ -65,27 +65,14 @@ public class Finger extends SubsystemBase{
      * intended to be used to prevent note from contacting flywheels
      */
     public Command reverse() {
-        return run(-0.75d);
-    }
-
-    /**
-     * @return Command that shoots a note that has been intook, then moves back to its start position
-     * (explained in {@link shootPreloadedAndGoToStartPosition})
-     */
-    public Command shootInTeleOp() {
-        return run(1.375)
-        .andThen(new WaitCommand(0.25))
-        .andThen(run(0.625d));
+        return run(-0.375d);
     }
 
     /**
      * @return Command that fires note by running the finger 1 full rotation.
      */ 
     public Command fire() {
-        return new InstantCommand(() -> {
-            pidController.setReference(getPosition() + (Constants.Finger.DISTANCE * Constants.Finger.FINGER_GEAR_RATIO), CANSparkMax.ControlType.kPosition);
-            System.out.println("finger");
-        });
+        return run(Constants.Finger.DISTANCE);
     }
 
     /**
