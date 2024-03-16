@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.commands.ShootingPresets;
 import frc.generated.TunerConstants;
 import frc.subsystems.Finger;
@@ -149,8 +150,10 @@ public class RobotContainer {
         selectedOI.binds.get("LowerArm").whileTrue(arm.decreaseGoal());
 
         // Fire 
+        //selectedOI.binds.get("Shoot").onTrue(new ConditionalCommand(finger.fire(), new InstantCommand(() -> {}), flywheel::withinSetGoal));
         selectedOI.binds.get("Shoot").onTrue(finger.fire());
-        selectedOI.binds.get("ReverseFinger").whileTrue(new RepeatCommand(finger.reverse()));
+        //selectedOI.binds.get("ReverseFinger").whileTrue(new RepeatCommand(finger.reverse()));
+        selectedOI.binds.get("ReverseFinger").onTrue(finger.reverse());
         
         // Flywheel 
         //TODO: change call to onFromSmartDashboard to a call to on(flwyheelSppeds)

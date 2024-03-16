@@ -84,8 +84,10 @@ public class Finger extends SubsystemBase{
     public Command fire() {
         return new InstantCommand(() -> {
             double old_offset = offset; 
+            old_offset -= (1/120.0d)*(offset/0.05d);
             offset = 0;
             relativeEncoder.setPosition(0);
+            Logger.log(this, LogLevel.INFO, old_offset);
             run(Constants.Finger.DISTANCE + old_offset).schedule();
         });
     }
@@ -94,7 +96,6 @@ public class Finger extends SubsystemBase{
      * @return current position of the finger. 
      */
     public double getPosition() {
-        double raw = relativeEncoder.getPosition();
         //if (raw >= 0.99) return 1;
         //if (raw <= -0.99) return -1;
         return relativeEncoder.getPosition();

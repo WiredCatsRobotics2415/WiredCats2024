@@ -33,7 +33,6 @@ public class Flywheel extends SubsystemBase {
     private MechanismLigament2d leftGoal;
     private MechanismLigament2d rightGoal;
 
-    private boolean shouldSpinUp = false;
     private boolean isOn = false;
 
     private Flywheel() {
@@ -131,14 +130,12 @@ public class Flywheel extends SubsystemBase {
      */
     public boolean withinSetGoal() {
         double currentValue = Constants.Flywheel.rpsToRPM(left.getRotorVelocity().getValue());
-        if (shouldSpinUp) {
+        if (isOn) {
             double goalValue = Constants.Flywheel.rpmToRPS(leftSetRPM);
             return currentValue < (goalValue + Constants.Flywheel.GOAL_TOLERANCE_RPM) ||
                     currentValue > (goalValue - Constants.Flywheel.GOAL_TOLERANCE_RPM);
-        } else {
-            return currentValue < Constants.Flywheel.GOAL_TOLERANCE_RPM ||
-                    currentValue > -Constants.Flywheel.GOAL_TOLERANCE_RPM;
         }
+        return false;
     }
 
     @Override
