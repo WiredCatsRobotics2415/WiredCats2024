@@ -41,6 +41,8 @@ public class Finger extends SubsystemBase{
         relativeEncoder = motor.getEncoder();
         pidController = motor.getPIDController();
 
+        relativeEncoder.setPositionConversionFactor(1/Constants.Finger.FINGER_GEAR_RATIO);
+
         // set PID coefficients
         //pidController.setFF(Constants.Finger.Ks);
         pidController.setP(Constants.Finger.Kp);
@@ -82,8 +84,11 @@ public class Finger extends SubsystemBase{
         return relativeEncoder.getPosition();
     }
 
-    // @Override
-    // public void periodic() {
-    //     System.out.println(getPosition());
-    // }
+    @Override
+    public void periodic() {
+       if(getPosition()  >= 1){
+        relativeEncoder.setPosition(0);
+        run(0);
+       }
+    }
 }
