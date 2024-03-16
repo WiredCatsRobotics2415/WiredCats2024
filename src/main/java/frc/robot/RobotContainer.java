@@ -61,7 +61,7 @@ public class RobotContainer {
         neutralizeSubsystems();
 
         // Autonomous named commands
-        NamedCommands.registerCommand("Intake", intake.intakeAuto());
+        NamedCommands.registerCommand("Intake", intake.intakeNote());
         NamedCommands.registerCommand("ShootSub", shooterPre.subwooferAuto()); // Shoot next to subwoofer. 
         NamedCommands.registerCommand("Amp", shooterPre.shootAmp()); // Score in Amp.  
         //TODO: add in commands for shooting and dropping notes
