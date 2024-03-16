@@ -3,16 +3,18 @@
   "robotLength": 0.897382,
   "holonomicMode": true,
   "pathFolders": [
+    "Basic Paths",
     "Bottom_Paths",
     "Middle_Paths",
-    "Basic Paths",
+    "Two Note ",
     "Top_Paths"
   ],
   "autoFolders": [
+    "Basic Paths",
     "Bottom Paths",
-    "Top Paths",
     "Middle Paths",
-    "Basic Paths"
+    "Two Note",
+    "Top Paths"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
