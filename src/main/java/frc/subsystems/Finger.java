@@ -56,9 +56,9 @@ public class Finger extends SubsystemBase{
      */
     public Command run(double position) {
         return new InstantCommand(() -> {
-            double toMove = getPosition() + (position * Constants.Finger.FINGER_GEAR_RATIO);
-            pidController.setReference(toMove, CANSparkMax.ControlType.kPosition);
-            Logger.log(this, LogLevel.INFO, "Finger set to  " + toMove);
+            //double toMove = getPosition() + (position * Constants.Finger.FINGER_GEAR_RATIO);
+            pidController.setReference(position, CANSparkMax.ControlType.kPosition);
+            Logger.log(this, LogLevel.INFO, "Finger set to  " + position);
         });
     }
 
@@ -67,7 +67,7 @@ public class Finger extends SubsystemBase{
      * intended to be used to prevent note from contacting flywheels
      */
     public Command reverse() {
-        return run(-0.375d);
+        return run(getPosition() - 0.05d);
     }
 
     /**
@@ -87,8 +87,11 @@ public class Finger extends SubsystemBase{
     @Override
     public void periodic() {
        if(getPosition()  >= 1){
-        relativeEncoder.setPosition(0);
-        run(0);
+        relativeEncoder.setPosition(getPosition()-1);
+        run(getPosition()-1).schedule();
+       } else if(getPosition() <= -1){
+        relativeEncoder.setPosition(getPosition()+1);
+        run(getPosition()+1).schedule();
        }
     }
 }
