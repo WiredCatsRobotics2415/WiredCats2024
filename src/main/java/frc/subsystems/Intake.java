@@ -34,10 +34,6 @@ public class Intake extends SubsystemBase {
 
     private MechanismLigament2d speedWidget;
 
-    private double uptakeSpeed = Constants.Intake.UptakeSpeed;
-    private double intakeSpeed = Constants.Intake.IntakeSpeed;
-    private double outtakeSpeed = Constants.Intake.OuttakeSpeed;
-
     public boolean isBeingIntook = false;
     public boolean isBeingQueued = false;
     private boolean state = false;
@@ -70,10 +66,6 @@ public class Intake extends SubsystemBase {
     }
 
     private void configureSmartDashboardWidgets() {
-        SmartDashboard.setDefaultNumber("Uptake", uptakeSpeed);
-        SmartDashboard.setDefaultNumber("Intake", intakeSpeed);
-        SmartDashboard.setDefaultNumber("Outtake", outtakeSpeed);
-
         Mechanism2d intakeMech2d = new Mechanism2d(3, 3);
 
         MechanismRoot2d root = intakeMech2d.getRoot("intake", 1.2, 0.25);
@@ -84,16 +76,16 @@ public class Intake extends SubsystemBase {
 
     /** Sets the motor's speed to the IntakeSpeed. */
     private void motorIn() {
-        Logger.log(this, LogLevel.INFO, "motor in at " + intakeSpeed);
+        Logger.log(this, LogLevel.INFO, "motor in at " + Constants.Intake.IntakeSpeed);
         motor.set(Constants.Intake.IntakeSpeed);
-        speedWidget.setColor(new Color8Bit(0, (int) (intakeSpeed * 255), 0));
+        speedWidget.setColor(new Color8Bit(0, (int) (Constants.Intake.IntakeSpeed * 255), 0));
     }
 
     /** Sets the motor's speed to the UptakeSpeed. */
     private void motorUptake() {
-        Logger.log(this, LogLevel.INFO, "motor uptaking at " + uptakeSpeed);
+        Logger.log(this, LogLevel.INFO, "motor uptaking at " + Constants.Intake.UptakeSpeed);
         motor.set(Constants.Intake.UptakeSpeed);
-        speedWidget.setColor(new Color8Bit(0, (int) (uptakeSpeed * 255), 0));
+        speedWidget.setColor(new Color8Bit(0, (int) (Constants.Intake.UptakeSpeed * 255), 0));
     }
 
     /**
@@ -108,9 +100,9 @@ public class Intake extends SubsystemBase {
 
     /** Sets the motor's speed to the OuttakeSpeed */
     private void motorOut() {
-        Logger.log(this, LogLevel.INFO, "motor outtaking at " + outtakeSpeed);
-        motor.set(SmartDashboard.getNumber("Outtake", outtakeSpeed));
-        speedWidget.setColor(new Color8Bit(0, 0, (int) (outtakeSpeed * 255)));
+        Logger.log(this, LogLevel.INFO, "motor outtaking at " + Constants.Intake.OuttakeSpeed);
+        motor.set(SmartDashboard.getNumber("Outtake", Constants.Intake.OuttakeSpeed));
+        speedWidget.setColor(new Color8Bit(0, 0, (int) (Constants.Intake.OuttakeSpeed * 255)));
     }
 
     // COMMANDS

@@ -60,11 +60,6 @@ public class Flywheel extends SubsystemBase {
     }
 
     private void configSmartDashboard() {
-        SmartDashboard.setDefaultNumber("Set Speed (Right Motor - RPM)", rightSetRPM);
-        SmartDashboard.setDefaultNumber("Set Speed (Left Motor - RPM)", leftSetRPM);
-        SmartDashboard.setDefaultNumber("Current Speed (Left)", left.getRotorVelocity().getValueAsDouble());
-        SmartDashboard.setDefaultNumber("Current Speed (Right)", right.getRotorVelocity().getValueAsDouble());
-
         Mechanism2d flywheelMech2d = new Mechanism2d(3, 3);
 
         MechanismRoot2d leftGoalRoot = flywheelMech2d.getRoot("leftGoal", 1.4, 0.25);

@@ -148,9 +148,8 @@ public class RobotContainer {
         selectedOI.binds.get("LowerArm").whileTrue(arm.decreaseGoal());
 
         // Fire 
-        selectedOI.binds.get("Shoot").onTrue(finger.shootInTeleOp());
-        selectedOI.binds.get("ReverseFinger").onTrue(finger.reverse()); 
-        //selectedOI.binds.get("Shoot").onTrue(finger.fire());
+        selectedOI.binds.get("Shoot").onTrue(finger.fire());
+        selectedOI.binds.get("ReverseFinger").onTrue(finger.reverse());
         
         // Flywheel 
         //TODO: change call to onFromSmartDashboard to a call to on(flwyheelSppeds)
