@@ -88,10 +88,10 @@ public class Finger extends SubsystemBase{
     public void periodic() {
        if(getPosition()  >= 1){
         relativeEncoder.setPosition(getPosition()-1);
-        run(getPosition()-1).schedule();
+        run(getPosition()).schedule();
        } else if(getPosition() <= -1){
         relativeEncoder.setPosition(getPosition()+1);
-        run(getPosition()+1).schedule();
+        run(getPosition()).schedule();
        }
     }
 }
