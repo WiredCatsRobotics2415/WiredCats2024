@@ -152,9 +152,9 @@ public class RobotContainer {
         // Fire 
         //selectedOI.binds.get("Shoot").onTrue(new ConditionalCommand(finger.fire(), new InstantCommand(() -> {}), flywheel::withinSetGoal));
         selectedOI.binds.get("Shoot").onTrue(finger.fire());
-        //selectedOI.binds.get("ReverseFinger").whileTrue(new RepeatCommand(finger.reverse()));
+        //selectedOI.binds.get("Shoot").onTrue(finger.fire());
         selectedOI.binds.get("ReverseFinger").onTrue(finger.reverse());
-        
+
         // Flywheel 
         //TODO: change call to onFromSmartDashboard to a call to on(flwyheelSppeds)
         //selectedOI.binds.get("SpinUpToShoot").onTrue(flywheel.onFromSmartDashboard());

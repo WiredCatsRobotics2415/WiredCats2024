@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -140,6 +141,7 @@ public class Intake extends SubsystemBase {
         return new SequentialCommandGroup(
           in(),
           new WaitUntilCommand(() -> hasNote()),
+          new WaitCommand(0.2),
           stopNoteForShooting() 
         ); 
     }
@@ -198,7 +200,6 @@ public class Intake extends SubsystemBase {
         return runOnce(
                 () -> {
                     if (state == true) {
-                        intakeNote().cancel();
                         off().schedule();
                         state = false;
                     } else {

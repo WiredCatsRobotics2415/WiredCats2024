@@ -47,7 +47,7 @@ public class ShootingPresets {
     public Command shootClose() {
         return new ParallelCommandGroup(
             new InstantCommand(() -> arm.setGoal(Settings.subwoofer.arm)),
-            new InstantCommand(() -> flywheel.on(Settings.subwoofer.left_flywheel, Settings.subwoofer.right_flywheel))); 
+            flywheel.on(Settings.subwoofer.left_flywheel, Settings.subwoofer.right_flywheel)); 
     }
 
     // Fire next to amp. 
@@ -61,8 +61,10 @@ public class ShootingPresets {
     public Command subwooferAuto() {
         return new SequentialCommandGroup(
             shootClose(),  
-            new WaitUntilCommand(() -> flywheel.withinSetGoal()), 
+            new WaitCommand(3),
+            //new WaitUntilCommand(() -> flywheel.withinSetGoal()), 
             finger.fire(), 
+            new WaitCommand(2),
             flywheel.off() 
         ); 
     }

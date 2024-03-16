@@ -16,6 +16,12 @@
           "data": {
             "pathName": "Top_Amp"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Amp"
+          }
         }
       ]
     }
