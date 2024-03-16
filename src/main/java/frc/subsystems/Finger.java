@@ -18,11 +18,13 @@ public class Finger extends SubsystemBase{
     private SparkPIDController pidController;
     private RelativeEncoder relativeEncoder;
     private static Finger instance; 
+    private double offset; 
 
     public Finger() {
         motor = new CANSparkMax(RobotMap.Finger.FINGER_MOTOR, CANSparkMax.MotorType.kBrushless); // initialize motor
         configureMotor();
         relativeEncoder.setPosition(0);
+        offset = 0; 
     }
 
     public static Finger getInstance() {
@@ -48,9 +50,9 @@ public class Finger extends SubsystemBase{
         pidController.setP(Constants.Finger.Kp);
         pidController.setD(Constants.Finger.Kd);
         pidController.setOutputRange(-Constants.Finger.outputExtrema, Constants.Finger.outputExtrema);
-        pidController.setPositionPIDWrappingEnabled(true);
-        pidController.setPositionPIDWrappingMaxInput(1);
-        pidController.setPositionPIDWrappingMinInput(-1);
+        // pidController.setPositionPIDWrappingEnabled(true);
+        // pidController.setPositionPIDWrappingMaxInput(1);
+        // pidController.setPositionPIDWrappingMinInput(-1);
     }
 
     /**
@@ -60,7 +62,7 @@ public class Finger extends SubsystemBase{
     public Command run(double position) {
         return new InstantCommand(() -> {
             //double toMove = getPosition() + (position * Constants.Finger.FINGER_GEAR_RATIO);
-            pidController.setReference(getPosition() + position, CANSparkMax.ControlType.kPosition);
+            pidController.setReference(position, CANSparkMax.ControlType.kPosition);
             Logger.log(this, LogLevel.INFO, "Finger set to  " + getPosition() + position);
         });
     }
@@ -70,37 +72,47 @@ public class Finger extends SubsystemBase{
      * intended to be used to prevent note from contacting flywheels
      */
     public Command reverse() {
-        return run(getPosition() + 0.05d);
+        return new InstantCommand(() -> {
+            offset += 0.05; 
+            run(getPosition() - 0.05d).schedule();
+        }); 
     }
 
     /**
      * @return Command that fires note by running the finger 1 full rotation.
      */ 
     public Command fire() {
-        return run(Constants.Finger.DISTANCE);
+        return new InstantCommand(() -> {
+            double old_offset = offset; 
+            offset = 0;
+            relativeEncoder.setPosition(0);
+            run(Constants.Finger.DISTANCE - old_offset).schedule();
+        });
     }
 
     /**
      * @return current position of the finger. 
      */
     public double getPosition() {
-        // double raw = relativeEncoder.getPosition();
-        // if (raw >= 0.99) return 1;
-        // if (raw <= -0.99) return -1;
+        double raw = relativeEncoder.getPosition();
+        //if (raw >= 0.99) return 1;
+        //if (raw <= -0.99) return -1;
         return relativeEncoder.getPosition();
     }
 
     @Override
     public void periodic() {
-    //    if(getPosition()  >= 1){
-    //     relativeEncoder.setPosition(getPosition()-1);
-    //     run(getPosition()).schedule();
-    //     Logger.log(this, LogLevel.INFO, "go above 1");
-    //    } else if(getPosition() <= 1){
-    //     relativeEncoder.setPosition(getPosition()+1);
-    //     run(getPosition()).schedule();
-    //     Logger.log(this, LogLevel.INFO, "go below -1");
-    //    }
+        /* 
+       if(getPosition()  >= 1){
+        relativeEncoder.setPosition(0);
+        run(getPosition()).schedule();
+        Logger.log(this, LogLevel.INFO, "go above 1");
+       } else if(getPosition() <= -1){
+        relativeEncoder.setPosition(0);
+        run(getPosition()).schedule();
+        Logger.log(this, LogLevel.INFO, "go below -1");
+       }
        Logger.log(this, LogLevel.INFO, getPosition());
+       */
     }
 }
