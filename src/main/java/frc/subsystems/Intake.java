@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -141,6 +142,7 @@ public class Intake extends SubsystemBase {
         return new SequentialCommandGroup(
           in(),
           new WaitUntilCommand(() -> hasNote()),
+          new InstantCommand(() -> {state = false;}),
           new WaitCommand(0.2),
           stopNoteForShooting() 
         ); 
