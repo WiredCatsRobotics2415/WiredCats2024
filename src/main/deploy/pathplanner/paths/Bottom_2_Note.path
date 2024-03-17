@@ -74,6 +74,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "FlywheelOn",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "FlywheelOn"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {

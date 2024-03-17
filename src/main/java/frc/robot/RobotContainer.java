@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.commands.ShootingPresets;
+import frc.commands.ShootingPresets.Settings;
 import frc.generated.TunerConstants;
 import frc.subsystems.Finger;
 import frc.robot.Constants.DriverControl;
@@ -64,6 +65,8 @@ public class RobotContainer {
         // Autonomous named commands
         NamedCommands.registerCommand("Intake", intake.intakeNote());
         NamedCommands.registerCommand("ShootSub", shooterPre.subwooferAuto()); // Shoot next to subwoofer. 
+        NamedCommands.registerCommand("ShootWhileMoving", shooterPre.shootWhileMoving()); // Shoot next to subwoofer. 
+        NamedCommands.registerCommand("FlywheelOn", flywheel.on(Settings.subwoofer.left_flywheel, Settings.subwoofer.right_flywheel)); // Shoot next to subwoofer. 
         NamedCommands.registerCommand("Amp", shooterPre.shootAmp()); // Score in Amp.  
         //TODO: add in commands for shooting and dropping notes
 

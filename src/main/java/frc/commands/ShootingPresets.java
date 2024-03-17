@@ -67,8 +67,16 @@ public class ShootingPresets {
             new WaitCommand(3),
             //new WaitUntilCommand(() -> flywheel.withinSetGoal()), 
             finger.fire(), 
-            new WaitCommand(2),
+            new WaitCommand(1),
             flywheel.off()
         ); 
     }
+
+     public Command shootWhileMoving() {
+            return new SequentialCommandGroup(
+                finger.fire(), 
+                new WaitCommand(2),
+                flywheel.off()
+            ); 
+        }
 }
