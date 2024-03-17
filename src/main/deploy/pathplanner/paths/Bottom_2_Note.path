@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2656562113093366,
-        "y": 3.4348957185466897
+        "x": 1.0976332091553074,
+        "y": 0.2506020752782256
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +36,8 @@
         "y": 4.380922607999063
       },
       "prevControl": {
-        "x": 1.1561907739200123,
-        "y": 3.078486156972314
+        "x": 0.537638524351123,
+        "y": -0.09590577051524443
       },
       "nextControl": null,
       "isLocked": false,
@@ -60,7 +60,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "parallel",
         "data": {
