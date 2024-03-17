@@ -67,7 +67,6 @@ public class ShootingPresets {
             new WaitCommand(3),
             //new WaitUntilCommand(() -> flywheel.withinSetGoal()), 
             finger.fire(), 
-            intake.intakeNote(),
             new WaitCommand(2),
             flywheel.off()
         ); 
