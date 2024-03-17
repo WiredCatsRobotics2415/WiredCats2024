@@ -75,7 +75,7 @@ public class ShootingPresets {
      public Command shootWhileMoving() {
             return new SequentialCommandGroup(
                 finger.fire(), 
-                new WaitCommand(2),
+                new WaitCommand(1),
                 flywheel.off()
             ); 
         }
