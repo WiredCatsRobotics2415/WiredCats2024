@@ -53,8 +53,8 @@ public final class Constants {
                         .withKP(0.22);
         public static final Slot0Configs RIGHT_PID =
                 new Slot0Configs()
-                        .withKV(0.15)
-                        .withKP(0.19);
+                        .withKV(0.14)
+                        .withKP(0.2);
 
         public static final CurrentLimitsConfigs CURRENT_LIMITS =
                 new CurrentLimitsConfigs()
@@ -67,7 +67,7 @@ public final class Constants {
         public static final MotorOutputConfigs COAST_CONFIG =
                 new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast);
 
-        public static final double GOAL_TOLERANCE_RPM = 750;
+        public static final double GOAL_TOLERANCE_RPM = 250;
 
         public static final double GEAR_RATIO = 3.4d;
 
@@ -120,8 +120,8 @@ public final class Constants {
 
     public static class Intake {
         public static final double UptakeSpeed = 1;
-        public static final double IntakeSpeed = 1;
-        public static final double OuttakeSpeed = -1;
+        public static final double IntakeSpeed = 0.35;
+        public static final double OuttakeSpeed = -0.35;
         public static final double IRThreshold = 100;
     }
 
