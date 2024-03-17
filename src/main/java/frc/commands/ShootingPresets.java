@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.subsystems.Arm;
 import frc.subsystems.Flywheel;
 import frc.subsystems.Finger; 
+import frc.subsystems.Intake;
 
 public class ShootingPresets {
     // declare shooting-related subsystems 
@@ -16,11 +17,13 @@ public class ShootingPresets {
     private Flywheel flywheel; 
     private Finger finger;
     public static ShootingPresets instance; 
+    private Intake intake;
 
     public ShootingPresets() {
         arm = Arm.getInstance(); 
         flywheel = Flywheel.getInstance(); 
         finger = Finger.getInstance();
+        intake = Intake.getInstance();
     }
 
     public static ShootingPresets getInstance() {
@@ -65,7 +68,9 @@ public class ShootingPresets {
             //new WaitUntilCommand(() -> flywheel.withinSetGoal()), 
             finger.fire(), 
             new WaitCommand(2),
-            flywheel.off() 
+            flywheel.off(),
+            intake.intakeNote(),
+            new WaitCommand(2)
         ); 
     }
 }
