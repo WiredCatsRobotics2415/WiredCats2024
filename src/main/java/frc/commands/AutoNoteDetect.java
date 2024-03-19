@@ -10,7 +10,6 @@ import frc.generated.TunerConstants;
 import frc.subsystems.Vision;
 import frc.utils.Logger;
 import frc.utils.Logger.LogLevel;
-import frc.subsystems.Intake;
 
 /**
  * Automatically drives towards and intakes a note.
@@ -19,7 +18,6 @@ public class AutoNoteDetect extends Command {
     //GENERAL
     private Vision vision = Vision.getInstance();
 
-    private final double driveSpeed = 0.5;
     private double tolerance = 4;
 
     //SWERVE
@@ -48,7 +46,7 @@ public class AutoNoteDetect extends Command {
         Rotation2d pose = TunerConstants.DriveTrain.getRobotPose().getRotation();
 
         TunerConstants.DriveTrain.setControl(driveHeading
-            .withTargetDirection(pose.plus(Rotation2d.fromDegrees(vision.getNoteAngleOnX())))
+            .withTargetDirection(pose.minus(Rotation2d.fromDegrees(vision.getNoteAngleOnX())))
         );
     }
 
@@ -59,6 +57,8 @@ public class AutoNoteDetect extends Command {
 
     @Override
     public boolean isFinished() {
-        return (vision.getNoteAngleOnX() >= -4 && vision.getNoteAngleOnX() <= 4); 
+        //return false;
+        Logger.log(this, LogLevel.INFO, vision.getNoteAngleOnX());
+        return (vision.getNoteAngleOnX() >= -tolerance && vision.getNoteAngleOnX() <= tolerance); 
     }
 }

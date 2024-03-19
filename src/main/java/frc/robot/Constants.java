@@ -12,11 +12,9 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import java.math.*;
 
 import frc.commands.Hotspot;
 import frc.generated.TunerConstants;
-import frc.robot.RobotContainer;
 
 import java.util.ArrayList;
 
@@ -26,7 +24,7 @@ public final class Constants {
                 new String[] {"Front Left", "Front Right", "Back Left", "Back Right"};
 
         public static final PhoenixPIDController headingPIDController =
-                new PhoenixPIDController(10, 0, 0);
+                new PhoenixPIDController(3, 0, 0);
 
         static {
             headingPIDController.enableContinuousInput(-Math.PI, Math.PI);
@@ -168,7 +166,7 @@ public final class Constants {
         public static final float KS = 0.238f;
         public static final float KV = 0.0f;
         public static final float KA = 0.0f;
-        public static final float KG = 0.04f;
+        public static final float KG = 0.1f;
         public static final float KP = 0.18f;
         public static final float KD = 0.0033f;
 

@@ -56,8 +56,7 @@ public class Vision extends SubsystemBase {
         // TODO: is the following line necessary? added at walton
         // cachedBackPose2d = new Pose2d(-cachedBackPose2d.getX(), -cachedBackPose2d.getY(),
         // cachedBackPose2d.getRotation().rotateBy(Rotation2d.fromDegrees(180)));
-        // cachedIntakeTargetResults =
-        // LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
+        cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
     }
 
     /**
@@ -84,6 +83,7 @@ public class Vision extends SubsystemBase {
         if (Robot.isSimulation()) {
             return SmartDashboard.getNumber("Note Detection X", 0.0d);
         }
+        if (!isNoteVisible()) return 0.0d;
         return cachedIntakeTargetResults.targetingResults.targets_Detector[0].tx;
     }
 
@@ -97,10 +97,8 @@ public class Vision extends SubsystemBase {
     public boolean isNoteVisible() {
         if (Robot.isSimulation()) {
             return SmartDashboard.getBoolean("Note Visible", false);
-        } else if (cachedIntakeTargetResults.targetingResults.targets_Detector[0].ta > 0) {
-            return true;
-        } else {
-            return false;
         }
+        System.out.println(cachedIntakeTargetResults.targetingResults.targets_Detector.length);
+        return cachedIntakeTargetResults.targetingResults.targets_Detector.length != 0;
     }
 }
