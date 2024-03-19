@@ -213,6 +213,10 @@ public class Intake extends SubsystemBase {
         return (closeToFlywheelSensor.getValue() < Constants.Intake.IRThreshold) && isBeingIntook;
     }
 
+    public boolean getRawNoteSensorValueOpposite() {
+        return (closeToFlywheelSensor.getValue() > Constants.Intake.IRThreshold);
+    }
+
     /**
      * @return true if note is queued for shooting (used to clear note from flywheel)
      */

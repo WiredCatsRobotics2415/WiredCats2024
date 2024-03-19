@@ -121,6 +121,8 @@ public class OIs {
             binds.put("ArmDrivePreset", numpad.button(5, Robot.buttonEventLoop));
             binds.put("ArmIntakePosition", numpad.button(6, Robot.buttonEventLoop));
             binds.put("ShootClose", numpad.button(7, Robot.buttonEventLoop)); // Subwoofer
+
+            binds.put("AutoIntake", controller.pov(0, 0, Robot.buttonEventLoop));
         }
 
         private double deadbandCompensation(double r) {

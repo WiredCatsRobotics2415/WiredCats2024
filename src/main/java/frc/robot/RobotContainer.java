@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import frc.commands.AutoNoteDetect;
 import frc.commands.ShootingPresets;
 import frc.commands.ShootingPresets.Settings;
 import frc.generated.TunerConstants;
@@ -186,7 +187,8 @@ public class RobotContainer {
         }));
         //selectedOI.binds.get("ShootClose").onTrue(flywheel.on(6000, 8000)); // Subwoofer
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
-        
+
+        selectedOI.binds.get("AutoIntake").onTrue(new AutoNoteDetect());
     }
 
     /**
