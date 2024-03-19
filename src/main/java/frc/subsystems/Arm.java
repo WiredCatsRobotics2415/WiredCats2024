@@ -227,7 +227,17 @@ public class Arm extends SubsystemBase {
     }
 
     /**
-     * When the arm is hitting the limit switch (on the left bottom hard stop),
+     * @return A command to set the arm's current goal to the calculated Arm Angle based on distance to subwoofer
+     */
+    public Command moveToShotAngle() {
+        return new InstantCommand(
+            () -> {
+                this.setGoal(Constants.ShooterCalculations.getCalculatedArmShooterAngle());
+            });
+    } 
+
+    /**
+     * @return When the arm is hitting the limit switch (on the left bottom hard stop),
      * set the maximum voltage of the potentiometer to the current voltage
     /* 
     */ 

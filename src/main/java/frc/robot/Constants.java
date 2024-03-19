@@ -12,9 +12,11 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import java.math.*;
 
 import frc.commands.Hotspot;
 import frc.generated.TunerConstants;
+import frc.robot.RobotContainer;
 
 import java.util.ArrayList;
 
@@ -92,11 +94,13 @@ public final class Constants {
         }
 
         public static double getCalculatedArmShooterAngle() {
-            double X = TunerConstants.DriveTrain.getRobotPose().getTranslation().getX();
-            double Y = TunerConstants.DriveTrain.getRobotPose().getTranslation().getY();
+            Translation2d speakerDist = RobotContainer.speakerLocation.minus(TunerConstants.DriveTrain.getRobotPose().getTranslation());
+
+            double X = speakerDist.getX();
+            double Y = speakerDist.getY();
             double R = Math.sqrt(X * X + Y * Y);
 
-            double model = 0; // result in degrees
+            double model = (-5.26 * Math.pow(10,-6))*Math.pow(R,3)+(-1.46 * Math.pow(10,-3))*Math.pow(R,2)+(0.487)*R+(-6.36); // result in degrees
 
             return model;
         }

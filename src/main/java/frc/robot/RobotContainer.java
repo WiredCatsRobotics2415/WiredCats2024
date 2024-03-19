@@ -5,6 +5,9 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -45,6 +48,9 @@ public class RobotContainer {
 
     // LOAD SHOOTING PRESETS
     private final ShootingPresets shooterPre = new ShootingPresets();
+
+    //LOAD SPEAKER LOCATION
+    public static Translation2d speakerLocation;
 
     public OIs.OI getSelectedOI() {
         return selectedOI;
@@ -99,6 +105,16 @@ public class RobotContainer {
         configurePreferences();
         configureButtonBindings();
         configureTriggers();
+
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            if (alliance.get() == Alliance.Blue)
+                speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation;
+            else
+                speakerLocation = Constants.FieldMeasurements.RedSpeakerLocation;
+        } else {
+            speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation; // Default to blue
+        }
     }
 
     /**
