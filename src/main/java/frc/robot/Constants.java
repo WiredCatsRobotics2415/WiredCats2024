@@ -50,7 +50,7 @@ public final class Constants {
         public static final Slot0Configs LEFT_PID =
                 new Slot0Configs()
                         .withKV(0.14)
-                        .withKP(0.22);
+                        .withKP(0.25);
         public static final Slot0Configs RIGHT_PID =
                 new Slot0Configs()
                         .withKV(0.14)
@@ -168,8 +168,8 @@ public final class Constants {
         public static final float KP = 0.18f;
         public static final float KD = 0.0033f;
 
-        public static final float VELO_MAX = 80f;
-        public static final float ACCEL_MAX = 80f; // 6
+        public static final float VELO_MAX = 300f;
+        public static final float ACCEL_MAX = 300f; // 6
 
         public static final float ROTOR_TO_ARM_GEAR_RATIO =
                 280 / 1; // (# encoder rotations per 1 full rotation)

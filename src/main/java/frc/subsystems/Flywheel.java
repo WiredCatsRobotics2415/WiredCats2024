@@ -50,6 +50,9 @@ public class Flywheel extends SubsystemBase {
             PhysicsSim.getInstance().addTalonFX(left, 0.001);
             PhysicsSim.getInstance().addTalonFX(right, 0.001);
         }
+
+        SmartDashboard.setDefaultNumber("Set Speed (Right Motor - RPM)", 6000);
+        SmartDashboard.setDefaultNumber("Set Speed (Left Motor - RPM)", 8000);
     }
 
     public static Flywheel getInstance() {

@@ -161,7 +161,7 @@ public class RobotContainer {
         
         // Flywheel 
         //TODO: change call to onFromSmartDashboard to a call to on(flwyheelSppeds)
-        //selectedOI.binds.get("SpinUpToShoot").onTrue(flywheel.onFromSmartDashboard());
+        selectedOI.binds.get("ShootClose").onTrue(flywheel.onFromSmartDashboard());
         selectedOI.binds.get("SpinOff").onTrue(flywheel.off());
         selectedOI.binds.get("SpinUpToAmp").onTrue(flywheel.on(3000, 3000));
 
@@ -184,7 +184,7 @@ public class RobotContainer {
         selectedOI.binds.get("ArmIntakePosition").onTrue(new InstantCommand(() -> {
             arm.setGoal(0);
         }));
-        selectedOI.binds.get("ShootClose").onTrue(flywheel.on(6000, 8000)); // Subwoofer
+        //selectedOI.binds.get("ShootClose").onTrue(flywheel.on(6000, 8000)); // Subwoofer
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
         
     }
