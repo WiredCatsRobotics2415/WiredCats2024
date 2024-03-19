@@ -65,7 +65,7 @@ public class Logger {
                 toPrint = toPrint.concat(objects[i].toString() + " | ");
             }
             toPrint = toPrint.concat(objects[objects.length-1].toString());
-            System.out.println(getTimeString() + "(" + sender.getClass().getName() + ")" + toPrint);
+            System.out.println(getTimeString() + "(" + sender.getClass().getName() + ") " + toPrint);
         }
     }
 }
