@@ -6,15 +6,17 @@
     "Basic Paths",
     "Bottom_Paths",
     "Middle_Paths",
-    "Two Note ",
-    "Top_Paths"
+    "Four Note",
+    "Top_Paths",
+    "Two Note "
   ],
   "autoFolders": [
     "Basic Paths",
     "Bottom Paths",
     "Middle Paths",
-    "Two Note",
-    "Top Paths"
+    "Four Note",
+    "Top Paths",
+    "Two Note"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
