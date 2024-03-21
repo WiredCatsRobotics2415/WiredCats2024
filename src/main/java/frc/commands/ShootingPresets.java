@@ -66,7 +66,6 @@ public class ShootingPresets {
             shootClose(),  
             new WaitCommand(3),
             //new WaitUntilCommand(() -> flywheel.withinSetGoal()), 
-            new WaitCommand(2),
             finger.fire(), 
             new WaitCommand(1),
             flywheel.off()
@@ -80,4 +79,13 @@ public class ShootingPresets {
                 flywheel.off()
             ); 
         }
+
+    public Command shootMiddle() {
+                return new SequentialCommandGroup(
+                    new InstantCommand(() -> arm.setGoal(20)),
+                    finger.fire(), 
+                    new WaitCommand(1),
+                    flywheel.off()
+                ); 
+            }
 }
