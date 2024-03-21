@@ -133,10 +133,10 @@ public class Flywheel extends SubsystemBase {
         double currentValue = Constants.Flywheel.rpsToRPM(left.getRotorVelocity().getValue());
         if (isOn) {
             System.out.println(currentValue);
-            System.out.println( currentValue < (ShootingPresets.Settings.subwoofer.left_flywheel + Constants.Flywheel.GOAL_TOLERANCE_RPM) &&
-                    currentValue > (ShootingPresets.Settings.subwoofer.left_flywheel - Constants.Flywheel.GOAL_TOLERANCE_RPM));
-            return currentValue < (ShootingPresets.Settings.subwoofer.left_flywheel + Constants.Flywheel.GOAL_TOLERANCE_RPM) &&
-                    currentValue > (ShootingPresets.Settings.subwoofer.left_flywheel - Constants.Flywheel.GOAL_TOLERANCE_RPM);
+            System.out.println( currentValue < (ShootingPresets.Settings.subwoofer.right_flywheel + Constants.Flywheel.GOAL_TOLERANCE_RPM) &&
+                    currentValue > (ShootingPresets.Settings.subwoofer.right_flywheel - Constants.Flywheel.GOAL_TOLERANCE_RPM));
+            return currentValue < (ShootingPresets.Settings.subwoofer.right_flywheel + Constants.Flywheel.GOAL_TOLERANCE_RPM) &&
+                    currentValue > (ShootingPresets.Settings.subwoofer.right_flywheel - Constants.Flywheel.GOAL_TOLERANCE_RPM);
         }
         return false;
     }
@@ -154,6 +154,7 @@ public class Flywheel extends SubsystemBase {
         leftGoal.setColor(getColorForRPM(Constants.Flywheel.rpsToRPM(leftSpeedRaw)));
 
         SmartDashboard.putBoolean("Shooter isOn", isOn);
+        SmartDashboard.putBoolean("Within goal", withinSetGoal());
     }
 
     private Color8Bit getColorForRPM(double rpm) {

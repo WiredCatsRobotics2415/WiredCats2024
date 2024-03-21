@@ -67,7 +67,7 @@ public final class Constants {
         public static final MotorOutputConfigs COAST_CONFIG =
                 new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast);
 
-        public static final double GOAL_TOLERANCE_RPM = 250;
+        public static final double GOAL_TOLERANCE_RPM = 500;
 
         public static final double GEAR_RATIO = 3.4d;
 
