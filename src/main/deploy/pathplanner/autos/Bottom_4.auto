@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7171143189779416,
+      "y": 4.384960808570643
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FixAllShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FixAllShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot4"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Four Note",
+  "choreoAuto": false
+}

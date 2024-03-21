@@ -1,6 +1,7 @@
 package frc.subsystems;
 
 import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.commands.ShootingPresets;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -49,6 +51,9 @@ public class Flywheel extends SubsystemBase {
             PhysicsSim.getInstance().addTalonFX(left, 0.001);
             PhysicsSim.getInstance().addTalonFX(right, 0.001);
         }
+
+        SmartDashboard.setDefaultNumber("Set Speed (Right Motor - RPM)", 6000);
+        SmartDashboard.setDefaultNumber("Set Speed (Left Motor - RPM)", 8000);
     }
 
     public static Flywheel getInstance() {
@@ -131,9 +136,11 @@ public class Flywheel extends SubsystemBase {
     public boolean withinSetGoal() {
         double currentValue = Constants.Flywheel.rpsToRPM(left.getRotorVelocity().getValue());
         if (isOn) {
-            double goalValue = Constants.Flywheel.rpmToRPS(leftSetRPM);
-            return currentValue < (goalValue + Constants.Flywheel.GOAL_TOLERANCE_RPM) ||
-                    currentValue > (goalValue - Constants.Flywheel.GOAL_TOLERANCE_RPM);
+            System.out.println(currentValue);
+            System.out.println( currentValue < (ShootingPresets.Settings.subwoofer.left_flywheel + Constants.Flywheel.GOAL_TOLERANCE_RPM) &&
+                    currentValue > (ShootingPresets.Settings.subwoofer.left_flywheel - Constants.Flywheel.GOAL_TOLERANCE_RPM));
+            return currentValue < (ShootingPresets.Settings.subwoofer.left_flywheel + Constants.Flywheel.GOAL_TOLERANCE_RPM) &&
+                    currentValue > (ShootingPresets.Settings.subwoofer.left_flywheel - Constants.Flywheel.GOAL_TOLERANCE_RPM);
         }
         return false;
     }

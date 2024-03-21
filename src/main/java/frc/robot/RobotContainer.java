@@ -4,6 +4,10 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -13,7 +17,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import frc.commands.AutoNoteDetect;
 import frc.commands.ShootingPresets;
+import frc.commands.ShootingPresets.Settings;
 import frc.generated.TunerConstants;
 import frc.subsystems.Finger;
 import frc.robot.Constants.DriverControl;
@@ -43,6 +49,9 @@ public class RobotContainer {
     // LOAD SHOOTING PRESETS
     private final ShootingPresets shooterPre = new ShootingPresets();
 
+    //LOAD SPEAKER LOCATION
+    public static Translation2d speakerLocation;
+
     public OIs.OI getSelectedOI() {
         return selectedOI;
     }
@@ -61,8 +70,10 @@ public class RobotContainer {
         neutralizeSubsystems();
 
         // Autonomous named commands
-        NamedCommands.registerCommand("Intake", intake.intakeAuto());
+        NamedCommands.registerCommand("Intake", intake.intakeNote());
         NamedCommands.registerCommand("ShootSub", shooterPre.subwooferAuto()); // Shoot next to subwoofer. 
+        NamedCommands.registerCommand("ShootWhileMoving", shooterPre.shootWhileMoving()); // Shoot next to subwoofer. 
+        NamedCommands.registerCommand("FlywheelOn", flywheel.on(Settings.subwoofer.left_flywheel, Settings.subwoofer.right_flywheel)); // Shoot next to subwoofer. 
         NamedCommands.registerCommand("Amp", shooterPre.shootAmp()); // Score in Amp.  
         //TODO: add in commands for shooting and dropping notes
 
@@ -94,6 +105,16 @@ public class RobotContainer {
         configurePreferences();
         configureButtonBindings();
         configureTriggers();
+
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            if (alliance.get() == Alliance.Blue)
+                speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation;
+            else
+                speakerLocation = Constants.FieldMeasurements.RedSpeakerLocation;
+        } else {
+            speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation; // Default to blue
+        }
     }
 
     /**
@@ -157,7 +178,7 @@ public class RobotContainer {
         
         // Flywheel 
         //TODO: change call to onFromSmartDashboard to a call to on(flwyheelSppeds)
-        //selectedOI.binds.get("SpinUpToShoot").onTrue(flywheel.onFromSmartDashboard());
+        selectedOI.binds.get("ShootClose").onTrue(flywheel.onFromSmartDashboard());
         selectedOI.binds.get("SpinOff").onTrue(flywheel.off());
         selectedOI.binds.get("SpinUpToAmp").onTrue(flywheel.on(3000, 3000));
 
@@ -180,9 +201,10 @@ public class RobotContainer {
         selectedOI.binds.get("ArmIntakePosition").onTrue(new InstantCommand(() -> {
             arm.setGoal(0);
         }));
-        selectedOI.binds.get("ShootClose").onTrue(flywheel.on(6000, 8000)); // Subwoofer
+        //selectedOI.binds.get("ShootClose").onTrue(flywheel.on(6000, 8000)); // Subwoofer
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
-        
+
+        selectedOI.binds.get("AutoIntake").onTrue(new AutoNoteDetect());
     }
 
     /**
@@ -217,5 +239,9 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         String chosenAuto = autoChooser.getSelected().getName();
         return new PathPlannerAuto(chosenAuto);
+    }
+
+    public static Pose2d getStartingPose(String autoName) {
+        return new PathPlannerAuto(autoName).getStaringPoseFromAutoFile(autoName);
     }
 }

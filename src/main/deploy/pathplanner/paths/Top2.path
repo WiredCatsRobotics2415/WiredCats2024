@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.022716582470202234,
-        "y": 6.546474449430381
+        "x": 7.77,
+        "y": 7.42
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.1319125155956098,
-        "y": 6.52667096938455
+        "x": 6.274502824075285,
+        "y": 7.01746956592799
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9048779856818974,
-        "y": 5.553805186314077
+        "x": 3.7271227084236895,
+        "y": 6.308814118324616
       },
       "prevControl": {
-        "x": 1.977412769640353,
-        "y": 5.571679884100509
+        "x": 5.492327185907854,
+        "y": 6.661027124282661
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -39,11 +45,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Basic Paths",
+  "folder": "Four Note",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

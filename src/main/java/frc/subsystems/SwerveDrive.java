@@ -167,8 +167,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
         if (shouldUseLimelight) {
             if (vision.couldSeeApriltag()) {
-                addVisionMeasurement(vision.getBotPose2d(),
-                    Timer.getFPGATimestamp());
+                //addVisionMeasurement(vision.getBotPose2d(),
+                //    Timer.getFPGATimestamp());
             }
         }
         if (blueAlliance) {

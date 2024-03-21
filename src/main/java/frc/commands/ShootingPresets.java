@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.subsystems.Arm;
 import frc.subsystems.Flywheel;
 import frc.subsystems.Finger; 
+import frc.subsystems.Intake;
 
 public class ShootingPresets {
     // declare shooting-related subsystems 
@@ -16,11 +17,13 @@ public class ShootingPresets {
     private Flywheel flywheel; 
     private Finger finger;
     public static ShootingPresets instance; 
+    private Intake intake;
 
     public ShootingPresets() {
         arm = Arm.getInstance(); 
         flywheel = Flywheel.getInstance(); 
         finger = Finger.getInstance();
+        intake = Intake.getInstance();
     }
 
     public static ShootingPresets getInstance() {
@@ -47,7 +50,7 @@ public class ShootingPresets {
     public Command shootClose() {
         return new ParallelCommandGroup(
             new InstantCommand(() -> arm.setGoal(Settings.subwoofer.arm)),
-            new InstantCommand(() -> flywheel.on(Settings.subwoofer.left_flywheel, Settings.subwoofer.right_flywheel))); 
+            flywheel.on(Settings.subwoofer.left_flywheel, Settings.subwoofer.right_flywheel)); 
     }
 
     // Fire next to amp. 
@@ -61,8 +64,22 @@ public class ShootingPresets {
     public Command subwooferAuto() {
         return new SequentialCommandGroup(
             shootClose(),  
+            new WaitCommand(3),
+            //new WaitUntilCommand(() -> flywheel.withinSetGoal()), 
             new WaitCommand(2),
             finger.fire(), 
+            new WaitCommand(1),
+            flywheel.off()
+        ); 
+    }
+
+     public Command shootWhileMoving() {
+            return new SequentialCommandGroup(
+                finger.fire(), 
+                new WaitCommand(1),
+                flywheel.off()
+            ); 
+        }
             new WaitCommand(1), 
             flywheel.off() 
         ); 

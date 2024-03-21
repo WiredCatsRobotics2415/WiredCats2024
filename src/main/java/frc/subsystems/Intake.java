@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -140,6 +142,8 @@ public class Intake extends SubsystemBase {
         return new SequentialCommandGroup(
           in(),
           new WaitUntilCommand(() -> hasNote()),
+          new InstantCommand(() -> {state = false;}),
+          new WaitCommand(0.2),
           stopNoteForShooting() 
         ); 
     }
@@ -153,19 +157,6 @@ public class Intake extends SubsystemBase {
                     isBeingIntook = true;
                     isBeingQueued = false;
                     motorIn();
-                });
-    }
-
-    /**
-     * @return Command that slightly outtakes the note, used in conjunction with the IR sensor to
-     *     clear the note from the flywheels
-     */
-    public Command queueNote() {
-        return runOnce(
-                () -> {
-                    isBeingIntook = false;
-                    isBeingQueued = true;
-                    motor.set(-0.05);
                 });
     }
 
@@ -198,7 +189,6 @@ public class Intake extends SubsystemBase {
         return runOnce(
                 () -> {
                     if (state == true) {
-                        intakeNote().cancel();
                         off().schedule();
                         state = false;
                     } else {
@@ -223,6 +213,10 @@ public class Intake extends SubsystemBase {
         return (closeToFlywheelSensor.getValue() < Constants.Intake.IRThreshold) && isBeingIntook;
     }
 
+    public boolean getRawNoteSensorValueOpposite() {
+        return (closeToFlywheelSensor.getValue() > Constants.Intake.IRThreshold);
+    }
+
     /**
      * @return true if note is queued for shooting (used to clear note from flywheel)
      */
@@ -243,17 +237,5 @@ public class Intake extends SubsystemBase {
     public void motorInWithRotations(double rotations) {
         motor.setControl(
                 positionOut.withPosition(rotations)); // Not 100% Sure PositionOut uses rotations
-    }
-
-    /*
-     * Run the intake for a set amount of time to intake the note during autonomous. 
-     */
-    public Command intakeAuto() {
-      return new SequentialCommandGroup(
-        in(), 
-        new WaitUntilCommand(() -> hasNote()),
-        queueNote(), 
-        off()
-      ); 
     }
 }

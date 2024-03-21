@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7417791758660457,
-      "y": 4.390789550809871
+      "x": 0.7319122330552369,
+      "y": 4.380922607999063
     },
-    "rotation": -60.0
+    "rotation": -58.78159723565359
   },
   "command": {
     "type": "sequential",
@@ -18,20 +18,26 @@
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 4.0
+            "pathName": "Bottom_2_Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootWhileMoving"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Bottom_Basic"
+            "pathName": "Bottom_Leave"
           }
         }
       ]
     }
   },
-  "folder": "Basic Paths",
+  "folder": "Two Note",
   "choreoAuto": false
 }
