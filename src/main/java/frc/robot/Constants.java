@@ -24,7 +24,7 @@ public final class Constants {
                 new String[] {"Front Left", "Front Right", "Back Left", "Back Right"};
 
         public static final PhoenixPIDController headingPIDController =
-                new PhoenixPIDController(10, 0, 0);
+                new PhoenixPIDController(3, 0, 0);
 
         static {
             headingPIDController.enableContinuousInput(-Math.PI, Math.PI);
@@ -50,7 +50,7 @@ public final class Constants {
         public static final Slot0Configs LEFT_PID =
                 new Slot0Configs()
                         .withKV(0.14)
-                        .withKP(0.22);
+                        .withKP(0.25);
         public static final Slot0Configs RIGHT_PID =
                 new Slot0Configs()
                         .withKV(0.14)
@@ -92,11 +92,13 @@ public final class Constants {
         }
 
         public static double getCalculatedArmShooterAngle() {
-            double X = TunerConstants.DriveTrain.getRobotPose().getTranslation().getX();
-            double Y = TunerConstants.DriveTrain.getRobotPose().getTranslation().getY();
+            Translation2d speakerDist = RobotContainer.speakerLocation.minus(TunerConstants.DriveTrain.getRobotPose().getTranslation());
+
+            double X = Units.metersToInches(speakerDist.getX());
+            double Y = Units.metersToInches(speakerDist.getY());
             double R = Math.sqrt(X * X + Y * Y);
 
-            double model = 0; // result in degrees
+            double model = (-5.26 * Math.pow(10,-6))*Math.pow(R,3)+(-1.46 * Math.pow(10,-3))*Math.pow(R,2)+(0.487)*R+(-6.36); // result in degrees
 
             return model;
         }
@@ -127,7 +129,7 @@ public final class Constants {
 
     public static class Finger {
         public static final double FINGER_GEAR_RATIO = 12; // 20:1 gear ratio
-        public static final double DISTANCE = 1+(1/120.0); // rotations
+        public static final double DISTANCE = 1.25+(1/120.0); // rotations
 
         public static final double Ks = 0.14;
         // public static final double Kp = 3.0;
@@ -164,12 +166,12 @@ public final class Constants {
         public static final float KS = 0.238f;
         public static final float KV = 0.0f;
         public static final float KA = 0.0f;
-        public static final float KG = 0.04f;
+        public static final float KG = 0.1f;
         public static final float KP = 0.18f;
         public static final float KD = 0.0033f;
 
-        public static final float VELO_MAX = 80f;
-        public static final float ACCEL_MAX = 80f; // 6
+        public static final float VELO_MAX = 300f;
+        public static final float ACCEL_MAX = 300f; // 6
 
         public static final float ROTOR_TO_ARM_GEAR_RATIO =
                 280 / 1; // (# encoder rotations per 1 full rotation)

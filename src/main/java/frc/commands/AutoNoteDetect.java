@@ -7,9 +7,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.generated.TunerConstants;
-import frc.robot.Constants.DriverControl;
 import frc.subsystems.Vision;
-import frc.subsystems.Intake;
+import frc.utils.Logger;
+import frc.utils.Logger.LogLevel;
 
 /**
  * Automatically drives towards and intakes a note.
@@ -17,16 +17,15 @@ import frc.subsystems.Intake;
 public class AutoNoteDetect extends Command {
     //GENERAL
     private Vision vision = Vision.getInstance();
-    private Intake intake = Intake.getInstance();
+
+    private double tolerance = 4;
 
     //SWERVE
     private final SwerveRequest.FieldCentricFacingAngle driveHeading = new SwerveRequest.FieldCentricFacingAngle()
-    .withDeadband(DriverControl.kMaxDriveMeterS * 0.05)
-    .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-
-    public void intake() {
-        intake.in();
-       TunerConstants.DriveTrain.setControl(driveHeading.withVelocityX(0.5));
+        .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    
+    public AutoNoteDetect() {
+        addRequirements(TunerConstants.DriveTrain);
     }
 
     @Override
@@ -34,43 +33,32 @@ public class AutoNoteDetect extends Command {
         //Swerve preparations
         driveHeading.HeadingController = Constants.Swerve.headingPIDController;
 
-        //if there's no note, end
         if (!vision.isNoteVisible()) {
-            end(true);
+            Logger.log(this, LogLevel.INFO, "No note visible on init");
+            end(false);
         }
+        Logger.log(this, LogLevel.INFO, "Auto note detect running");
     }
 
     @Override
     public void execute() {
-        //checks x-degree of note
-        if (vision.getNoteAngleOnX() != 0) {
-            //turns robot to current pose + x-degree
-            Rotation2d pose = TunerConstants.DriveTrain.getRobotPose().getRotation();
-            TunerConstants.DriveTrain.setControl(driveHeading
-                .withTargetDirection(pose.plus(Rotation2d.fromDegrees(vision.getNoteAngleOnX()))));
+        //turns robot to current pose + x-degree
+        Rotation2d pose = TunerConstants.DriveTrain.getRobotPose().getRotation();
 
-            //start intake, end when IR sensor is passed
-            intake();
-            if (intake.hasNote()) {
-                end(false);
-            }
-        } else {
-            intake();
-            if (intake.hasNote()) {
-                end(false);
-            }
-        }
+        TunerConstants.DriveTrain.setControl(driveHeading
+            .withTargetDirection(pose.minus(Rotation2d.fromDegrees(vision.getNoteAngleOnX())))
+        );
     }
 
     @Override
     public void end(boolean interrupted) {
-        intake.off();
-        TunerConstants.DriveTrain.setControl(driveHeading.withVelocityX(0));
-        isFinished();
+        Logger.log(this, LogLevel.INFO, "Ended", interrupted);
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        //return false;
+        Logger.log(this, LogLevel.INFO, vision.getNoteAngleOnX());
+        return (vision.getNoteAngleOnX() >= -tolerance && vision.getNoteAngleOnX() <= tolerance); 
     }
 }

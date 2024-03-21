@@ -3,11 +3,14 @@ package frc.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.utils.Logger;
@@ -25,6 +28,7 @@ public class Finger extends SubsystemBase{
         configureMotor();
         relativeEncoder.setPosition(0);
         offset = 0; 
+        pidController.setReference(0, ControlType.kPosition);
     }
 
     public static Finger getInstance() {
@@ -50,6 +54,7 @@ public class Finger extends SubsystemBase{
         pidController.setP(Constants.Finger.Kp);
         pidController.setD(Constants.Finger.Kd);
         pidController.setOutputRange(-Constants.Finger.outputExtrema, Constants.Finger.outputExtrema);
+        motor.setIdleMode(IdleMode.kBrake);
         // pidController.setPositionPIDWrappingEnabled(true);
         // pidController.setPositionPIDWrappingMaxInput(1);
         // pidController.setPositionPIDWrappingMinInput(-1);
@@ -87,8 +92,12 @@ public class Finger extends SubsystemBase{
             old_offset -= (1/120.0d)*(offset/0.05d);
             offset = 0;
             relativeEncoder.setPosition(0);
-            Logger.log(this, LogLevel.INFO, old_offset);
-            run(Constants.Finger.DISTANCE + old_offset).schedule();
+            // Logger.log(this, LogLevel.INFO, old_offset);
+            // Intake intake = Intake.getInstance();
+            // run(Constants.Finger.DISTANCE + old_offset)
+            //     .andThen(new WaitUntilCommand(intake::getRawNoteSensorValueOpposite)
+            //     .andThen(run(0.75))).schedule();
+            run(1 + old_offset).schedule();
         });
     }
 

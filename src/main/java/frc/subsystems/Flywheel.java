@@ -1,6 +1,7 @@
 package frc.subsystems;
 
 import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -50,6 +51,9 @@ public class Flywheel extends SubsystemBase {
             PhysicsSim.getInstance().addTalonFX(left, 0.001);
             PhysicsSim.getInstance().addTalonFX(right, 0.001);
         }
+
+        SmartDashboard.setDefaultNumber("Set Speed (Right Motor - RPM)", 6000);
+        SmartDashboard.setDefaultNumber("Set Speed (Left Motor - RPM)", 8000);
     }
 
     public static Flywheel getInstance() {
@@ -91,7 +95,7 @@ public class Flywheel extends SubsystemBase {
         return runOnce(
                 () -> {
                     isOn = true;
-                    Logger.log(this, LogLevel.INFO, "Flywheel on", leftSpeed, rightSpeed);
+                    Logger.log(this, LogLevel.INFO, "Initial Flywheel On", leftSpeed, rightSpeed);
                     left.setControl(voltageVelocity.withVelocity(Constants.Flywheel.rpmToRPS(leftSpeed)));
                     right.setControl(voltageVelocity.withVelocity(Constants.Flywheel.rpmToRPS(rightSpeed)));
                 });

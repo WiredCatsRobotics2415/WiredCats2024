@@ -1,0 +1,67 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3449097592639632,
+      "y": 5.5658008306757365
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootMiddle"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootMiddle"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootMiddle"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid4"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Four Note",
+  "choreoAuto": false
+}
