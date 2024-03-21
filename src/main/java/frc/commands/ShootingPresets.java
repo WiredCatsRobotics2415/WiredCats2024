@@ -79,4 +79,13 @@ public class ShootingPresets {
                 flywheel.off()
             ); 
         }
+
+    public Command shootMiddle() {
+                return new SequentialCommandGroup(
+                    new InstantCommand(() -> arm.setGoal(20)),
+                    finger.fire(), 
+                    new WaitCommand(1),
+                    flywheel.off()
+                ); 
+            }
 }

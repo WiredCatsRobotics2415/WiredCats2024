@@ -226,6 +226,12 @@ public class Arm extends SubsystemBase {
                         }));
     }
 
+    public Command moveDown() {
+        return new InstantCommand(
+            () -> this.setGoal(0)
+        );
+    }
+
     /**
      * @return A command to set the arm's current goal to the calculated Arm Angle based on distance to subwoofer
      */

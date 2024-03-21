@@ -75,6 +75,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("ShootWhileMoving", shooterPre.shootWhileMoving()); // Shoot next to subwoofer. 
         NamedCommands.registerCommand("FlywheelOn", flywheel.on(Settings.subwoofer.left_flywheel, Settings.subwoofer.right_flywheel)); // Shoot next to subwoofer. 
         NamedCommands.registerCommand("Amp", shooterPre.shootAmp()); // Score in Amp.  
+        NamedCommands.registerCommand("ShootMiddle", shooterPre.shootMiddle()); // Score in Amp. 
+         NamedCommands.registerCommand("ArmDown", arm.moveDown()); // Score in Amp.   
         //TODO: add in commands for shooting and dropping notes
 
         configureStartupTriggers();
