@@ -79,9 +79,6 @@ public class ShootingPresets {
                 new WaitCommand(1),
                 flywheel.off()
             ); 
-        }
-            new WaitCommand(1), 
-            flywheel.off() 
-        ); 
+    }
     }
 }
