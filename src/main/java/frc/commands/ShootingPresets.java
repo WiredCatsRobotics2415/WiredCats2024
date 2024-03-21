@@ -61,8 +61,9 @@ public class ShootingPresets {
     public Command subwooferAuto() {
         return new SequentialCommandGroup(
             shootClose(),  
-            new WaitUntilCommand(() -> flywheel.withinSetGoal()), 
+            new WaitCommand(2),
             finger.fire(), 
+            new WaitCommand(1), 
             flywheel.off() 
         ); 
     }

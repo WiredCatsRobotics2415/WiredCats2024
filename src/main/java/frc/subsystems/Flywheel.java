@@ -90,7 +90,7 @@ public class Flywheel extends SubsystemBase {
         return runOnce(
                 () -> {
                     isOn = true;
-                    Logger.log(this, LogLevel.INFO, "Flywheel on", leftSpeed, rightSpeed);
+                    Logger.log(this, LogLevel.INFO, "Initial Flywheel On", leftSpeed, rightSpeed);
                     left.setControl(voltageVelocity.withVelocity(Constants.Flywheel.rpmToRPS(leftSpeed)));
                     right.setControl(voltageVelocity.withVelocity(Constants.Flywheel.rpmToRPS(rightSpeed)));
                 });
