@@ -18,6 +18,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOn"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Mid1"
@@ -51,6 +57,12 @@
           "type": "named",
           "data": {
             "name": "ShootMiddle"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOff"
           }
         },
         {
