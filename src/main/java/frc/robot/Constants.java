@@ -94,8 +94,8 @@ public final class Constants {
         public static double getCalculatedArmShooterAngle() {
             Translation2d speakerDist = RobotContainer.speakerLocation.minus(TunerConstants.DriveTrain.getRobotPose().getTranslation());
 
-            double X = speakerDist.getX();
-            double Y = speakerDist.getY();
+            double X = Units.metersToInches(speakerDist.getX());
+            double Y = Units.metersToInches(speakerDist.getY());
             double R = Math.sqrt(X * X + Y * Y);
 
             double model = (-5.26 * Math.pow(10,-6))*Math.pow(R,3)+(-1.46 * Math.pow(10,-3))*Math.pow(R,2)+(0.487)*R+(-6.36); // result in degrees
