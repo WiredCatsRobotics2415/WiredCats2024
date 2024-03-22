@@ -98,7 +98,6 @@ public class Vision extends SubsystemBase {
         if (Robot.isSimulation()) {
             return SmartDashboard.getBoolean("Note Visible", false);
         }
-        System.out.println(cachedIntakeTargetResults.targetingResults.targets_Detector.length);
         return cachedIntakeTargetResults.targetingResults.targets_Detector.length != 0;
     }
 }

@@ -134,7 +134,7 @@ public class Flywheel extends SubsystemBase {
      * GOAL_TOLERANCE_RPM
      */
     public boolean withinSetGoal() {
-        double currentValue = Constants.Flywheel.rpsToRPM(left.getRotorVelocity().getValue());
+        double currentValue = Constants.Flywheel.rpsToRPM(right.getRotorVelocity().getValue());
         if (isOn) {
             System.out.println(currentValue);
             System.out.println( currentValue < (ShootingPresets.Settings.subwoofer.right_flywheel + Constants.Flywheel.GOAL_TOLERANCE_RPM) &&
