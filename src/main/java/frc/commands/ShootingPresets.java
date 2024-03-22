@@ -73,12 +73,12 @@ public class ShootingPresets {
         ); 
     }
 
-     public Command shootWhileMoving() {
-            return new SequentialCommandGroup(
-                finger.fire(), 
-                new WaitCommand(1),
-                flywheel.off()
-            ); 
+    public Command shootWhileMoving() {
+        return new SequentialCommandGroup(
+            finger.fire(), 
+            new WaitCommand(1),
+            flywheel.off()
+        ); 
     }
-    }
+    
 }
