@@ -92,12 +92,12 @@ public class Finger extends SubsystemBase{
             old_offset -= (1/120.0d)*(offset/0.05d);
             offset = 0;
             relativeEncoder.setPosition(0);
-            // Logger.log(this, LogLevel.INFO, old_offset);
-            // Intake intake = Intake.getInstance();
-            // run(Constants.Finger.DISTANCE + old_offset)
-            //     .andThen(new WaitUntilCommand(intake::getRawNoteSensorValueOpposite)
-            //     .andThen(run(0.75))).schedule();
-            run(1 + old_offset).schedule();
+            Logger.log(this, LogLevel.INFO, old_offset);
+            Intake intake = Intake.getInstance();
+            run(Constants.Finger.DISTANCE + old_offset)
+                 .andThen(new WaitCommand(0.5)
+                 .andThen(run(0.75))).schedule();
+            // run(1 + old_offset).schedule();
         });
     }
 

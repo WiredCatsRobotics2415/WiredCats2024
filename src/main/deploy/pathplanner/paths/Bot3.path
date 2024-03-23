@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 7.7772123249678256,
-        "y": 2.3802082927982022
+        "x": 7.8806950206493,
+        "y": 2.8
       },
       "prevControl": {
-        "x": 5.074512932800239,
-        "y": 0.8999957902422779
+        "x": 5.33688152821988,
+        "y": 0.9921249259165187
       },
       "nextControl": null,
       "isLocked": false,
@@ -59,6 +59,23 @@
               "type": "named",
               "data": {
                 "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "ArmDown",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ArmDown"
               }
             }
           ]

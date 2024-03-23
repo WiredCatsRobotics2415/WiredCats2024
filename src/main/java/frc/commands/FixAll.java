@@ -79,8 +79,10 @@ public class FixAll extends Command {
 
     }
 
+    /* 
     @Override
     public boolean isFinished() {
-        return false;
+        // return 
     }
+    */
 }

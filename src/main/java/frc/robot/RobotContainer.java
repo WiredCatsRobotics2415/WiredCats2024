@@ -5,6 +5,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.commands.AutoNoteDetect;
+import frc.commands.FixAll;
 import frc.commands.ShootingPresets;
 import frc.commands.ShootingPresets.Settings;
 import frc.generated.TunerConstants;
@@ -79,7 +81,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("ShootMiddle", shooterPre.shootMiddle()); // Score in Amp. 
         NamedCommands.registerCommand("ShootBottom", shooterPre.shootBottom()); // Score in Amp. 
         NamedCommands.registerCommand("shootTop", shooterPre.shootTop()); // Score in Amp. 
-         NamedCommands.registerCommand("ArmDown", arm.moveDown()); // Score in Amp.   
+        NamedCommands.registerCommand("ArmDown", arm.moveDown()); // Score in Amp.   
+        NamedCommands.registerCommand("ArmUp", arm.moveUp()); // Score in Amp.   
         //TODO: add in commands for shooting and dropping notes
 
         configureStartupTriggers();
@@ -105,6 +108,7 @@ public class RobotContainer {
      * methods on subsystems. CLEARS ALL DEFAULT EVENTLOOP BINDS
      */
     public void teleopInit() {
+        swerveDrive.seedFieldRelative(new Pose2d(1.36, 5.53, new Rotation2d(180)));
         neutralizeSubsystems();
         prepareOI();
         configurePreferences();
@@ -186,6 +190,8 @@ public class RobotContainer {
         selectedOI.binds.get("ShootClose").onTrue(flywheel.onFromSmartDashboard());
         selectedOI.binds.get("SpinOff").onTrue(flywheel.off());
         selectedOI.binds.get("SpinUpToAmp").onTrue(flywheel.on(3000, 3000));
+        selectedOI.binds.get("FixAll").onTrue(new FixAll());
+        // selectedOI.binds.get("ArmAngle").onTrue(arm.moveToShotAngle());
 
         // Climber
         // selectedOI.binds.get("LeftClimberDown").onTrue(

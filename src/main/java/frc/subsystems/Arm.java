@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.commands.ShootingPresets;
 import frc.robot.Constants;
 import frc.robot.Constants.Arm.EncoderOption;
 import frc.robot.Robot;
@@ -83,7 +83,7 @@ public class Arm extends SubsystemBase {
         positionLigament.setColor(new Color8Bit(Color.kGreen));
 
         Shuffleboard.getTab("Mechanism2d").add("Arm Mechanism", armMechanism2d);
-        SmartDashboard.setDefaultNumber("Arm Goal", getPotRotations());
+        // SmartDashboard.setDefaultNumber("Arm Goal", getPotRotations());
     }
 
     /** Configures the Arm's motors. The right motor is inverted and follows the left motor. */
@@ -232,6 +232,12 @@ public class Arm extends SubsystemBase {
         );
     }
 
+    public Command moveUp() {
+        return new InstantCommand(
+            () -> this.setGoal(ShootingPresets.Settings.field.bottom)
+        );
+    }
+
     /**
      * @return A command to set the arm's current goal to the calculated Arm Angle based on distance to subwoofer
      */
@@ -270,7 +276,7 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putBoolean("Limit Switch", limitSwitch.get());
 
         // control arm with smartdashboard
-        //double desiredAngle = SmartDashboard.getNumber("Arm Goal", getMeasurement());
+        // double desiredAngle = SmartDashboard.getNumber("Arm Goal", getMeasurement());
         //setGoal(desiredAngle);
 
         //System.out.println(limitSwitch.get());

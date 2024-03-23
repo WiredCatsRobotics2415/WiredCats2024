@@ -238,4 +238,14 @@ public class Intake extends SubsystemBase {
         motor.setControl(
                 positionOut.withPosition(rotations)); // Not 100% Sure PositionOut uses rotations
     }
+
+    /* 
+    public Command fire() {
+        return new SequentialCommandGroup(
+            toggleIntake(),
+            new WaitCommand(0.5),
+            toggleIntake() 
+        );
+    }
+    */ 
 }

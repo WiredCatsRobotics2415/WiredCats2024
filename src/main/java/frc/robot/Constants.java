@@ -122,7 +122,7 @@ public final class Constants {
 
     public static class Intake {
         public static final double UptakeSpeed = 1;
-        public static final double IntakeSpeed = 0.35;
+        public static final double IntakeSpeed = 0.7;
         public static final double OuttakeSpeed = -0.35;
         public static final double IRThreshold = 100;
     }

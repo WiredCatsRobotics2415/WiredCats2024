@@ -69,10 +69,10 @@ public class ShootingPresets {
     public Command subwooferAuto() {
         return new SequentialCommandGroup(
             shootClose(),  
-            new WaitCommand(3),
+            new WaitCommand(2),
             //new WaitUntilCommand(() -> flywheel.withinSetGoal()), 
             finger.fire(), 
-            new WaitCommand(1),
+            new WaitCommand(0.5),
             flywheel.off()
         ); 
     }
@@ -80,7 +80,7 @@ public class ShootingPresets {
      public Command shootWhileMoving() {
             return new SequentialCommandGroup(
                 finger.fire(), 
-                new WaitCommand(1),
+                new WaitCommand(0.5),
                 flywheel.off()
             ); 
         }
@@ -89,23 +89,23 @@ public class ShootingPresets {
                 return new SequentialCommandGroup(
                     new InstantCommand(() -> arm.setGoal(Settings.field.middle)),
                     finger.fire(), 
-                    new WaitCommand(1)
+                    new WaitCommand(0.5)
                 ); 
             }
 
     public Command shootTop() {
                     return new SequentialCommandGroup(
                         new InstantCommand(() -> arm.setGoal(Settings.field.top)),
-                        finger.fire(), 
-                        new WaitCommand(1)
+                        finger.fire(), // Change to finger.fire
+                        new WaitCommand(0.5)
                     ); 
                 }
 
     public Command shootBottom() {
                         return new SequentialCommandGroup(
-                            new InstantCommand(() -> arm.setGoal(Settings.field.bottom)),
+                            // new InstantCommand(() -> arm.setGoal(Settings.field.bottom)),
                             finger.fire(), 
-                            new WaitCommand(1)
+                            new WaitCommand(0.5)
                         ); 
                     }
 }
