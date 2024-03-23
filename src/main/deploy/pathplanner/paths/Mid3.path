@@ -64,6 +64,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "ArmDown",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ArmDown"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -74,7 +91,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 19.55,
     "rotateFast": false
   },
   "reversed": false,

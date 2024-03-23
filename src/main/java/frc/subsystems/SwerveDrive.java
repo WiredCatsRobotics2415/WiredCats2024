@@ -62,10 +62,20 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
         }
 
         //Telemetry
+        for (int i = 0; i < 4; i++) {
+            SmartDashboard.putString(Constants.Swerve.ModuleNames[i] + "/.type", "SwerveModuleState");
+        }
         this.registerTelemetry((SwerveDrivetrain.SwerveDriveState state) -> {
             robotPose = state.Pose;
             field.setRobotPose(state.Pose);
             SmartDashboard.putData("Field", field);
+
+            for (int i = 0; i < state.ModuleStates.length; i++) {
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/actualAngle", state.ModuleStates[i].angle.getDegrees());
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/actualSpeed", state.ModuleStates[i].speedMetersPerSecond);
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/setAngle", state.ModuleTargets[i].angle.getDegrees());
+                SmartDashboard.putNumber(Constants.Swerve.ModuleNames[i] + "/setSpeed", state.ModuleTargets[i].speedMetersPerSecond);
+            }
         });
 
         //Remote Commands

@@ -18,6 +18,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOn"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Mid1"
@@ -26,7 +32,7 @@
         {
           "type": "named",
           "data": {
-            "name": "FixAllShoot"
+            "name": "ShootMiddle"
           }
         },
         {
@@ -38,7 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "FixAllShoot"
+            "name": "ShootMiddle"
           }
         },
         {
@@ -50,7 +56,13 @@
         {
           "type": "named",
           "data": {
-            "name": "FixAllShoot"
+            "name": "ShootMiddle"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOff"
           }
         },
         {

@@ -121,18 +121,36 @@
     },
     "transitory": {
       "Shuffleboard": {
+        "Auto": {
+          "Auto Chooser": {
+            "open": true,
+            "string[]##v_/Shuffleboard/Auto/Auto Chooser/options": {
+              "open": true
+            }
+          },
+          "open": true
+        },
         "open": true
       },
       "SmartDashboard": {
+        "Back Left": {
+          "open": true
+        },
         "open": true
       }
     }
   },
   "NetworkTables Info": {
+    "Clients": {
+      "open": true
+    },
     "Connections": {
       "open": true
     },
     "Server": {
+      "Publishers": {
+        "open": true
+      },
       "open": true
     },
     "visible": true

@@ -44,6 +44,11 @@ public class ShootingPresets {
         public static class amp {
             public static double arm = 80.0;
         }
+        public static class field {
+            public static double middle = 17;
+            public static double top = 17;
+            public static double bottom = 17;
+        }
     }
 
     // Fire next to subwoofer.  
@@ -66,19 +71,41 @@ public class ShootingPresets {
             shootClose(),  
             new WaitCommand(3),
             //new WaitUntilCommand(() -> flywheel.withinSetGoal()), 
-            new WaitCommand(2),
             finger.fire(), 
             new WaitCommand(1),
             flywheel.off()
         ); 
     }
 
-    public Command shootWhileMoving() {
-        return new SequentialCommandGroup(
-            finger.fire(), 
-            new WaitCommand(1),
-            flywheel.off()
-        ); 
-    }
-    
+     public Command shootWhileMoving() {
+            return new SequentialCommandGroup(
+                finger.fire(), 
+                new WaitCommand(1),
+                flywheel.off()
+            ); 
+        }
+
+    public Command shootMiddle() {
+                return new SequentialCommandGroup(
+                    new InstantCommand(() -> arm.setGoal(Settings.field.middle)),
+                    finger.fire(), 
+                    new WaitCommand(1)
+                ); 
+            }
+
+    public Command shootTop() {
+                    return new SequentialCommandGroup(
+                        new InstantCommand(() -> arm.setGoal(Settings.field.top)),
+                        finger.fire(), 
+                        new WaitCommand(1)
+                    ); 
+                }
+
+    public Command shootBottom() {
+                        return new SequentialCommandGroup(
+                            new InstantCommand(() -> arm.setGoal(Settings.field.bottom)),
+                            finger.fire(), 
+                            new WaitCommand(1)
+                        ); 
+                    }
 }

@@ -24,6 +24,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOn"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Top2"
@@ -32,13 +38,25 @@
         {
           "type": "named",
           "data": {
-            "name": "FixAllShoot"
+            "name": "ShootTop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOff"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Top3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOn"
           }
         },
         {
@@ -50,13 +68,25 @@
         {
           "type": "named",
           "data": {
-            "name": "FixAllShoot"
+            "name": "ShootTop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOff"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Top5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOn"
           }
         },
         {
@@ -68,7 +98,13 @@
         {
           "type": "named",
           "data": {
-            "name": "FixAllShoot"
+            "name": "ShootTop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOff"
           }
         },
         {
