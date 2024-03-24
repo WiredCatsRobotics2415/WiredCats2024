@@ -29,6 +29,8 @@ public final class Constants {
         static {
             headingPIDController.enableContinuousInput(-Math.PI, Math.PI);
         }
+
+        public static final int HeadingControllerTolerance = 4;
     }
 
     public static class Climber {
@@ -92,7 +94,7 @@ public final class Constants {
         }
 
         public static double getCalculatedArmShooterAngle() {
-            Translation2d speakerDist = RobotContainer.speakerLocation.minus(TunerConstants.DriveTrain.getRobotPose().getTranslation());
+            Translation2d speakerDist = RobotContainer.getInstance().getSpeakerLocation().minus(TunerConstants.DriveTrain.getRobotPose().getTranslation());
 
             double X = Units.metersToInches(speakerDist.getX());
             double Y = Units.metersToInches(speakerDist.getY());

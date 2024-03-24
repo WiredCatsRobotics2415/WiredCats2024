@@ -18,8 +18,6 @@ public class AutoNoteDetect extends Command {
     //GENERAL
     private Vision vision = Vision.getInstance();
 
-    private double tolerance = 4;
-
     //SWERVE
     private final SwerveRequest.FieldCentricFacingAngle driveHeading = new SwerveRequest.FieldCentricFacingAngle()
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
@@ -59,6 +57,7 @@ public class AutoNoteDetect extends Command {
     public boolean isFinished() {
         //return false;
         Logger.log(this, LogLevel.INFO, vision.getNoteAngleOnX());
-        return (vision.getNoteAngleOnX() >= -tolerance && vision.getNoteAngleOnX() <= tolerance); 
+        return (vision.getNoteAngleOnX() >= -Constants.Swerve.HeadingControllerTolerance &&
+                vision.getNoteAngleOnX() <= Constants.Swerve.HeadingControllerTolerance); 
     }
 }
