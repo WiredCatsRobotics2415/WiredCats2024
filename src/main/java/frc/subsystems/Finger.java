@@ -6,6 +6,12 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,11 +27,15 @@ public class Finger extends SubsystemBase{
     private SparkPIDController pidController;
     private RelativeEncoder relativeEncoder;
     private static Finger instance; 
-    private double offset; 
+    private double offset;
+    
+    private MechanismLigament2d goalLigament;
+    private MechanismLigament2d positionLigament;
 
     public Finger() {
         motor = new CANSparkMax(RobotMap.Finger.FINGER_MOTOR, CANSparkMax.MotorType.kBrushless); // initialize motor
         configureMotor();
+        configureMechansim2dWidget();
         relativeEncoder.setPosition(0);
         offset = 0; 
         pidController.setReference(0, ControlType.kPosition);
@@ -36,6 +46,20 @@ public class Finger extends SubsystemBase{
             instance = new Finger();
         }
         return instance;
+    }
+
+    public void configureMechansim2dWidget() {
+        Mechanism2d fingerMechanism2d = new Mechanism2d(3, 3);
+
+        MechanismRoot2d fingerGoal2d = fingerMechanism2d.getRoot("fingerGoal", 1.5, 1.5);
+        goalLigament = fingerGoal2d.append(new MechanismLigament2d("fingerGoal", 0.5, 270));
+        goalLigament.setColor(new Color8Bit(Color.kCadetBlue));
+
+        MechanismRoot2d fingerPosition2d = fingerMechanism2d.getRoot("fingerPosition", 1.5, 1.5);
+        positionLigament = fingerPosition2d.append(new MechanismLigament2d("fingerPosition", 0.5, 270));
+        positionLigament.setColor(new Color8Bit(Color.kGreen));
+
+        Shuffleboard.getTab("Mechanism2d").add("Finger Mechanism", fingerMechanism2d);
     }
 
     public void configureMotor() {
@@ -69,6 +93,7 @@ public class Finger extends SubsystemBase{
             //double toMove = getPosition() + (position * Constants.Finger.FINGER_GEAR_RATIO);
             pidController.setReference(position, CANSparkMax.ControlType.kPosition);
             Logger.log(this, LogLevel.INFO, "Finger set to  " + getPosition() + position);
+            goalLigament.setAngle((position*360)%360);
         });
     }
 
@@ -124,5 +149,6 @@ public class Finger extends SubsystemBase{
        }
        Logger.log(this, LogLevel.INFO, getPosition());
        */
+      positionLigament.setAngle((relativeEncoder.getPosition()*360)%360);
     }
 }

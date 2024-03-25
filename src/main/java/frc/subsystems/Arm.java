@@ -74,11 +74,11 @@ public class Arm extends SubsystemBase {
     public void configureMechansim2dWidget() {
         Mechanism2d armMechanism2d = new Mechanism2d(3, 3);
 
-        MechanismRoot2d armGoal2d = armMechanism2d.getRoot("armGoal", 1.5, 0);
+        MechanismRoot2d armGoal2d = armMechanism2d.getRoot("armGoal", 1.5, 0.75);
         goalLigament = armGoal2d.append(new MechanismLigament2d("armGoal", 0.75, 0));
         goalLigament.setColor(new Color8Bit(Color.kPaleGreen));
 
-        MechanismRoot2d armPosition2d = armMechanism2d.getRoot("armPosition", 1.5, 0);
+        MechanismRoot2d armPosition2d = armMechanism2d.getRoot("armPosition", 1.5, 0.75);
         positionLigament = armPosition2d.append(new MechanismLigament2d("armPosition", 0.75, 0));
         positionLigament.setColor(new Color8Bit(Color.kGreen));
 

@@ -34,6 +34,8 @@ import frc.subsystems.Intake;
 import frc.subsystems.Flywheel;
 import frc.subsystems.Vision;
 import frc.utils.DriverFeedback;
+import frc.utils.Logger;
+import frc.utils.Logger.LogLevel;
 
 public class RobotContainer {
     private static RobotContainer instance;
@@ -47,16 +49,17 @@ public class RobotContainer {
 
     // PUBLIC OBJECTS
     private OIs.OI selectedOI;
-
-    // LOAD SHOOTING PRESETS
-    private final ShootingPresets shooterPre = new ShootingPresets();
-
-    //LOAD SPEAKER LOCATION
-    public static Translation2d speakerLocation;
-
     public OIs.OI getSelectedOI() {
-        return selectedOI;
+            return selectedOI;
     }
+
+    private Translation2d speakerLocation;
+    public Translation2d getSpeakerLocation() {
+        return speakerLocation;
+    }
+
+    // SHOOTING PRESETS
+    private final ShootingPresets shooterPre = new ShootingPresets();
 
     // CHOOSERS
     private SendableChooser<Command> autoChooser;
@@ -67,9 +70,6 @@ public class RobotContainer {
         Shuffleboard.getTab("Auto")
                 .add("Auto Chooser", autoChooser)
                 .withSize(4, 2);
-
-        // SmartDashboard.putData("Auto Chooser", autoChooser);
-        neutralizeSubsystems();
 
         // Autonomous named commands
         NamedCommands.registerCommand("Intake", intake.intakeNote());
@@ -85,7 +85,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("ArmUp", arm.moveUp()); // Score in Amp.   
         //TODO: add in commands for shooting and dropping notes
 
+        neutralizeSubsystems();
         configureStartupTriggers();
+        setSpeakerLocation();
     }
 
     public static RobotContainer getInstance() {
@@ -105,7 +107,7 @@ public class RobotContainer {
     /**
      * Prepares the robot for teleoperated control.
      * Gets the OI selected, configures all binds, and calls any teleopInit
-     * methods on subsystems. CLEARS ALL DEFAULT EVENTLOOP BINDS
+     * methods on subsystems. CLEARS ALL ROBOT BUTTON EVENTLOOP BINDS
      */
     public void teleopInit() {
         swerveDrive.seedFieldRelative(new Pose2d(1.36, 5.53, new Rotation2d(180)));
@@ -114,16 +116,7 @@ public class RobotContainer {
         configurePreferences();
         configureButtonBindings();
         configureTriggers();
-
-        var alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-            if (alliance.get() == Alliance.Blue)
-                speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation;
-            else
-                speakerLocation = Constants.FieldMeasurements.RedSpeakerLocation;
-        } else {
-            speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation; // Default to blue
-        }
+        setSpeakerLocation();
     }
 
     /**
@@ -132,7 +125,6 @@ public class RobotContainer {
     private void neutralizeSubsystems() {
         flywheel.off().schedule();
         intake.off().schedule();
-        arm.setGoal(arm.getMeasurement());
         arm.brake();
     }
 
@@ -190,7 +182,7 @@ public class RobotContainer {
         selectedOI.binds.get("ShootClose").onTrue(flywheel.onFromSmartDashboard());
         selectedOI.binds.get("SpinOff").onTrue(flywheel.off());
         selectedOI.binds.get("SpinUpToAmp").onTrue(flywheel.on(3000, 3000));
-        selectedOI.binds.get("FixAll").onTrue(new FixAll());
+        selectedOI.binds.get("FixAll").whileTrue(new FixAll());
         // selectedOI.binds.get("ArmAngle").onTrue(arm.moveToShotAngle());
 
         // Climber
@@ -242,6 +234,19 @@ public class RobotContainer {
         selectedOI.setPreferences();
         Vision.getInstance().setPreferences();
         swerveDrive.setPreferences();
+    }
+
+    private void setSpeakerLocation() {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            if (alliance.get() == Alliance.Blue)
+                speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation;
+            else
+                speakerLocation = Constants.FieldMeasurements.RedSpeakerLocation;
+        } else {
+            speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation; // Default to blue
+        }
+        Logger.log(this, LogLevel.INFO, "Alliance detected: " + alliance.toString());
     }
 
     /**

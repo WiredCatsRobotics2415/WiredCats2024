@@ -5,13 +5,13 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.generated.TunerConstants;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriverControl;
+import frc.utils.Logger;
+import frc.utils.Logger.LogLevel;
 
 /**
  * The "FixAll" preset (FIX ALL subsystems to their ideal position for scoring).
@@ -20,44 +20,25 @@ import frc.robot.Constants.DriverControl;
  */
 public class FixAll extends Command {
     //GENERAL
-    private RobotContainer robotContainer; //Cache instance
+    private RobotContainer robotContainer = RobotContainer.getInstance();
 
     // SWERVE
     private final SwerveRequest.FieldCentricFacingAngle driveHeading = new SwerveRequest.FieldCentricFacingAngle()
             .withDeadband(DriverControl.kMaxDriveMeterS * 0.05)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-
-    private Translation2d speakerLocation;
+    
+    private Rotation2d goalHeading;
 
     public FixAll() {
         addRequirements(TunerConstants.DriveTrain); // TODO: add other subsystems
     }
 
-    private void configBlue() {
-        speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation;
-    }
-
-    private void configRed() {
-        speakerLocation = Constants.FieldMeasurements.RedSpeakerLocation;
-    }
-
     @Override
     public void initialize() {
-        //Cache instances of used objects
-        robotContainer = RobotContainer.getInstance();
+        Translation2d speakerDist = robotContainer.getSpeakerLocation().minus(TunerConstants.DriveTrain.getRobotPose().getTranslation());
+        goalHeading = Rotation2d.fromRadians(
+                Math.atan2(speakerDist.getY(), speakerDist.getX())).plus(Rotation2d.fromDegrees(180));
 
-        //Do alliance preparations
-        var alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-            if (alliance.get() == Alliance.Blue)
-                configBlue();
-            else
-                configRed();
-        } else {
-            configBlue(); // Default to blue
-        }
-
-        //Swerve preparations
         driveHeading.HeadingController = Constants.Swerve.headingPIDController;
     }
 
@@ -66,23 +47,15 @@ public class FixAll extends Command {
         // Heading alignment
         // let (x, y) be the difference of position between the speaker and the robot
         // swerveheading = (arctan(y/x))
-        Translation2d speakerDist = speakerLocation.minus(TunerConstants.DriveTrain.getRobotPose().getTranslation());
-        Rotation2d heading = Rotation2d.fromRadians(
-                Math.atan2(speakerDist.getY(), speakerDist.getX())).plus(Rotation2d.fromDegrees(180));
 
         TunerConstants.DriveTrain.setControl(driveHeading
-                .withTargetDirection(heading));
+                .withTargetDirection(goalHeading));
     }
 
-    @Override
-    public void end(boolean interrupted) {
-
-    }
-
-    /* 
     @Override
     public boolean isFinished() {
-        // return 
+        double currentRotation = TunerConstants.DriveTrain.getRobotPose().getRotation().getRotations();
+        return (currentRotation + Constants.Swerve.HeadingControllerTolerance < goalHeading.getDegrees()) && 
+                (currentRotation - Constants.Swerve.HeadingControllerTolerance > goalHeading.getDegrees());
     }
-    */
 }
