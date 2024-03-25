@@ -45,9 +45,9 @@ public class ShootingPresets {
             public static double arm = 80.0;
         }
         public static class field {
-            public static double middle = 17;
-            public static double top = 17;
-            public static double bottom = 17;
+            public static double middle = 19;
+            public static double top = 19;
+            public static double bottom = 19;
         }
     }
 
