@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.0361055749827397,
+      "y": 7.09419795913983
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOn"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Top_Slap_Everything_Faster1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Top_Slap_Everything_Faster_Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOff"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Top Paths",
+  "choreoAuto": false
+}
