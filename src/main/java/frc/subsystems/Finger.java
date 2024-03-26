@@ -74,12 +74,12 @@ public class Finger extends SubsystemBase{
         relativeEncoder.setPositionConversionFactor(1/Constants.Finger.FINGER_GEAR_RATIO);
 
         // set PID coefficients
-        //pidController.setFF(Constants.Finger.Ks);
+        pidController.setFF(Constants.Finger.Ks);
         pidController.setP(Constants.Finger.Kp);
         pidController.setD(Constants.Finger.Kd);
         pidController.setOutputRange(-Constants.Finger.outputExtrema, Constants.Finger.outputExtrema);
         motor.setIdleMode(IdleMode.kBrake);
-        motor.setClosedLoopRampRate(0.25); //slows down finger
+        //motor.setClosedLoopRampRate(0.5); //slows down finger
         // pidController.setPositionPIDWrappingEnabled(true);
         // pidController.setPositionPIDWrappingMaxInput(1);
         // pidController.setPositionPIDWrappingMinInput(-1);
@@ -122,8 +122,8 @@ public class Finger extends SubsystemBase{
             Intake intake = Intake.getInstance();
             run(Constants.Finger.DISTANCE + old_offset)
                  .andThen(new WaitCommand(0.5)
-                 .andThen(run(getPosition()+0.75))).schedule();
-            // run(1 + old_offset).schedule();
+                 .andThen(run(0))).schedule();
+            //run(1 + old_offset).schedule();
         });
     }
 

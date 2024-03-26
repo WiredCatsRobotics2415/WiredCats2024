@@ -102,7 +102,7 @@ public final class Constants {
 
             double model = (-5.26 * Math.pow(10,-6))*Math.pow(R,3)+(-1.46 * Math.pow(10,-3))*Math.pow(R,2)+(0.487)*R+(-6.36); // result in degrees
 
-            if(model > 0 ){
+            if(model > 0 && R < 10){
                 return model;
             } else{
                 return 0;
@@ -140,8 +140,8 @@ public final class Constants {
         public static final double Ks = 0.14;
         // public static final double Kp = 3.0;
         // public static final double Kd = 0.01;
-        public static final double Kp = 1.0;
-        public static final double Kd = 0.005;
+        public static final double Kp = 1.25;
+        public static final double Kd = 0.004;
         public static final double outputExtrema = 0.83;
     }
 
@@ -190,8 +190,8 @@ public final class Constants {
             return rotations / ROTOR_TO_ARM_GEAR_RATIO;
         }
 
-        public static double MAX_VOLT = 3.07d;
-        public static double MIN_VOLT = 1.74d;
+        public static double MAX_VOLT = 2.34d;
+        public static double MIN_VOLT = 0.969d;
         public static final double MAX_ANGLE = 105.7d;
         public static final double MIN_DEGREES = 0.0d; // Min angle of arm
     }

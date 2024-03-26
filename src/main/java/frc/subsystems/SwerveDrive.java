@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -53,6 +54,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
                     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private Vision vision;
+    private int visionMeasurmentCounter = 0;
     private boolean shouldUseLimelight = false;
     private Pose2d robotPose;
 
@@ -235,12 +237,12 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
                 degStds = 6;
             }
             // 1 target with large area and close to estimated pose
-            else if (bestTargetArea > 0.8 && poseDifference < 0.5) {
+            else if (bestTargetArea > 0.15 && poseDifference < 1.5) {
                 xyStds = 1.0;
                 degStds = 12;
             }
             // 1 target farther away and estimated pose is close
-            else if (bestTargetArea > 0.1 && poseDifference < 0.3) {
+            else if (bestTargetArea > 0.02 && poseDifference < 0.75) {
                 xyStds = 2.0;
                 degStds = 30;
             }
@@ -252,8 +254,12 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
             Pose2d poseToGive = new Pose2d(recievedPose.getTranslation(), deadReckPose.getRotation());
             m_odometry.setVisionMeasurementStdDevs(
                     VecBuilder.fill(xyStds, xyStds, Units.degreesToRadians(degStds)));
-            m_odometry.addVisionMeasurement(
-                    poseToGive, Timer.getFPGATimestamp() - (lastResults.botpose[6]/1000.0));
+            if (visionMeasurmentCounter%50==0 && DriverStation.isEnabled()) {
+                 m_odometry.addVisionMeasurement(
+                    poseToGive, Timer.getFPGATimestamp() - (lastResults.latency_pipeline/1000.0) - (lastResults.latency_capture/1000.0));
+            }
+            visionMeasurmentCounter++;
+            return;
         }
     }
 

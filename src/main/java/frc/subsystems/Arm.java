@@ -244,7 +244,8 @@ public class Arm extends SubsystemBase {
     public Command moveToShotAngle() {
         return new InstantCommand(
             () -> {
-                this.setGoal(Constants.ShooterCalculations.getCalculatedArmShooterAngle());
+                System.out.println(Constants.ShooterCalculations.getCalculatedArmShooterAngle());
+                //this.setGoal(Constants.ShooterCalculations.getCalculatedArmShooterAngle());
             });
     } 
 

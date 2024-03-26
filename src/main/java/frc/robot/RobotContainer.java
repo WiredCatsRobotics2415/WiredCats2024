@@ -110,7 +110,6 @@ public class RobotContainer {
      * methods on subsystems. CLEARS ALL ROBOT BUTTON EVENTLOOP BINDS
      */
     public void teleopInit() {
-        swerveDrive.seedFieldRelative(new Pose2d(1.36, 5.53, new Rotation2d(180)));
         neutralizeSubsystems();
         prepareOI();
         configurePreferences();
@@ -183,7 +182,7 @@ public class RobotContainer {
         selectedOI.binds.get("SpinOff").onTrue(flywheel.off());
         selectedOI.binds.get("SpinUpToAmp").onTrue(flywheel.on(3000, 3000));
         selectedOI.binds.get("FixAll").whileTrue(new FixAll());
-        // selectedOI.binds.get("ArmAngle").onTrue(arm.moveToShotAngle());
+        selectedOI.binds.get("ArmAngle").onTrue(arm.moveToShotAngle());
 
         // Climber
         // selectedOI.binds.get("LeftClimberDown").onTrue(
