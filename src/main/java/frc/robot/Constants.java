@@ -102,7 +102,11 @@ public final class Constants {
 
             double model = (-5.26 * Math.pow(10,-6))*Math.pow(R,3)+(-1.46 * Math.pow(10,-3))*Math.pow(R,2)+(0.487)*R+(-6.36); // result in degrees
 
-            return model;
+            if(model > 0 ){
+                return model;
+            } else{
+                return 0;
+            }
         }
 
         public static double getCalculatedFlywheelSpin() {
@@ -124,14 +128,14 @@ public final class Constants {
 
     public static class Intake {
         public static final double UptakeSpeed = 1;
-        public static final double IntakeSpeed = 0.7;
+        public static final double IntakeSpeed = 0.5;
         public static final double OuttakeSpeed = -0.35;
         public static final double IRThreshold = 100;
     }
 
     public static class Finger {
         public static final double FINGER_GEAR_RATIO = 12; // 20:1 gear ratio
-        public static final double DISTANCE = 1.25+(1/120.0); // rotations
+        public static final double DISTANCE = 1.25; // rotations
 
         public static final double Ks = 0.14;
         // public static final double Kp = 3.0;
