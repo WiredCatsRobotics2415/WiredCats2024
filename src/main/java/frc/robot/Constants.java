@@ -98,11 +98,11 @@ public final class Constants {
 
             double X = Units.metersToInches(speakerDist.getX());
             double Y = Units.metersToInches(speakerDist.getY());
-            double R = Math.sqrt(X * X + Y * Y);
+            double R = Math.sqrt(X * X + Y * Y); //in inches
 
             double model = (-5.26 * Math.pow(10,-6))*Math.pow(R,3)+(-1.46 * Math.pow(10,-3))*Math.pow(R,2)+(0.487)*R+(-6.36); // result in degrees
 
-            if(model > 0 && R < 10){
+            if(model > 0 && R < (10*12)){ //R must be within workable distance of 10 feet (120 in)
                 return model;
             } else{
                 return 0;
