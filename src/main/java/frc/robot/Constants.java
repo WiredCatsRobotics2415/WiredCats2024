@@ -98,23 +98,33 @@ public final class Constants {
 
             double X = Units.metersToInches(speakerDist.getX());
             double Y = Units.metersToInches(speakerDist.getY());
-            double R = Math.sqrt(X * X + Y * Y);
+            double R = Math.sqrt(X * X + Y * Y); //in inches
 
             double model = (-5.26 * Math.pow(10,-6))*Math.pow(R,3)+(-1.46 * Math.pow(10,-3))*Math.pow(R,2)+(0.487)*R+(-6.36); // result in degrees
 
-            if(model > 0 && R < 10){
+            if(model > 0 && R < (10*12)){ //R must be within workable distance of 10 feet (120 in)
                 return model;
             } else{
                 return 0;
             }
         }
 
-        public static double getCalculatedFlywheelSpin() {
-            double X = TunerConstants.DriveTrain.getRobotPose().getTranslation().getX();
-            double Y = TunerConstants.DriveTrain.getRobotPose().getTranslation().getY();
-            double R = Math.sqrt(X * X + Y * Y);
+        public static double[] getCalculatedFlywheelSpin() {
+            Translation2d speakerDist = RobotContainer.getInstance().getSpeakerLocation().minus(TunerConstants.DriveTrain.getRobotPose().getTranslation());
 
-            double model = 0; // result in ratio
+            double X = Units.metersToInches(speakerDist.getX());
+            double Y = Units.metersToInches(speakerDist.getY());
+            double R = Math.sqrt(X * X + Y * Y); //in inches
+
+            double[] model = new double[2]; // [right motor speed, left motor speed]
+
+            if(Y >= 0){
+                model[0] = 6000; //right flywheel
+                model[1] = 8000; //left flywheel
+            } else {
+                model[0] = 8000; //right flywheel
+                model[1] = 6000; //left flywheel
+            }
 
             return model;
         }

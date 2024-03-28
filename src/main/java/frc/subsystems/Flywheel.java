@@ -102,6 +102,22 @@ public class Flywheel extends SubsystemBase {
     }
 
     /**
+     * @return Command that spins up each motor to the specified RPM. 
+     * This method uses a left-to-right flyhwheel ratio that is calculated based on telemetry.
+     */
+    public Command on() {
+        return runOnce(
+                () -> {
+                    isOn = true;
+                    double rightFlywheelSpeed = Constants.ShooterCalculations.getCalculatedFlywheelSpin()[0];
+                    double leftFlywheelSpeed = Constants.ShooterCalculations.getCalculatedFlywheelSpin()[1];
+                    Logger.log(this, LogLevel.INFO, "Initial Flywheel On", leftFlywheelSpeed, rightFlywheelSpeed);
+                    left.setControl(voltageVelocity.withVelocity(Constants.Flywheel.rpmToRPS(leftFlywheelSpeed)));
+                    right.setControl(voltageVelocity.withVelocity(Constants.Flywheel.rpmToRPS(rightFlywheelSpeed)));
+                });
+    }
+
+    /**
      * @return Command that calls on with speeds set from SmartDashboard.
      */
     public Command onFromSmartDashboard() {
