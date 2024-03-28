@@ -45,9 +45,10 @@ public class ShootingPresets {
             public static double arm = 80.0;
         }
         public static class field {
-            public static double middle = 22;
-            public static double top = 22;
-            public static double bottom = 22;
+            public static double middle_center = 17;
+            public static double middle_corner = 16;
+            public static double top = 16;
+            public static double bottom = 16;
         }
     }
 
@@ -87,7 +88,17 @@ public class ShootingPresets {
 
     public Command shootMiddle() {
                 return new SequentialCommandGroup(
-                    new InstantCommand(() -> arm.setGoal(Settings.field.middle)),
+                    new InstantCommand(() -> arm.setGoal(Settings.field.middle_center)),
+                    new WaitUntilCommand(() -> arm.withinSetGoalTolerance()),
+                    finger.fire(), 
+                    new WaitCommand(0.5)
+                ); 
+            }
+
+    public Command shootMiddleCorner() {
+                return new SequentialCommandGroup(
+                    new InstantCommand(() -> arm.setGoal(Settings.field.middle_corner)),
+                    new WaitUntilCommand(() -> arm.withinSetGoalTolerance()),
                     finger.fire(), 
                     new WaitCommand(0.5)
                 ); 

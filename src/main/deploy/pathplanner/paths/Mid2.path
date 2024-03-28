@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 2.58,
-        "y": 5.7
+        "y": 5.570246205735591
       },
       "prevControl": {
         "x": 1.583575574558557,
-        "y": 5.735155551792586
+        "y": 5.605401757528177
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,7 +50,7 @@
     },
     {
       "name": "Intake",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {

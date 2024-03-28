@@ -249,6 +249,10 @@ public class Arm extends SubsystemBase {
             });
     } 
 
+    public boolean withinSetGoalTolerance() {
+        return goalInDegrees > getMeasurement()-3 && goalInDegrees < getMeasurement()+3;
+    }
+
     /**
      * @return When the arm is hitting the limit switch (on the left bottom hard stop),
      * set the maximum voltage of the potentiometer to the current voltage

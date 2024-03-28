@@ -254,10 +254,10 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
             Pose2d poseToGive = new Pose2d(recievedPose.getTranslation(), deadReckPose.getRotation());
             m_odometry.setVisionMeasurementStdDevs(
                     VecBuilder.fill(xyStds, xyStds, Units.degreesToRadians(degStds)));
-            if (visionMeasurmentCounter%50==0 && DriverStation.isEnabled()) {
-                 m_odometry.addVisionMeasurement(
-                    poseToGive, Timer.getFPGATimestamp() - (lastResults.latency_pipeline/1000.0) - (lastResults.latency_capture/1000.0));
-            }
+            // if (visionMeasurmentCounter%50==0 && DriverStation.isEnabled()) {
+            //      m_odometry.addVisionMeasurement(
+            //         poseToGive, Timer.getFPGATimestamp() - (lastResults.latency_pipeline/1000.0) - (lastResults.latency_capture/1000.0));
+            // }
             visionMeasurmentCounter++;
             return;
         }

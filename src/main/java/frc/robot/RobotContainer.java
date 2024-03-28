@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -7,6 +8,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotController;
@@ -83,6 +85,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("shootTop", shooterPre.shootTop()); // Score in Amp. 
         NamedCommands.registerCommand("ArmDown", arm.moveDown()); // Score in Amp.   
         NamedCommands.registerCommand("ArmUp", arm.moveUp()); // Score in Amp.   
+        NamedCommands.registerCommand("ShootMiddleCorner", shooterPre.shootMiddleCorner()); // Score in Amp.   
         //TODO: add in commands for shooting and dropping notes
 
         neutralizeSubsystems();
@@ -125,6 +128,10 @@ public class RobotContainer {
         flywheel.off().schedule();
         intake.off().schedule();
         arm.brake();
+        //TODO: make me a command in swervedrive
+        for (int i = 0; i < 4; i++) {
+            swerveDrive.getModule(i).apply(new SwerveModuleState(0, Rotation2d.fromDegrees(0)), DriveRequestType.OpenLoopVoltage);
+        }
     }
 
     /**
