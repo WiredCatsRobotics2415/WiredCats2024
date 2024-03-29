@@ -124,10 +124,11 @@ public class RobotContainer {
     /**
      * Schedules flywheel and intake off, sets arm goal to current position
      */
-    private void neutralizeSubsystems() {
+    public void neutralizeSubsystems() {
         flywheel.off().schedule();
         intake.off().schedule();
         arm.brake();
+        arm.setGoal(arm.getMeasurement());
         //TODO: make me a command in swervedrive
         for (int i = 0; i < 4; i++) {
             swerveDrive.getModule(i).apply(new SwerveModuleState(0, Rotation2d.fromDegrees(0)), DriveRequestType.OpenLoopVoltage);

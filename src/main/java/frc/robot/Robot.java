@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousExit() {
         if (auto != null) auto.cancel();
+        robot.neutralizeSubsystems();
     }
 
     @Override
