@@ -49,8 +49,8 @@ public class Vision extends SubsystemBase {
         if (Robot.isSimulation()) return;
         if (!isEnabled) return;
 
-        cachedBackTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.ShooterLimelightName);
-        cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
+        // cachedBackTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.ShooterLimelightName);
+        // cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
     }
 
     /**

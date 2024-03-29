@@ -38,7 +38,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootBottom"
+            "name": "ShootMiddleCorner"
           }
         },
         {
@@ -68,7 +68,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootBottom"
+            "name": "ShootMiddleCorner"
           }
         },
         {
