@@ -5,7 +5,9 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -31,8 +33,8 @@ public class Climber extends SubsystemBase {
 
     private Climber() {
         //From the back of the robot
-        right = new TalonFX(RobotMap.Climber.LEFT, RobotMap.CANBUS_NAME); // Initialize right motor
-        left = new TalonFX(RobotMap.Climber.CLIMBER_FOLLOWER, RobotMap.CANBUS_NAME); // Initialize left motor
+        right = new TalonFX(RobotMap.Climber.CLIMBER_LEFT, RobotMap.CANBUS_NAME); // Initialize right motor
+        left = new TalonFX(RobotMap.Climber.CLIMBER_RIGHT, RobotMap.CANBUS_NAME); // Initialize left motor
 
         // Initialize limit switches (not on robot as of 3/29/24)
         /* 
@@ -59,8 +61,14 @@ public class Climber extends SubsystemBase {
 
     private void configClimberMotors() {
         TalonFXConfiguration configs = new TalonFXConfiguration();
+
+        /* 
+        As of Albany, PID values aren't necessary because the climber is not being controlled by position.
+        However, if you need to set PID values, you can do so like this:
+
         configs.Slot0.kP = 1.5;  // An error of 0.5 rotations results in 1.2 volts output
         configs.Slot0.kD = 0.00048; // A change of 1 rotation per second results in 0.1 volts output
+        */ 
 
         // Peak output of 8 volts
         configs.Voltage.PeakForwardVoltage = 8;
@@ -111,7 +119,7 @@ public class Climber extends SubsystemBase {
     public Command manualUp(double leftSpeed, double rightSpeed) {
         return runOnce(
             () -> {
-                if (notMax()) {
+                if (!max()) {
                     setMotorSpeeds(leftSpeed, rightSpeed);
                 } else {
                     stop();
@@ -127,7 +135,7 @@ public class Climber extends SubsystemBase {
     public Command manualDown(double leftSpeed, double rightSpeed) {
         return runOnce(
             () -> {
-                if (notMin()) {
+                if (!min()) {
                     setMotorSpeeds(-leftSpeed, -rightSpeed);
                 } else {
                     stop();
@@ -151,31 +159,50 @@ public class Climber extends SubsystemBase {
     }
 
     /**
+     * @return the current position of the arm accounting for the gear ratio between motor and winch
+     */
+    public double getLeftWinchPosition() {
+        return right.getRotorPosition().getValueAsDouble() / Constants.Climber.ClimberWinchGearRatio;
+    }
+
+    public double getRightWinchPosition() {
+        return right.getRotorPosition().getValueAsDouble() / Constants.Climber.ClimberWinchGearRatio;
+    }
+
+    /**
      * @return true if the climber has not reached its minimum height, or true if the limit switches
      * are not triggered. false if either of those conditions are true.
+     * As of Albany, no limit switches are on the robot.
      */
-    public boolean notMin() {
-        return (right.getRotorPosition().getValueAsDouble() > Constants.Climber.ClimberMin && 
-        left.getRotorPosition().getValueAsDouble() > Constants.Climber.ClimberMin && 
-        !limitSwitchTriggered()); 
+    public boolean min() {
+        return (getRightWinchPosition() <= Constants.Climber.ClimberMin && 
+        getLeftWinchPosition() <= Constants.Climber.ClimberMin);
+        /* 
+        && 
+        !limitSwitchTriggered()); */
     }
 
     /**
      * @return true if the climber has not reached its maximum height, or true if the limit switches
      * are not triggered. false if either of those conditions are true.
+     * As of Albany, no limit switches are on the robot.
      */
-    public boolean notMax() {
-        return (right.getRotorPosition().getValueAsDouble() <= Constants.Climber.ClimberMax && 
-        left.getRotorPosition().getValueAsDouble() <= Constants.Climber.ClimberMax && 
-        !limitSwitchTriggered()); 
+    public boolean max() {
+        return (getRightWinchPosition() >= Constants.Climber.ClimberMax && 
+        getLeftWinchPosition() >= Constants.Climber.ClimberMax);
+        /* 
+        !limitSwitchTriggered()); */
     }
 
     /**
      * @return true if ANY limit switches are triggered.
+     * As of Albany, no limit switches are on the robot.
      */
+     /* 
     public boolean limitSwitchTriggered() {
         return leftBotSwitch.get() && rightBotSwitch.get() && leftTopSwitch.get() && rightTopSwitch.get(); 
     }
+    */ 
 
     /**
      * Sets a POSITION (as opposed to speed) goal for each motor.
@@ -187,6 +214,7 @@ public class Climber extends SubsystemBase {
 
     @Override
     public void periodic() {
-        //SmartDashboard.putNumber("Motor position", right.getRotorPosition().getValueAsDouble() / Constants.Climber.ClimberGearRatio);
+        SmartDashboard.putNumber("Right Winch Position", getRightWinchPosition());
+        SmartDashboard.putNumber("Left Winch Position", getLeftWinchPosition());
     }
 }
