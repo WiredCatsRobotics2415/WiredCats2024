@@ -34,18 +34,22 @@ public final class Constants {
     }
 
     public static class Climber {
-        public static final double ClimberGearRatio =
-                6.746031746031747; // Drive gear ratio - Testing
-        public static final double ClimberMax =
-                metersToRotations(1) * ClimberGearRatio; // Rotations
+        public static final double ClimberWinchGearRatio =
+                16; // gear ratio: number of rotations to lift winch once 
+        public static final double ClimberMax = 
+                metersToRotations(1) / ClimberWinchGearRatio; // Rotations
         public static final double ClimberMin =
-                metersToRotations(0) * ClimberGearRatio; // Rotations
+                metersToRotations(0) / ClimberWinchGearRatio; // Rotations
         public static final double ClimberSpeed = 0.25; // Open-duty cycle
+
+        public static final double Deadband = 0.005; // Rotations
 
         public static double metersToRotations(
                 int rotations) { // TODO: Needs to be completed once climber is finished
             return rotations;
         }
+
+        public static double deadband = 0.005; // Rotations (accoutning for internal encoder)
     }
 
     public static class Flywheel {
