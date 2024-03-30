@@ -205,7 +205,9 @@ public final class Constants {
         }
 
         public static double MAX_VOLT = 2.34d;
+        public static double MAX_VOLT_OG = 2.34d;
         public static double MIN_VOLT = 0.969d;
+        public static double MIN_VOLT_OG = 0.969d;
         public static final double MAX_ANGLE = 105.7d;
         public static final double MIN_DEGREES = 0.0d; // Min angle of arm
     }

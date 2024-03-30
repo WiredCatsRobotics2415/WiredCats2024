@@ -254,11 +254,10 @@ public class Arm extends SubsystemBase {
     }
 
     /**
-     * @return When the arm is hitting the limit switch (on the left bottom hard stop),
+     * When the arm is hitting the limit switch (on the left bottom hard stop),
      * set the maximum voltage of the potentiometer to the current voltage
     /* 
     */ 
-    
     private void resetPotentiometerIfAtZero(){
       if (limitSwitch.get()) {
         double oldMaxVolt = Constants.Arm.MAX_VOLT; 
@@ -266,6 +265,15 @@ public class Arm extends SubsystemBase {
         double oldMinVolt = Constants.Arm.MIN_VOLT; 
         Constants.Arm.MIN_VOLT = (Constants.Arm.MAX_VOLT - oldMaxVolt) + oldMinVolt; 
       } 
+    }
+
+    /**
+     * Sets the min and max volt back to what they started as on boot.
+     * From Constants.Arm.MAX_VOLT_OG and MIN_VOLT_OG
+     */
+    private void resetPotentiometerAndArm() {
+        Constants.Arm.MAX_VOLT = Constants.Arm.MAX_VOLT_OG;
+        Constants.Arm.MIN_VOLT = Constants.Arm.MIN_VOLT_OG;
     }
 
     @Override
