@@ -34,12 +34,12 @@ public final class Constants {
     }
 
     public static class Climber {
-        public static final double ClimberWinchGearRatio =
-                16; // gear ratio: number of rotations to lift winch once 
-        public static final double ClimberMax = 
-                metersToRotations(1) / ClimberWinchGearRatio; // Rotations
-        public static final double ClimberMin =
-                metersToRotations(0) / ClimberWinchGearRatio; // Rotations
+        public static final double ClimberSpoolGearRatio =
+                60; // gear ratio: number of motor rotations to for spool rotation 
+        public static final double ClimberMax = 1;
+                //metersToRotations(1) * ClimberSpoolGearRatio; // Spool Rotations
+        public static final double ClimberMin = 0;
+                //metersToRotations(0) * ClimberSpoolGearRatio; // Spool Rotations
         public static final double ClimberSpeed = 0.25; // Open-duty cycle
 
         public static final double Deadband = 0.005; // Rotations

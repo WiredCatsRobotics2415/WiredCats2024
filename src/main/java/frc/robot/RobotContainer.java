@@ -48,6 +48,7 @@ public class RobotContainer {
     private final Flywheel flywheel = Flywheel.getInstance();
     private final Arm arm = Arm.getInstance();
     private final Finger finger = Finger.getInstance();
+    private final Climber climber = Climber.getInstance();
 
     // PUBLIC OBJECTS
     private OIs.OI selectedOI;
@@ -204,6 +205,12 @@ public class RobotContainer {
         // selectedOI.binds.get("RightClimberUp").onTrue(
         //         climber.manualUp(0, Constants.Climber.ClimberSpeed));
 
+        /* 
+        selectedOI.binds.get("LeftClimberDown").onTrue(
+                 climber.manualDown(Constants.Climber.ClimberSpeed, 0));
+        selectedOI.binds.get("LeftClimberUp").onTrue(
+                 climber.manualUp(Constants.Climber.ClimberSpeed, 0));
+        */ 
         // Presets
 
         selectedOI.binds.get("Amp").onTrue(shooterPre.shootAmp());

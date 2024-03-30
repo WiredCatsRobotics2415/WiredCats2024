@@ -159,14 +159,14 @@ public class Climber extends SubsystemBase {
     }
 
     /**
-     * @return the current position of the arm accounting for the gear ratio between motor and winch
+     * @return the current position of the arm accounting for the gear ratio between motor and spool
      */
-    public double getLeftWinchPosition() {
-        return right.getRotorPosition().getValueAsDouble() / Constants.Climber.ClimberWinchGearRatio;
+    public double getLeftSpoolPosition() {
+        return left.getRotorPosition().getValueAsDouble() / Constants.Climber.ClimberSpoolGearRatio;
     }
 
-    public double getRightWinchPosition() {
-        return right.getRotorPosition().getValueAsDouble() / Constants.Climber.ClimberWinchGearRatio;
+    public double getRightSpoolPosition() {
+        return right.getRotorPosition().getValueAsDouble() / Constants.Climber.ClimberSpoolGearRatio;
     }
 
     /**
@@ -175,8 +175,8 @@ public class Climber extends SubsystemBase {
      * As of Albany, no limit switches are on the robot.
      */
     public boolean min() {
-        return (getRightWinchPosition() <= Constants.Climber.ClimberMin && 
-        getLeftWinchPosition() <= Constants.Climber.ClimberMin);
+        return (getRightSpoolPosition() <= Constants.Climber.ClimberMin && 
+        getLeftSpoolPosition() <= Constants.Climber.ClimberMin);
         /* 
         && 
         !limitSwitchTriggered()); */
@@ -188,8 +188,8 @@ public class Climber extends SubsystemBase {
      * As of Albany, no limit switches are on the robot.
      */
     public boolean max() {
-        return (getRightWinchPosition() >= Constants.Climber.ClimberMax && 
-        getLeftWinchPosition() >= Constants.Climber.ClimberMax);
+        return (getRightSpoolPosition() >= Constants.Climber.ClimberMax && 
+        getLeftSpoolPosition() >= Constants.Climber.ClimberMax);
         /* 
         !limitSwitchTriggered()); */
     }
@@ -214,7 +214,7 @@ public class Climber extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Right Winch Position", getRightWinchPosition());
-        SmartDashboard.putNumber("Left Winch Position", getLeftWinchPosition());
+        SmartDashboard.putNumber("Right Winch Position", getRightSpoolPosition());
+        SmartDashboard.putNumber("Left Winch Position", getLeftSpoolPosition());
     }
 }
