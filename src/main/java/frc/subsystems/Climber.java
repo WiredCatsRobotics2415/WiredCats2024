@@ -21,22 +21,26 @@ public class Climber extends SubsystemBase {
     // Guarantee only one instance of the Climber class exists 
     private static Climber instance;
 
-    // Declare limit switches 
+    // Declare limit switches (not on robot as of 3/29/24)
+    /* 
     private final DigitalInput leftTopSwitch;
     private final DigitalInput rightTopSwitch; 
     private final DigitalInput leftBotSwitch; 
     private final DigitalInput rightBotSwitch; 
+    */ 
 
     private Climber() {
         //From the back of the robot
-        right = new TalonFX(RobotMap.Climber.CLIMBER_MASTER, RobotMap.CANBUS_NAME); // Initialize right motor
+        right = new TalonFX(RobotMap.Climber.LEFT, RobotMap.CANBUS_NAME); // Initialize right motor
         left = new TalonFX(RobotMap.Climber.CLIMBER_FOLLOWER, RobotMap.CANBUS_NAME); // Initialize left motor
 
-        // Initialize limit switches
+        // Initialize limit switches (not on robot as of 3/29/24)
+        /* 
         leftTopSwitch = new DigitalInput(RobotMap.Climber.LEFT_TOP_LIMIT_SWITCH); 
         rightTopSwitch = new DigitalInput(RobotMap.Climber.RIGHT_TOP_LIMIT_SWITCH); 
         leftBotSwitch = new DigitalInput(RobotMap.Climber.LEFT_BOT_LIMIT_SWITCH);
         rightBotSwitch = new DigitalInput(RobotMap.Climber.RIGHT_BOT_LIMIT_SWITCH); 
+        */ 
 
         configClimberMotors();
 
