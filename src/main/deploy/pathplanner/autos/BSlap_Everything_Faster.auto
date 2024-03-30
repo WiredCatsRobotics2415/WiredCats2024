@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Slap_Everything_Faster1"
+            "pathName": "Slap_Everything_Faster"
           }
         },
         {
@@ -44,6 +44,6 @@
       ]
     }
   },
-  "folder": "Bottom Paths",
+  "folder": "Four Note",
   "choreoAuto": false
 }

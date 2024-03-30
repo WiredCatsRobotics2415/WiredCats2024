@@ -2,15 +2,21 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.0361055749827397,
-      "y": 7.09419795913983
+      "x": 0.6913423949011944,
+      "y": 6.676321345661889
     },
-    "rotation": 0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSub"
+          }
+        },
         {
           "type": "named",
           "data": {
@@ -20,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Top_Slap_Everything_Faster1"
+            "pathName": "Top_Slap_Everything_Faster"
           }
         },
         {
@@ -32,18 +38,12 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootSub"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "FlywheelOff"
           }
         }
       ]
     }
   },
-  "folder": "Top Paths",
+  "folder": "Four Note",
   "choreoAuto": false
 }
