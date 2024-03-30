@@ -86,6 +86,13 @@ public class ShootingPresets {
             ); 
         }
 
+    public Command shootSubNoFly() {
+                return new SequentialCommandGroup(
+                    finger.fire(), 
+                    new WaitCommand(0.5)
+                ); 
+            }
+
     public Command shootMiddle() {
                 return new SequentialCommandGroup(
                     new InstantCommand(() -> arm.setGoal(Settings.field.middle_center)),
