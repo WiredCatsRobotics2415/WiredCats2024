@@ -91,6 +91,13 @@ public class ShootingPresets {
                 finger.fire()
             ); 
         }
+    
+    public Command shootSubNoFly() {
+            return new SequentialCommandGroup(
+                finger.fire(), 
+                new WaitCommand(0.5)
+            ); 
+        }
 
     public Command shootMiddle() {
                 return new SequentialCommandGroup(
