@@ -224,6 +224,6 @@ public final class Constants {
 
     public static class Vision {
         public static final String ShooterLimelightName = "limelight-back";
-        public static final String IntakeLimelightName = "limelight-intake";
+        public static final String IntakeLimelightName = "10.24.15.216";
     }
 }

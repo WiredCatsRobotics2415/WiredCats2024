@@ -2,7 +2,9 @@ package frc.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.SparkRelativeEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 
@@ -21,11 +23,16 @@ import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.utils.Logger;
 import frc.utils.Logger.LogLevel;
+import com.revrobotics.SparkMaxAlternateEncoder;
+
 
 public class Finger extends SubsystemBase{
     private CANSparkMax motor; 
     private SparkPIDController pidController;
+    //private RelativeEncoder relativeEncoder;
     private RelativeEncoder relativeEncoder;
+    //private static final SparkMaxAlternateEncoder.Type kAltEncType = SparkMaxAlternateEncoder.Type.kQuadrature;
+    //private static final int kCPR = 8192;
     private static Finger instance; 
     private double offset;
     
@@ -69,6 +76,8 @@ public class Finger extends SubsystemBase{
         motor.setSmartCurrentLimit(30);
 
         relativeEncoder = motor.getEncoder();
+        //relativeEncoder = motor.getEncoder(SparkRelativeEncoder.Type.kQuadrature, 4096);
+        //relativeEncoder = motor.getAlternateEncoder(kAltEncType, kCPR);
         pidController = motor.getPIDController();
 
         relativeEncoder.setPositionConversionFactor(1/Constants.Finger.FINGER_GEAR_RATIO);
@@ -138,6 +147,7 @@ public class Finger extends SubsystemBase{
 
     @Override
     public void periodic() {
+        //System.out.println("Position: " + relativeEncoder.getPosition());
         /* 
        if(getPosition()  >= 1){
         relativeEncoder.setPosition(0);

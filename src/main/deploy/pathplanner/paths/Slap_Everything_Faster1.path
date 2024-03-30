@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1245937167800264,
-        "y": 1.8807626365252736
+        "x": 0.7036808379666589,
+        "y": 4.372448507649092
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1245937167800246,
-        "y": 1.3807626365252736
+        "x": 1.589856370704306,
+        "y": 1.694445524126003
       },
       "isLocked": false,
       "linkedName": null
@@ -20,12 +20,12 @@
         "y": 0.6632047338168758
       },
       "prevControl": {
-        "x": 6.266488601584735,
-        "y": 0.6661010571719321
+        "x": 0.6160371039673148,
+        "y": 0.866699147399562
       },
       "nextControl": {
-        "x": 8.569494421396248,
-        "y": 0.6611856649639238
+        "x": 8.56909794825006,
+        "y": 0.6357449231359027
       },
       "isLocked": false,
       "linkedName": null
@@ -98,7 +98,7 @@
   "eventMarkers": [
     {
       "name": "ShootWhileMoving",
-      "waypointRelativePos": 1.7,
+      "waypointRelativePos": 1.75,
       "command": {
         "type": "parallel",
         "data": {
@@ -106,7 +106,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShootWhileMoving"
+                "name": "ShootSlap"
               }
             }
           ]
@@ -123,7 +123,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShootWhileMoving"
+                "name": "ShootSlap"
               }
             }
           ]
@@ -195,6 +195,9 @@
   },
   "reversed": false,
   "folder": "Basic Paths",
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": -60.0,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

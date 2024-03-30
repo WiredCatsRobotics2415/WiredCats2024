@@ -2,15 +2,21 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.0779175956500064,
-      "y": 1.9489359025014352
+      "x": 0.7036808379666589,
+      "y": 4.372448507649092
     },
-    "rotation": 0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSub"
+          }
+        },
         {
           "type": "named",
           "data": {
@@ -27,12 +33,6 @@
           "type": "path",
           "data": {
             "pathName": "Slap_Everything_Faster_Shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootSub"
           }
         },
         {

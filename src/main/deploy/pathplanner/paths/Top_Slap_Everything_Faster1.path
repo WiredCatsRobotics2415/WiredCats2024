@@ -122,7 +122,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShootWhileMoving"
+                "name": "ShootSlap"
               }
             }
           ]
@@ -139,7 +139,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShootWhileMoving"
+                "name": "ShootSlap"
               }
             }
           ]

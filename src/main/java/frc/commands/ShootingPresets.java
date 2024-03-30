@@ -45,8 +45,8 @@ public class ShootingPresets {
             public static double arm = 80.0;
         }
         public static class field {
-            public static double middle_center = 17;
-            public static double middle_corner = 16;
+            public static double middle_center = 16;
+            public static double middle_corner = 14.9;
             public static double top = 16;
             public static double bottom = 16;
         }
@@ -83,6 +83,12 @@ public class ShootingPresets {
                 finger.fire(), 
                 new WaitCommand(0.5),
                 flywheel.off()
+            ); 
+        }
+
+    public Command shootSlap() {
+            return new SequentialCommandGroup(
+                finger.fire()
             ); 
         }
 

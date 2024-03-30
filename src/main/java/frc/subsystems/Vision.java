@@ -50,7 +50,7 @@ public class Vision extends SubsystemBase {
         if (!isEnabled) return;
 
         // cachedBackTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.ShooterLimelightName);
-        cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
+        // cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
     }
 
     /**

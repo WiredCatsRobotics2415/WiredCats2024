@@ -77,6 +77,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Intake", intake.intakeNote());
         NamedCommands.registerCommand("ShootSub", shooterPre.subwooferAuto()); // Shoot next to subwoofer. 
         NamedCommands.registerCommand("ShootWhileMoving", shooterPre.shootWhileMoving()); // Shoot next to subwoofer. 
+        NamedCommands.registerCommand("ShootSlap", finger.fire()); // fire finger
         NamedCommands.registerCommand("FlywheelOn", flywheel.on(Settings.subwoofer.left_flywheel, Settings.subwoofer.right_flywheel)); // Shoot next to subwoofer. 
         NamedCommands.registerCommand("FlywheelOff", flywheel.off()); // Shoot next to subwoofer. 
         NamedCommands.registerCommand("Amp", shooterPre.shootAmp()); // Score in Amp.  
@@ -214,7 +215,7 @@ public class RobotContainer {
         //selectedOI.binds.get("ShootClose").onTrue(flywheel.on(6000, 8000)); // Subwoofer
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
 
-        selectedOI.binds.get("AutoIntake").onTrue(new AutoNoteDetect());
+        //selectedOI.binds.get("AutoIntake").onTrue(new AutoNoteDetect());
     }
 
     /**
