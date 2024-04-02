@@ -142,7 +142,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
                 (speeds) -> this.setControl(autoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the robot
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely
                                                  // live in your Constants class
-                        new PIDConstants(0.1, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(0, 0.0, 0.0), // Translation PID constants
                         new PIDConstants(0, 0.0, 0.0), // Rotation PID constants
                         3, // Max module speed, in m/s
                         driveBaseRadius, // Drive base radius in meters. Distance from robot center

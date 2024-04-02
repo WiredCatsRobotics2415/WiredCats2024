@@ -1,0 +1,85 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7171143189779416,
+      "y": 4.384960808570643
+    },
+    "rotation": -60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot1Sub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOn"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot2Sub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOff"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot3Sub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOn"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot4Sub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOff"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Four Note",
+  "choreoAuto": false
+}
