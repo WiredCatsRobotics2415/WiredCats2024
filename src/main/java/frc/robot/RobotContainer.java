@@ -69,7 +69,7 @@ public class RobotContainer {
 
     private RobotContainer() {
         // Configure auto chooser
-        autoChooser = AutoBuilder.buildAutoChooser("Auto");
+        autoChooser = AutoBuilder.buildAutoChooser("Top_Slap");
         Shuffleboard.getTab("Auto")
                 .add("Auto Chooser", autoChooser)
                 .withSize(4, 2);

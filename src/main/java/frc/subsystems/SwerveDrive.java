@@ -45,7 +45,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     private double m_lastSimTime;
 
     private final SwerveRequest.ApplyChassisSpeeds autoRequest =
-            new SwerveRequest.ApplyChassisSpeeds();
+            new SwerveRequest.ApplyChassisSpeeds()
+                .withDriveRequestType(DriveRequestType.Velocity);
     public final SwerveRequest.FieldCentric drive =
             new SwerveRequest.FieldCentric()
                     .withDeadband(DriverControl.kMaxDriveMeterS * 0.05)

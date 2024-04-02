@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3449097592639632,
-        "y": 5.5658008306757365
+        "x": 0.7107439863027876,
+        "y": 4.390346451989201
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.940276793494394,
-        "y": 5.5658008306757365
+        "x": 2.1639391010263505,
+        "y": 2.977413945568632
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.196658160813356,
-        "y": 5.5658008306757365
+        "x": 7.781226187452375,
+        "y": 2.4686679790026256
       },
       "prevControl": {
-        "x": 3.244628903650848,
-        "y": 5.560508013068222
-      },
-      "nextControl": {
-        "x": 3.0647261006710873,
-        "y": 5.580357460188068
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.3449097592639632,
-        "y": 5.5658008306757365
-      },
-      "prevControl": {
-        "x": 2.1510451142557008,
-        "y": 5.5658008306757365
+        "x": 5.089451100198497,
+        "y": 0.3628385497511746
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,6 +31,23 @@
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
+    {
+      "name": "AutoAlign",
+      "waypointRelativePos": 0.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AutoAlign"
+              }
+            }
+          ]
+        }
+      }
+    },
     {
       "name": "Intake",
       "waypointRelativePos": 0.0,
@@ -63,11 +64,28 @@
           ]
         }
       }
+    },
+    {
+      "name": "ArmDown",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ArmDown"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -79,8 +97,8 @@
   "reversed": false,
   "folder": "Four Note",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -60.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
