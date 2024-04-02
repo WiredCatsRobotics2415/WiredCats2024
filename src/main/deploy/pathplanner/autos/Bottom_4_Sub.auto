@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6738069031693622,
-      "y": 4.411427906189146
+      "x": 0.7171143189779416,
+      "y": 4.384960808570643
     },
     "rotation": -60.0
   },
@@ -12,74 +12,74 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "ShootSub"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "BotStart"
+            "pathName": "Bot1Sub"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "FlywheelOn"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BotIntake1"
+            "pathName": "Bot2Sub"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "(ex1)BotNote1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BotNote1Return"
+            "name": "ShootSub"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "FlywheelOff"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BotNote2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BotNote2Return"
+            "pathName": "Bot3Sub"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "FlywheelOn"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BotNote3"
+            "pathName": "Bot4Sub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOff"
           }
         }
       ]
     }
   },
-  "folder": "Bottom Paths",
+  "folder": "Four Note",
   "choreoAuto": false
 }

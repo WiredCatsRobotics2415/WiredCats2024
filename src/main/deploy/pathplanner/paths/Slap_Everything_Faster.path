@@ -32,22 +32,6 @@
     },
     {
       "anchor": {
-        "x": 8.528140197641651,
-        "y": 1.7120609459369018
-      },
-      "prevControl": {
-        "x": 8.547613677048657,
-        "y": 1.4173032803734844
-      },
-      "nextControl": {
-        "x": 8.37054462939283,
-        "y": 4.097484774379763
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
         "x": 8.14847814686545,
         "y": 7.4499723170511825
       },
@@ -62,31 +46,31 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.8,
-      "rotationDegrees": 0.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 2.3000000000000003,
+      "waypointRelativePos": 1.45,
       "rotationDegrees": 90.0,
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 2.45,
-      "rotationDegrees": 0.0,
-      "rotateFast": true
+      "waypointRelativePos": 1.65,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
     },
     {
-      "waypointRelativePos": 2.9499999999999997,
+      "waypointRelativePos": 2.0,
       "rotationDegrees": 90.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.1,
+      "rotationDegrees": 180.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [
     {
       "name": "New Constraints Zone",
-      "minWaypointRelativePos": 1.45,
-      "maxWaypointRelativePos": 3.0,
+      "minWaypointRelativePos": 1.25,
+      "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 4.0,
@@ -97,42 +81,8 @@
   ],
   "eventMarkers": [
     {
-      "name": "ShootWhileMoving",
-      "waypointRelativePos": 1.75,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "ShootSlap"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "ShootWhileMoving",
-      "waypointRelativePos": 2.55,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "ShootSlap"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "Intake",
-      "waypointRelativePos": 0.44999999999999996,
+      "waypointRelativePos": 1.8,
       "command": {
         "type": "parallel",
         "data": {
@@ -148,8 +98,8 @@
       }
     },
     {
-      "name": "Intake",
-      "waypointRelativePos": 2.0999999999999996,
+      "name": "Outtake",
+      "waypointRelativePos": 0.95,
       "command": {
         "type": "parallel",
         "data": {
@@ -157,24 +107,7 @@
             {
               "type": "named",
               "data": {
-                "name": "Intake"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Intake",
-      "waypointRelativePos": 2.55,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Intake"
+                "name": "Outtake"
               }
             }
           ]

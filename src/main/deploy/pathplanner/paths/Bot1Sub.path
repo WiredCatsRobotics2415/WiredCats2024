@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3449097592639632,
-        "y": 5.5658008306757365
+        "x": 0.7171143189779416,
+        "y": 4.38
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4811969068382582,
-        "y": 3.9145588152287423
+        "x": 1.1904509920130955,
+        "y": 2.132817416059881
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.56,
-        "y": 4.12
+        "x": 7.802823292479324,
+        "y": 0.749840835387484
       },
       "prevControl": {
-        "x": 2.586676842159169,
-        "y": 4.085054181170705
-      },
-      "nextControl": {
-        "x": 2.5333231578408313,
-        "y": 4.154945818829296
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.34,
-        "y": 5.57
-      },
-      "prevControl": {
-        "x": 2.084720340736978,
-        "y": 4.6476589619845905
+        "x": 3.3676978487088864,
+        "y": 1.7388042063942832
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,16 +30,33 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.8,
-      "rotationDegrees": -9.0,
+      "waypointRelativePos": 0.25,
+      "rotationDegrees": 0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
+      "name": "AutoAlign",
+      "waypointRelativePos": 0.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AutoAlign"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "Intake",
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "parallel",
         "data": {
@@ -79,13 +80,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Four Note",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
