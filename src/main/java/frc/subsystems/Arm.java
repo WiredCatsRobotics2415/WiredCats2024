@@ -53,6 +53,8 @@ public class Arm extends SubsystemBase {
     private double goalInDegrees = Constants.Arm.MIN_DEGREES;
     private static Arm instance;
 
+    private static boolean isCoasting = false;
+
     public Arm() {
         input = new AnalogInput(RobotMap.Arm.ANALOG_POT_PORT);
         // Constants.Arm.MAX_VOLT = input.getAverageVoltage();
@@ -124,7 +126,9 @@ public class Arm extends SubsystemBase {
         // Add the feedforward to the PID output to get the motor output
         double voltOut = output + feedforward;
         //if (!limitSwitch.get()) leftMotor.setVoltage(voltOut);
-        leftMotor.setVoltage(voltOut);
+        if (!isCoasting) {
+            leftMotor.setVoltage(voltOut);
+        }
         SmartDashboard.putNumber("Arm Volt out", voltOut);
     }
 
@@ -271,16 +275,25 @@ public class Arm extends SubsystemBase {
      * Sets the min and max volt back to what they started as on boot.
      * From Constants.Arm.MAX_VOLT_OG and MIN_VOLT_OG
      */
-    private void resetPotentiometerAndArm() {
+    public void resetPotentiometerAndArm() {
         Constants.Arm.MAX_VOLT = Constants.Arm.MAX_VOLT_OG;
         Constants.Arm.MIN_VOLT = Constants.Arm.MIN_VOLT_OG;
     }
+
+    public InstantCommand changeCoast = new InstantCommand(() -> {
+        if (isCoasting == false) {
+            isCoasting = true;
+        } else {
+            isCoasting = false;
+        }
+    });
 
     @Override
     public void periodic() {
         double measurement = getMeasurement();
         SmartDashboard.putNumber("Arm Measurement", measurement);
         SmartDashboard.putNumber("Arm Voltage", input.getAverageVoltage()); 
+        SmartDashboard.putData("coast", changeCoast);
         useOutput(pid.calculate(measurement), pid.getSetpoint());
         positionLigament.setAngle(measurement);
         goalLigament.setAngle(goalInDegrees);

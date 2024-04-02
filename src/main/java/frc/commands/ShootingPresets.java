@@ -46,9 +46,9 @@ public class ShootingPresets {
         }
         public static class field {
             public static double middle_center = 16;
-            public static double middle_corner = 14.9;
-            public static double top = 16;
-            public static double bottom = 16;
+            public static double middle_corner = 14.7;
+            public static double top = 15;
+            public static double bottom = 15;
         }
     }
 

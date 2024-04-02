@@ -125,6 +125,8 @@ public class OIs {
             binds.put("AutoIntake", controller.button(1, Robot.buttonEventLoop)); //B
             binds.put("FixAll", numpad.button(1, Robot.buttonEventLoop)); 
             binds.put("ArmAngle", numpad.button(2, Robot.buttonEventLoop)); 
+
+            binds.put("FixArm", numpad.button(3, Robot.buttonEventLoop));
         }
 
         private double deadbandCompensation(double r) {

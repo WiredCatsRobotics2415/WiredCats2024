@@ -32,28 +32,28 @@
     },
     {
       "anchor": {
-        "x": 8.528140197641651,
-        "y": 1.7120609459369018
+        "x": 8.28973292584782,
+        "y": 1.7820892581286953
       },
       "prevControl": {
-        "x": 8.547613677048657,
-        "y": 1.4173032803734844
+        "x": 8.28973292584782,
+        "y": 1.1549012636817089
       },
       "nextControl": {
-        "x": 8.37054462939283,
-        "y": 4.097484774379763
+        "x": 8.28973292584782,
+        "y": 3.55444032359002
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.14847814686545,
-        "y": 7.4499723170511825
+        "x": 8.056016301830942,
+        "y": 6.592756435809432
       },
       "prevControl": {
-        "x": 8.73041862393363,
-        "y": 6.8928585518673735
+        "x": 8.38711485252152,
+        "y": 5.881868371091428
       },
       "nextControl": null,
       "isLocked": false,
@@ -98,7 +98,7 @@
   "eventMarkers": [
     {
       "name": "ShootWhileMoving",
-      "waypointRelativePos": 1.75,
+      "waypointRelativePos": 1.7,
       "command": {
         "type": "parallel",
         "data": {
@@ -115,7 +115,7 @@
     },
     {
       "name": "ShootWhileMoving",
-      "waypointRelativePos": 2.55,
+      "waypointRelativePos": 2.5,
       "command": {
         "type": "parallel",
         "data": {

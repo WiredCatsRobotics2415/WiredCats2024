@@ -48,7 +48,7 @@ public class RobotContainer {
     private final Flywheel flywheel = Flywheel.getInstance();
     private final Arm arm = Arm.getInstance();
     private final Finger finger = Finger.getInstance();
-    private final Climber climber = Climber.getInstance();
+    // private final Climber climber = Climber.getInstance();
 
     // PUBLIC OBJECTS
     private OIs.OI selectedOI;
@@ -224,6 +224,10 @@ public class RobotContainer {
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
 
         //selectedOI.binds.get("AutoIntake").onTrue(new AutoNoteDetect());
+
+        selectedOI.binds.get("FixArm").onTrue(new InstantCommand(() -> {
+            arm.resetPotentiometerAndArm();
+        }));
     }
 
     /**

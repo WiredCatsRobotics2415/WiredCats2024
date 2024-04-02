@@ -1,5 +1,6 @@
 package frc.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -65,6 +66,7 @@ public class Intake extends SubsystemBase {
         motor.optimizeBusUtilization();
         motor.setInverted(true);
         motor.setNeutralMode(NeutralModeValue.Brake);
+        motor.getConfigurator().apply(new CurrentLimitsConfigs().withSupplyCurrentThreshold(40));
     }
 
     private void configureSmartDashboardWidgets() {
