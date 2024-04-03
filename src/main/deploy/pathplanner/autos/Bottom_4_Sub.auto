@@ -2,78 +2,84 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6611580306493949,
-      "y": 6.646299588895475
+      "x": 0.7171143189779416,
+      "y": 4.384960808570643
     },
-    "rotation": 60.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "(ex2)Top1stDrop"
+            "name": "ShootSub"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "(ex2)TopIntake1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "(ex2)TopDrop"
+            "pathName": "Bot1Sub"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Amp"
+            "name": "FlywheelOn"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "(ex2)TopIntake2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "(ex2)TopDrop2"
+            "pathName": "Bot2Sub"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Amp"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "(ex2)TopNote1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "(ex2)TopDrop3"
+            "name": "ShootSub"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Amp"
+            "name": "FlywheelOff"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot3Sub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOn"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bot4Sub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSub"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOff"
           }
         }
       ]
     }
   },
-  "folder": "Top Paths",
+  "folder": "Four Note",
   "choreoAuto": false
 }

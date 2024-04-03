@@ -14,12 +14,6 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootSub"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "FlywheelOn"
           }
         },
