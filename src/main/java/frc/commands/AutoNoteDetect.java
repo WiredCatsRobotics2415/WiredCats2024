@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.generated.TunerConstants;
 import frc.subsystems.Vision;
+import frc.subsystems.Intake;
 import frc.utils.Logger;
 import frc.utils.Logger.LogLevel;
 
@@ -17,6 +18,7 @@ import frc.utils.Logger.LogLevel;
 public class AutoNoteDetect extends Command {
     //GENERAL
     private Vision vision = Vision.getInstance();
+    private Intake intake = Intake.getInstance();
 
     //SWERVE
     private final SwerveRequest.FieldCentricFacingAngle driveHeading = new SwerveRequest.FieldCentricFacingAngle()
@@ -43,13 +45,21 @@ public class AutoNoteDetect extends Command {
         //turns robot to current pose + x-degree
         Rotation2d pose = TunerConstants.DriveTrain.getRobotPose().getRotation();
 
-        TunerConstants.DriveTrain.setControl(driveHeading
-            .withTargetDirection(pose.minus(Rotation2d.fromDegrees(vision.getNoteAngleOnX())))
-        );
+        if(vision.getNoteAngleOnX() >= Constants.Swerve.HeadingControllerTolerance ||
+            vision.getNoteAngleOnX() <= -Constants.Swerve.HeadingControllerTolerance) {
+
+            TunerConstants.DriveTrain.setControl(driveHeading
+                .withTargetDirection(pose.minus(Rotation2d.fromDegrees(vision.getNoteAngleOnX())))
+            );
+        } else {
+            TunerConstants.DriveTrain.setControl(driveHeading
+                .withVelocityX(0.5));
+        }
     }
 
     @Override
     public void end(boolean interrupted) {
+        TunerConstants.DriveTrain.setControl(new SwerveRequest.SwerveDriveBrake());
         Logger.log(this, LogLevel.INFO, "Ended", interrupted);
     }
 
@@ -57,7 +67,6 @@ public class AutoNoteDetect extends Command {
     public boolean isFinished() {
         //return false;
         Logger.log(this, LogLevel.INFO, vision.getNoteAngleOnX());
-        return (vision.getNoteAngleOnX() >= -Constants.Swerve.HeadingControllerTolerance &&
-                vision.getNoteAngleOnX() <= Constants.Swerve.HeadingControllerTolerance); 
+        return (intake.hasNote()); 
     }
 }

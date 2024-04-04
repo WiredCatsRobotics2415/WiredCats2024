@@ -88,7 +88,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("ArmDown", arm.moveDown()); // Score in Amp.   
         NamedCommands.registerCommand("ArmUp", arm.moveUp()); // Score in Amp.   
         NamedCommands.registerCommand("ShootMiddleCorner", shooterPre.shootMiddleCorner()); // Score in Amp.
-        NamedCommands.registerCommand("ShootSubNoFly", shooterPre.shootSubNoFly()); // Score in Amp.   
+        NamedCommands.registerCommand("ShootSubNoFly", shooterPre.shootSubNoFly()); // Score in Amp.  
+        NamedCommands.registerCommand("AutoAlign", new AutoNoteDetect()); // Score in Amp.  
         //TODO: add in commands for shooting and dropping notes
 
         neutralizeSubsystems();
