@@ -83,9 +83,15 @@
       "/SmartDashboard/Reset to LL": "Command",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/SendableChooser[1]": "String Chooser",
-      "/SmartDashboard/Zero Pose": "Command"
+      "/SmartDashboard/Zero Pose": "Command",
+      "/SmartDashboard/coast": "Command"
     },
     "windows": {
+      "/Shuffleboard/Auto/Auto Chooser": {
+        "window": {
+          "visible": true
+        }
+      },
       "/Shuffleboard/Mechanism2d/Arm Mechanism": {
         "window": {
           "visible": true

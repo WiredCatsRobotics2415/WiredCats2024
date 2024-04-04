@@ -58,7 +58,7 @@ public class Vision extends SubsystemBase {
      */
     public double getNoteAngleOnX() {
         if (Robot.isSimulation()) {
-            return SmartDashboard.getNumber("Note Detection X", 0.0d);
+            return SmartDashboard.getNumber("Note detection X", 0.0d);
         }
         return LimelightHelpers.getTX(Constants.Vision.IntakeLimelightName);
     }

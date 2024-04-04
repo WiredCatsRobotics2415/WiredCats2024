@@ -6,6 +6,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Constants.DriverControl;
 import frc.generated.TunerConstants;
 import frc.subsystems.Vision;
 import frc.subsystems.Intake;
@@ -23,6 +24,8 @@ public class AutoNoteDetect extends Command {
     //SWERVE
     private final SwerveRequest.FieldCentricFacingAngle driveHeading = new SwerveRequest.FieldCentricFacingAngle()
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    private final SwerveRequest.RobotCentric driveForward = new SwerveRequest.RobotCentric()
+        .withVelocityX(0.5 * DriverControl.kMaxDriveMeterS);
     
     public AutoNoteDetect() {
         addRequirements(TunerConstants.DriveTrain);
@@ -44,16 +47,19 @@ public class AutoNoteDetect extends Command {
     public void execute() {
         //turns robot to current pose + x-degree
         Rotation2d pose = TunerConstants.DriveTrain.getRobotPose().getRotation();
+        System.out.println(vision.getNoteAngleOnX());
 
         if(vision.getNoteAngleOnX() >= Constants.Swerve.HeadingControllerTolerance ||
             vision.getNoteAngleOnX() <= -Constants.Swerve.HeadingControllerTolerance) {
+
+            //System.out.println(pose);
+            //System.out.println(pose.minus(Rotation2d.fromDegrees(vision.getNoteAngleOnX())));
 
             TunerConstants.DriveTrain.setControl(driveHeading
                 .withTargetDirection(pose.minus(Rotation2d.fromDegrees(vision.getNoteAngleOnX())))
             );
         } else {
-            TunerConstants.DriveTrain.setControl(driveHeading
-                .withVelocityX(0.5));
+            TunerConstants.DriveTrain.setControl(driveForward);
         }
     }
 
