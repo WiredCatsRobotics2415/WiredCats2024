@@ -1,12 +1,14 @@
 package frc.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.utils.LimelightHelpers;
 import frc.utils.LimelightHelpers.LimelightResults;
+import frc.utils.LimelightHelpers.PoseEstimate;
+import frc.utils.LimelightHelpers.RawFiducial;
+import frc.utils.LimelightHelpers;
 import frc.utils.RobotPreferences;
 
 /**
@@ -14,9 +16,6 @@ import frc.utils.RobotPreferences;
  * exposes methods to get Limelight info
  */
 public class Vision extends SubsystemBase {
-    private LimelightResults cachedBackTargetResults;
-    private LimelightResults cachedIntakeTargetResults;
-
     private static Vision instance;
     private boolean isEnabled = false;
 
@@ -44,23 +43,14 @@ public class Vision extends SubsystemBase {
         if (Robot.isSimulation()) isEnabled = false;
     }
 
-    @Override
-    public void periodic() {
-        if (Robot.isSimulation()) return;
-        if (!isEnabled) return;
-
-        // cachedBackTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.ShooterLimelightName);
-        // cachedIntakeTargetResults = LimelightHelpers.getLatestResults(Constants.Vision.IntakeLimelightName);
-    }
-
     /**
      * @return The targeting resuls object returned from the shooter limelight
      */
-    public LimelightResults getShooterResults() {
+    public PoseEstimate getShooterResults() {
         if (Robot.isSimulation()) {
-            return new LimelightResults();
+            return new PoseEstimate(new Pose2d(), 0, 0, 0, 0, 0, 0, new RawFiducial[0]);
         }
-        return cachedBackTargetResults;
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Vision.ShooterLimelightName);
     }
 
     /**
@@ -70,21 +60,13 @@ public class Vision extends SubsystemBase {
         if (Robot.isSimulation()) {
             return SmartDashboard.getNumber("Note Detection X", 0.0d);
         }
-        if (!isNoteVisible()) return 0.0d;
-        return cachedIntakeTargetResults.targetingResults.targets_Detector[0].tx;
-    }
-
-    public double getNoteAngleOnY() {
-        if (Robot.isSimulation()) {
-            return SmartDashboard.getNumber("Note Detection Y", 0.0d);
-        }
-        return cachedIntakeTargetResults.targetingResults.targets_Detector[0].ty;
+        return LimelightHelpers.getTX(Constants.Vision.IntakeLimelightName);
     }
 
     public boolean isNoteVisible() {
         if (Robot.isSimulation()) {
             return SmartDashboard.getBoolean("Note Visible", false);
         }
-        return cachedIntakeTargetResults.targetingResults.targets_Detector.length != 0;
+        return LimelightHelpers.getTV(Constants.Vision.IntakeLimelightName);
     }
 }

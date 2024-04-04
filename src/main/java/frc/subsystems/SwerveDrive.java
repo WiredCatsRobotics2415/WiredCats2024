@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.DriverControl;
 import frc.utils.LimelightHelpers.LimelightTarget_Fiducial;
+import frc.utils.LimelightHelpers.PoseEstimate;
 import frc.utils.LimelightHelpers.Results;
 import frc.utils.RobotPreferences;
 
@@ -111,7 +112,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
         SmartDashboard.putData(
                 "Reset to LL",
-                new InstantCommand(() -> this.seedFieldRelative(vision.getShooterResults().targetingResults.getBotPose2d_wpiBlue()))
+                new InstantCommand(() -> this.seedFieldRelative(vision.getShooterResults().pose))
                         .withName("Reset to LL")
                         .ignoringDisable(true));
 
@@ -212,20 +213,19 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
      * Adds the shooter limelight measurements to the odometer Adapted from
      * https://docs.limelightvision.io/docs/docs-limelight/pipeline-apriltag/apriltag-robot-localization#using-wpilibs-pose-estimator
      */
+    /*
     private void processMegatag() {
-        Results lastResults = vision.getShooterResults().targetingResults;
-        Pose2d recievedPose = lastResults.getBotPose2d_wpiBlue();
+        PoseEstimate lastResults = vision.getShooterResults();
+        if (lastResults.tagCount == 0) return;
+        
+        Pose2d recievedPose = lastResults.pose;
         Pose2d deadReckPose = this.m_odometry.getEstimatedPosition();
-
-        if (recievedPose.getX() == 0.0) {
-            return;
-        }
 
         double poseDifference = deadReckPose.getTranslation()
                 .getDistance(recievedPose.getTranslation());
 
         double bestTargetArea = 0.0d;
-        for (LimelightTarget_Fiducial aprilTag : lastResults.targets_Fiducials) {
+        for (LimelightTarget_Fiducial aprilTag : lastResults.rawFiducials) {
             if (aprilTag.ta > bestTargetArea) bestTargetArea = aprilTag.ta;
         }
 
@@ -263,6 +263,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
             return;
         }
     }
+    */
 
     @Override
     public void periodic() {
