@@ -22,7 +22,7 @@ public class RobotMap {
         public static final int LEFT_MOTOR_PORT = 32;
         public static final int RIGHT_MOTOR_PORT = 14;
         public static final int ANALOG_POT_PORT = 4;
-        public static final int LIMITSWITCH_PORT = 0;
+        public static final int LIMITSWITCH_PORT = 1;
     }
 
     public static class Flywheel {

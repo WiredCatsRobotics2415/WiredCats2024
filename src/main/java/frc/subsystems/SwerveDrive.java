@@ -1,8 +1,10 @@
 package frc.subsystems;
 
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
@@ -47,7 +49,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
     private final SwerveRequest.ApplyChassisSpeeds autoRequest =
             new SwerveRequest.ApplyChassisSpeeds()
-                .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+                .withDriveRequestType(DriveRequestType.Velocity);
     public final SwerveRequest.FieldCentric drive =
             new SwerveRequest.FieldCentric()
                     .withDeadband(DriverControl.kMaxDriveMeterS * 0.05)
@@ -68,6 +70,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
     // Has to be in its own function, because of the template code
     private void intialization() {
+        addExtraMotorConfigs();
         configurePathPlanner();
         if (Utils.isSimulation()) {
             startSimThread();
@@ -117,6 +120,12 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
                         .ignoringDisable(true));
 
         vision = Vision.getInstance();
+    }
+
+    private void addExtraMotorConfigs() {
+        for (SwerveModule m : this.Modules) {
+            m.getDriveMotor().getConfigurator().apply(new ClosedLoopRampsConfigs().withDutyCycleClosedLoopRampPeriod(0.2));
+        }
     }
 
     public SwerveDrive(

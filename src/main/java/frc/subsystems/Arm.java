@@ -63,6 +63,8 @@ public class Arm extends SubsystemBase {
         configureMotors();
         configureMechansim2dWidget();
 
+        setGoal(getMeasurement());
+
         SmartDashboard.putData("Coast", coast());
 
         if (Robot.isSimulation()) {
@@ -71,6 +73,10 @@ public class Arm extends SubsystemBase {
 
             Constants.Arm.MAX_VOLT = 3.3d; //Necesary in order to prevent division by 0
         }
+    }
+
+    private boolean getLimitSwitch() {
+        return !limitSwitch.get();
     }
 
     public void configureMechansim2dWidget() {
@@ -263,7 +269,7 @@ public class Arm extends SubsystemBase {
     /* 
     */ 
     private void resetPotentiometerIfAtZero(){
-      if (limitSwitch.get()) {
+      if (getLimitSwitch()) {
         double oldMaxVolt = Constants.Arm.MAX_VOLT; 
         Constants.Arm.MAX_VOLT = input.getAverageVoltage(); 
         double oldMinVolt = Constants.Arm.MIN_VOLT; 
@@ -299,10 +305,12 @@ public class Arm extends SubsystemBase {
         goalLigament.setAngle(goalInDegrees);
 
         resetPotentiometerIfAtZero();
-        SmartDashboard.putBoolean("Limit Switch", limitSwitch.get());
+        SmartDashboard.putBoolean("Limit Switch", getLimitSwitch());
+
+        SmartDashboard.putNumber("goalindegrees", goalInDegrees);
 
         // control arm with smartdashboard
-        // double desiredAngle = SmartDashboard.getNumber("Arm Goal", getMeasurement());
+        //double desiredAngle = SmartDashboard.getNumber("Arm Goal", getMeasurement());
         //setGoal(desiredAngle);
 
         //System.out.println(limitSwitch.get());
