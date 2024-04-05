@@ -57,8 +57,8 @@ public class ShootingPresets {
         }
 
         public static class shuttle {
-            public static double blue = 50.7;
-            public static double red = 145.7;
+            public static double blue = 145.7;
+            public static double red = 50.7;
         }
     }
 

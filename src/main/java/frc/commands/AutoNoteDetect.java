@@ -79,6 +79,6 @@ public class AutoNoteDetect extends Command {
     public boolean isFinished() {
         //return false;
         Logger.log(this, LogLevel.INFO, vision.getNoteAngleOnX());
-        return (intake.hasNoteIntakingOrNot() || !vision.isNoteVisible()); 
+        return (intake.hasNoteIntakingOrNot()); 
     }
 }

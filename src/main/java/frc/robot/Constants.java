@@ -136,7 +136,7 @@ public final class Constants {
 
     public static class DriverControl {
         public static final double kMaxDriveMeterS = TunerConstants.kSpeedAt12VoltsMps;
-        public static final double kMaxAngularRadS = Math.PI * 1.5d; // rad/second
+        public static final double kMaxAngularRadS = Math.PI * 1.75d; // rad/second
         public static final double MinimumDrivePower = 0.05d;
     }
 
@@ -229,7 +229,7 @@ public final class Constants {
     }
 
     public static class Vision {
-        public static final String ShooterLimelightName = "10.24.15.33";
+        public static final String ShooterLimelightName = "limelight-back";
         public static final String IntakeLimelightName = "limelight-intake";
     }
 }

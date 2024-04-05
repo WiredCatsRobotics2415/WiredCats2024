@@ -26,13 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Bot1Sub"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Bot2Sub"
+            "pathName": "Bot1SubComplete"
           }
         },
         {
@@ -44,13 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Bot3Sub"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Bot4Sub"
+            "pathName": "Bot2SubComplete"
           }
         },
         {

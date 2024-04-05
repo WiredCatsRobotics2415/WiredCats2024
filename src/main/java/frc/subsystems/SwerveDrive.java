@@ -158,8 +158,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
                 (speeds) -> this.setControl(autoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the robot
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely
                                                  // live in your Constants class
-                        new PIDConstants(0, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(0, 0.0, 0.0), // Rotation PID constants
+                        new PIDConstants(0.3, 0.0, 0.05), // Translation PID constants
+                        new PIDConstants(0.2, 0.0, 0.0), // Rotation PID constants
                         3, // Max module speed, in m/s
                         driveBaseRadius, // Drive base radius in meters. Distance from robot center
                                          // to furthest module.
@@ -201,10 +201,10 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
             public boolean isFinished() {
                 double rotation = TunerConstants.DriveTrain.getRobotPose().getRotation().getDegrees();
                 System.out.println(rotation);
-                System.out.println(angle.getDegrees() - 6);
-                System.out.println(angle.getDegrees() + 6);
-                return (rotation >= angle.getDegrees() - 6 &&
-                        rotation <= angle.getDegrees() + 6);
+                System.out.println(angle.getDegrees() - 15);
+                System.out.println(angle.getDegrees() + 15);
+                return (rotation >= angle.getDegrees() - 15 &&
+                        rotation <= angle.getDegrees() + 15);
             }
         };
         command.addRequirements(this);
