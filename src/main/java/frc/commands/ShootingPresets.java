@@ -1,11 +1,16 @@
 package frc.commands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.generated.TunerConstants;
+import frc.robot.RobotContainer;
 import frc.subsystems.Arm;
 import frc.subsystems.Flywheel;
 import frc.subsystems.Finger; 
@@ -49,6 +54,11 @@ public class ShootingPresets {
             public static double middle_corner = 14.7;
             public static double top = 15;
             public static double bottom = 15;
+        }
+
+        public static class shuttle {
+            public static double blue = 50.7;
+            public static double red = 145.7;
         }
     }
 
@@ -100,36 +110,43 @@ public class ShootingPresets {
         }
 
     public Command shootMiddle() {
-                return new SequentialCommandGroup(
-                    new InstantCommand(() -> arm.setGoal(Settings.field.middle_center)),
-                    new WaitUntilCommand(() -> arm.withinSetGoalTolerance()),
-                    finger.fire(), 
-                    new WaitCommand(0.5)
-                ); 
-            }
+        return new SequentialCommandGroup(
+            new InstantCommand(() -> arm.setGoal(Settings.field.middle_center)),
+            new WaitUntilCommand(() -> arm.withinSetGoalTolerance()),
+            finger.fire(), 
+            new WaitCommand(0.5)
+        ); 
+    }
 
     public Command shootMiddleCorner() {
-                return new SequentialCommandGroup(
-                    new InstantCommand(() -> arm.setGoal(Settings.field.middle_corner)),
-                    new WaitUntilCommand(() -> arm.withinSetGoalTolerance()),
-                    finger.fire(), 
-                    new WaitCommand(0.5)
-                ); 
-            }
+        return new SequentialCommandGroup(
+            new InstantCommand(() -> arm.setGoal(Settings.field.middle_corner)),
+            new WaitUntilCommand(() -> arm.withinSetGoalTolerance()),
+            finger.fire(), 
+            new WaitCommand(0.5)
+        ); 
+    }
 
     public Command shootTop() {
-                    return new SequentialCommandGroup(
-                        new InstantCommand(() -> arm.setGoal(Settings.field.top)),
-                        finger.fire(), // Change to finger.fire
-                        new WaitCommand(0.5)
-                    ); 
-                }
+        return new SequentialCommandGroup(
+            new InstantCommand(() -> arm.setGoal(Settings.field.top)),
+            finger.fire(), // Change to finger.fire
+            new WaitCommand(0.5)
+        ); 
+    }
 
     public Command shootBottom() {
-                        return new SequentialCommandGroup(
-                            // new InstantCommand(() -> arm.setGoal(Settings.field.bottom)),
-                            finger.fire(), 
-                            new WaitCommand(0.5)
-                        ); 
-                    }
+        return new SequentialCommandGroup(
+            // new InstantCommand(() -> arm.setGoal(Settings.field.bottom)),
+            finger.fire(), 
+            new WaitCommand(0.5)
+        ); 
+    }
+    
+    public Command shuttle() {
+        if (RobotContainer.getInstance().isBlue()) {
+            return TunerConstants.DriveTrain.faceAngle(Rotation2d.fromDegrees(Settings.shuttle.blue));
+        }
+        return TunerConstants.DriveTrain.faceAngle(Rotation2d.fromDegrees(Settings.shuttle.red));
+    }
 }

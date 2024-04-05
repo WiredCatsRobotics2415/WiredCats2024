@@ -4,6 +4,7 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -26,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-
+import frc.generated.TunerConstants;
 import frc.robot.Constants;
 import frc.robot.Constants.DriverControl;
 import frc.utils.LimelightHelpers.LimelightTarget_Fiducial;
@@ -54,6 +55,9 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
                     .withRotationalDeadband(
                             DriverControl.kMaxAngularRadS * 0.05) // Add a 5% deadband
                     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    public final SwerveRequest.FieldCentricFacingAngle driveFacingAngle = 
+            new SwerveRequest.FieldCentricFacingAngle()
+                    .withDeadband(DriverControl.kMaxDriveMeterS * 0.05);
 
     private Vision vision;
     private int visionMeasurmentCounter = 0;
@@ -68,6 +72,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
     // Has to be in its own function, because of the template code
     private void intialization() {
+        driveFacingAngle.HeadingController = Constants.Swerve.headingPIDController;
         configurePathPlanner();
         if (Utils.isSimulation()) {
             startSimThread();
@@ -174,6 +179,27 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
      */
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
         return run(() -> this.setControl(requestSupplier.get()));
+    }
+
+    public Command faceAngle(Rotation2d angle) {
+        Command command = new Command() {
+            public void execute() {
+                TunerConstants.DriveTrain.setControl(TunerConstants.DriveTrain.driveFacingAngle
+                        .withTargetDirection(angle));
+            };
+
+            @Override
+            public boolean isFinished() {
+                double rotation = TunerConstants.DriveTrain.getRobotPose().getRotation().getDegrees();
+                System.out.println(rotation);
+                System.out.println(angle.getDegrees() - 6);
+                System.out.println(angle.getDegrees() + 6);
+                return (rotation >= angle.getDegrees() - 6 &&
+                        rotation <= angle.getDegrees() + 6);
+            }
+        };
+        command.addRequirements(this);
+        return command;
     }
 
     /**

@@ -61,6 +61,9 @@ public class RobotContainer {
         return speakerLocation;
     }
 
+    private boolean blueAlliance = true;
+    public boolean isBlue() { return blueAlliance; };
+
     // SHOOTING PRESETS
     private final ShootingPresets shooterPre = new ShootingPresets();
 
@@ -221,6 +224,7 @@ public class RobotContainer {
         selectedOI.binds.get("ArmIntakePosition").onTrue(new InstantCommand(() -> {
             arm.setGoal(0);
         }));
+        selectedOI.binds.get("ShuttleRotate").onTrue(shooterPre.shuttle());
         //selectedOI.binds.get("ShootClose").onTrue(flywheel.on(6000, 8000)); // Subwoofer
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
 
@@ -260,12 +264,16 @@ public class RobotContainer {
     private void setSpeakerLocation() {
         var alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
-            if (alliance.get() == Alliance.Blue)
+            if (alliance.get() == Alliance.Blue) {
                 speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation;
-            else
+                blueAlliance = true;
+            } else {
                 speakerLocation = Constants.FieldMeasurements.RedSpeakerLocation;
+                blueAlliance = false;
+            }
         } else {
             speakerLocation = Constants.FieldMeasurements.BlueSpeakerLocation; // Default to blue
+            blueAlliance = true;
         }
         Logger.log(this, LogLevel.INFO, "Alliance detected: " + alliance.toString());
     }
