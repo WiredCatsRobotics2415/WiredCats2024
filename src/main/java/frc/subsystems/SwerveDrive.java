@@ -34,6 +34,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.DriverControl;
 import frc.utils.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.utils.LimelightHelpers.PoseEstimate;
+import frc.utils.LimelightHelpers.RawFiducial;
 import frc.utils.LimelightHelpers.Results;
 import frc.utils.RobotPreferences;
 
@@ -65,6 +66,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     private int visionMeasurmentCounter = 0;
     private boolean shouldUseLimelight = false;
     private Pose2d robotPose;
+    private Pose2d lastLimelightPose;
 
     public Pose2d getRobotPose() {
         return robotPose;
@@ -248,7 +250,6 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
      * Adds the shooter limelight measurements to the odometer Adapted from
      * https://docs.limelightvision.io/docs/docs-limelight/pipeline-apriltag/apriltag-robot-localization#using-wpilibs-pose-estimator
      */
-    /*
     private void processMegatag() {
         PoseEstimate lastResults = vision.getShooterResults();
         if (lastResults.tagCount == 0) return;
@@ -258,52 +259,51 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
         double poseDifference = deadReckPose.getTranslation()
                 .getDistance(recievedPose.getTranslation());
-
-        double bestTargetArea = 0.0d;
-        for (LimelightTarget_Fiducial aprilTag : lastResults.rawFiducials) {
-            if (aprilTag.ta > bestTargetArea) bestTargetArea = aprilTag.ta;
-        }
-
-        if (lastResults.valid) {
-            double xyStds;
-            double degStds;
-            // multiple targets detected
-            if (lastResults.targets_Fiducials.length >= 2) {
-                xyStds = 0.5;
-                degStds = 6;
-            }
-            // 1 target with large area and close to estimated pose
-            else if (bestTargetArea > 0.15 && poseDifference < 1.5) {
-                xyStds = 1.0;
-                degStds = 12;
-            }
-            // 1 target farther away and estimated pose is close
-            else if (bestTargetArea > 0.02 && poseDifference < 0.75) {
-                xyStds = 2.0;
-                degStds = 30;
-            }
-            // conditions don't match to add a vision measurement
-            else {
-                return;
-            }
-
-            Pose2d poseToGive = new Pose2d(recievedPose.getTranslation(), deadReckPose.getRotation());
-            m_odometry.setVisionMeasurementStdDevs(
-                    VecBuilder.fill(xyStds, xyStds, Units.degreesToRadians(degStds)));
-            // if (visionMeasurmentCounter%50==0 && DriverStation.isEnabled()) {
-            //      m_odometry.addVisionMeasurement(
-            //         poseToGive, Timer.getFPGATimestamp() - (lastResults.latency_pipeline/1000.0) - (lastResults.latency_capture/1000.0));
-            // }
-            visionMeasurmentCounter++;
+        double lastLimelightPoseDistance = lastLimelightPose.getTranslation()
+                .getDistance(recievedPose.getTranslation());
+        
+        if (poseDifference > 1.0d || lastLimelightPoseDistance > 1.0d) {
+            lastLimelightPose = recievedPose;
             return;
         }
+        lastLimelightPose = recievedPose;
+
+        double bestTargetArea = 0.0d;
+        for (RawFiducial aprilTag : lastResults.rawFiducials) {
+            if (aprilTag.ta > bestTargetArea) bestTargetArea = aprilTag.ta;
+        }
+        if (bestTargetArea <= 0.1d) return;
+
+        double xyStds = 1.0d;
+        // multiple targets detected
+        if (lastResults.rawFiducials.length >= 2) {
+            xyStds = 0.5;
+        }
+        // 1 target
+        if (lastResults.rawFiducials.length == 1) {
+            xyStds = 0.75;
+        }
+        Pose2d poseToGive = new Pose2d(recievedPose.getTranslation(), deadReckPose.getRotation());
+        double translationSpeed = getTranslationSpeed();
+        if (translationSpeed >= 0.5 && translationSpeed <= 2.5) {
+            m_odometry.setVisionMeasurementStdDevs(
+                VecBuilder.fill(xyStds, xyStds, 0.0d));
+            m_odometry.addVisionMeasurement(
+                poseToGive, Timer.getFPGATimestamp() - (lastResults.latency/1000.0));
+        }
     }
-    */
+
+    private double getTranslationSpeed() {
+        ChassisSpeeds currentChassisSpeeds = getCurrentRobotChassisSpeeds();
+        double x = currentChassisSpeeds.vxMetersPerSecond;
+        double y = currentChassisSpeeds.vyMetersPerSecond;
+        return Math.sqrt((x*x)+(y*y));
+    }
 
     @Override
     public void periodic() {
         if (shouldUseLimelight) {
-            //processMegatag();
+            processMegatag();
         }
     }
 }
