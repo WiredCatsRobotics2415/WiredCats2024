@@ -67,6 +67,10 @@ public class Vision extends SubsystemBase {
         if (Robot.isSimulation()) {
             return SmartDashboard.getBoolean("Note Visible", false);
         }
-        return LimelightHelpers.getTV(Constants.Vision.IntakeLimelightName);
+        if (LimelightHelpers.getTY(Constants.Vision.IntakeLimelightName) != 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

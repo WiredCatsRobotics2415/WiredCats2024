@@ -21,6 +21,8 @@ public class AutoNoteDetect extends Command {
     private Vision vision = Vision.getInstance();
     private Intake intake = Intake.getInstance();
 
+    private boolean isNoteVisible = true;
+
     //SWERVE
     private final SwerveRequest.FieldCentricFacingAngle driveHeading = new SwerveRequest.FieldCentricFacingAngle()
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
@@ -38,19 +40,21 @@ public class AutoNoteDetect extends Command {
 
         if (!vision.isNoteVisible()) {
             Logger.log(this, LogLevel.INFO, "No note visible on init");
-            end(false);
         }
         Logger.log(this, LogLevel.INFO, "Auto note detect running");
+        intake.intakeNote().schedule();
     }
 
     @Override
     public void execute() {
+        if (vision.isNoteVisible()) {
         //turns robot to current pose + x-degree
         Rotation2d pose = TunerConstants.DriveTrain.getRobotPose().getRotation();
         System.out.println(vision.getNoteAngleOnX());
 
         if(vision.getNoteAngleOnX() >= Constants.Swerve.HeadingControllerTolerance ||
             vision.getNoteAngleOnX() <= -Constants.Swerve.HeadingControllerTolerance) {
+            System.out.println("head on");
 
             //System.out.println(pose);
             //System.out.println(pose.minus(Rotation2d.fromDegrees(vision.getNoteAngleOnX())));
@@ -61,11 +65,13 @@ public class AutoNoteDetect extends Command {
         } else {
             TunerConstants.DriveTrain.setControl(driveForward);
         }
+        }
     }
 
     @Override
     public void end(boolean interrupted) {
         TunerConstants.DriveTrain.setControl(new SwerveRequest.SwerveDriveBrake());
+        intake.off().schedule();
         Logger.log(this, LogLevel.INFO, "Ended", interrupted);
     }
 
@@ -73,6 +79,6 @@ public class AutoNoteDetect extends Command {
     public boolean isFinished() {
         //return false;
         Logger.log(this, LogLevel.INFO, vision.getNoteAngleOnX());
-        return (intake.hasNote()); 
+        return (intake.hasNoteIntakingOrNot() || !vision.isNoteVisible()); 
     }
 }

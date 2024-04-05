@@ -1,5 +1,6 @@
 package frc.subsystems;
 
+import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -67,6 +68,8 @@ public class Intake extends SubsystemBase {
         motor.setInverted(true);
         motor.setNeutralMode(NeutralModeValue.Brake);
         motor.getConfigurator().apply(new CurrentLimitsConfigs().withSupplyCurrentThreshold(40));
+        motor.getConfigurator().apply(new ClosedLoopRampsConfigs().withDutyCycleClosedLoopRampPeriod(0.2));
+
     }
 
     private void configureSmartDashboardWidgets() {
@@ -118,6 +121,7 @@ public class Intake extends SubsystemBase {
                 () -> {
                     isBeingIntook = false;
                     isBeingQueued = false;
+                    state = false;
                     motorOff();
                 });
     }
@@ -143,6 +147,7 @@ public class Intake extends SubsystemBase {
     public Command intakeNote(){
         return new SequentialCommandGroup(
           in(),
+          new InstantCommand(() -> {state = true;}),
           new WaitUntilCommand(() -> hasNote()),
           new InstantCommand(() -> {state = false;}),
           //new WaitCommand(0.2),
@@ -215,8 +220,8 @@ public class Intake extends SubsystemBase {
         return (closeToFlywheelSensor.getValue() < Constants.Intake.IRThreshold) && isBeingIntook;
     }
 
-    public boolean getRawNoteSensorValueOpposite() {
-        return (closeToFlywheelSensor.getValue() > Constants.Intake.IRThreshold);
+    public boolean hasNoteIntakingOrNot() {
+        return (closeToFlywheelSensor.getValue() < Constants.Intake.IRThreshold);
     }
 
     /**

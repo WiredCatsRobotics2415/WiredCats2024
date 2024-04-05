@@ -135,7 +135,7 @@ public class RobotContainer {
         flywheel.off().schedule();
         intake.off().schedule();
         arm.brake();
-        arm.setGoal(arm.getMeasurement());
+        arm.setGoal(0);
         //TODO: make me a command in swervedrive
         for (int i = 0; i < 4; i++) {
             swerveDrive.getModule(i).apply(new SwerveModuleState(0, Rotation2d.fromDegrees(0)), DriveRequestType.OpenLoopVoltage);
@@ -228,7 +228,7 @@ public class RobotContainer {
         //selectedOI.binds.get("ShootClose").onTrue(flywheel.on(6000, 8000)); // Subwoofer
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
 
-        //selectedOI.binds.get("AutoIntake").onTrue(new AutoNoteDetect());
+        selectedOI.binds.get("AutoIntake").whileTrue(new AutoNoteDetect());
 
         selectedOI.binds.get("FixArm").onTrue(new InstantCommand(() -> {
             arm.resetPotentiometerAndArm();
