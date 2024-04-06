@@ -71,7 +71,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     private boolean shouldUseLimelight = false;
     private SendableChooser<Boolean> useLimelightChooser = new SendableChooser<Boolean>();
     private Pose2d robotPose;
-    private Pose2d lastLimelightPose;
+    private Pose2d lastLimelightPose = new Pose2d();
 
     public Pose2d getRobotPose() {
         return robotPose;
@@ -213,10 +213,10 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
             public boolean isFinished() {
                 double rotation = TunerConstants.DriveTrain.getRobotPose().getRotation().getDegrees();
                 System.out.println(rotation);
-                System.out.println(angle.getDegrees() - 15);
-                System.out.println(angle.getDegrees() + 15);
-                return (rotation >= angle.getDegrees() - 15 &&
-                        rotation <= angle.getDegrees() + 15);
+                System.out.println(angle.getDegrees() - 20);
+                System.out.println(angle.getDegrees() + 20);
+                return (rotation >= angle.getDegrees() - 20 &&
+                        rotation <= angle.getDegrees() + 20);
             }
         };
         command.addRequirements(this);
@@ -253,7 +253,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
      * inputs.
      */
     public void setPreferences() {
-        shouldUseLimelight = useLimelightChooser.getSelected();
+        //shouldUseLimelight = useLimelightChooser.getSelected();
+        // shouldUseLimelight = DriverStation.isTeleop();
         if (shouldUseLimelight) Logger.log(this, LogLevel.INFO, "USING LIMELIGHT");
         else Logger.log(this, LogLevel.INFO, "NOT USING LIMELIGHT");
     }
@@ -264,7 +265,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
      */
     private void processMegatag() {
         PoseEstimate lastResults = vision.getShooterResults();
-        if (lastResults.tagCount == 0) return;
+        //if (lastResults.tagCount == 0) return;
         
         Pose2d recievedPose = lastResults.pose;
         Pose2d deadReckPose = this.m_odometry.getEstimatedPosition();
@@ -274,7 +275,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
         double lastLimelightPoseDistance = lastLimelightPose.getTranslation()
                 .getDistance(recievedPose.getTranslation());
         
-        if (poseDifference > 1.0d || lastLimelightPoseDistance > 1.0d) {
+        Logger.log(this, LogLevel.INFO, poseDifference, lastLimelightPoseDistance, lastResults.avgTagDist);
+        if (poseDifference > 1.0d || lastLimelightPoseDistance > 1.0d || lastResults.avgTagDist > 1.5d) {
             lastLimelightPose = recievedPose;
             return;
         }
@@ -316,7 +318,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     @Override
     public void periodic() {
         if (shouldUseLimelight) {
-            processMegatag();
+            //processMegatag();
         }
     }
 }

@@ -50,7 +50,7 @@ public class Vision extends SubsystemBase {
         if (Robot.isSimulation()) {
             return new PoseEstimate(new Pose2d(), 0, 0, 0, 0, 0, 0, new RawFiducial[0]);
         }
-        return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Vision.ShooterLimelightName);
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.Vision.ShooterLimelightName);
     }
 
     /**

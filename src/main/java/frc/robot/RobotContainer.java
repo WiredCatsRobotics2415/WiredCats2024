@@ -224,7 +224,7 @@ public class RobotContainer {
         selectedOI.binds.get("ArmIntakePosition").onTrue(new InstantCommand(() -> {
             arm.setGoal(0);
         }));
-        selectedOI.binds.get("ShuttleRotate").onTrue(shooterPre.shuttle());
+        //selectedOI.binds.get("ShuttleRotate").onTrue(shooterPre.shuttle());
         //selectedOI.binds.get("ShootClose").onTrue(flywheel.on(6000, 8000)); // Subwoofer
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
 

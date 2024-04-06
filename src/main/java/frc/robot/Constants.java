@@ -142,7 +142,7 @@ public final class Constants {
 
     public static class Intake {
         public static final double UptakeSpeed = 1;
-        public static final double IntakeSpeed = 0.5;
+        public static final double IntakeSpeed = 0.6;
         public static final double OuttakeSpeed = -0.35;
         public static final double IRThreshold = 100;
     }
@@ -204,10 +204,10 @@ public final class Constants {
             return rotations / ROTOR_TO_ARM_GEAR_RATIO;
         }
 
-        public static double MAX_VOLT = 2.34d;
-        public static double MAX_VOLT_OG = 2.34d;
-        public static double MIN_VOLT = 0.969d;
-        public static double MIN_VOLT_OG = 0.969d;
+        public static double MAX_VOLT = 1.7d;
+        public static double MAX_VOLT_OG = 1.7d;
+        public static double MIN_VOLT = 0.271d;
+        public static double MIN_VOLT_OG = 0.271d;
         public static final double MAX_ANGLE = 105.7d;
         public static final double MIN_DEGREES = 0.0d; // Min angle of arm
     }

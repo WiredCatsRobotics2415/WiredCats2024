@@ -116,7 +116,9 @@ public class OIs {
             binds.put("Shoot", controller.axisLessThan(3, 0.5)); //right trigger, 1 at rest and 0 when pressed
             binds.put("ReverseFinger", controller.button(8, Robot.buttonEventLoop));
 
-            binds.put("ShuttleRotate", controller.button(3, Robot.buttonEventLoop)); //Y
+            //binds.put("ShuttleRotate", numpad.button(1, Robot.buttonEventLoop)); //Numpad 1
+
+            //binds.put("ArmDistanceCalculated", controller.button(3, Robot.buttonEventLoop));
 
             // Presets 
             binds.put("Amp", numpad.button(4, Robot.buttonEventLoop));
