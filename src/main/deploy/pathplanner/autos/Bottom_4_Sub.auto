@@ -32,7 +32,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootSub"
+            "name": "ShootSubNoFly"
           }
         },
         {
@@ -44,7 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootSub"
+            "name": "ShootSubNoFly"
           }
         },
         {

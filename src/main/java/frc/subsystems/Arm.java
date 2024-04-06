@@ -76,7 +76,7 @@ public class Arm extends SubsystemBase {
     }
 
     private boolean getLimitSwitch() {
-        return !limitSwitch.get();
+        return limitSwitch.get();
     }
 
     public void configureMechansim2dWidget() {

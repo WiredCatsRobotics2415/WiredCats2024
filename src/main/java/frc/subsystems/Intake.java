@@ -68,8 +68,7 @@ public class Intake extends SubsystemBase {
         motor.setInverted(true);
         motor.setNeutralMode(NeutralModeValue.Brake);
         motor.getConfigurator().apply(new CurrentLimitsConfigs().withSupplyCurrentThreshold(40));
-        motor.getConfigurator().apply(new ClosedLoopRampsConfigs().withDutyCycleClosedLoopRampPeriod(0.2));
-
+        //motor.getConfigurator().apply(new ClosedLoopRampsConfigs().withDutyCycleClosedLoopRampPeriod(0.2));
     }
 
     private void configureSmartDashboardWidgets() {

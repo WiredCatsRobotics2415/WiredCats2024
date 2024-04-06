@@ -54,7 +54,6 @@ public class AutoNoteDetect extends Command {
 
         if(vision.getNoteAngleOnX() >= Constants.Swerve.HeadingControllerTolerance ||
             vision.getNoteAngleOnX() <= -Constants.Swerve.HeadingControllerTolerance) {
-            System.out.println("head on");
 
             //System.out.println(pose);
             //System.out.println(pose.minus(Rotation2d.fromDegrees(vision.getNoteAngleOnX())));
@@ -63,6 +62,7 @@ public class AutoNoteDetect extends Command {
                 .withTargetDirection(pose.minus(Rotation2d.fromDegrees(vision.getNoteAngleOnX())))
             );
         } else {
+            System.out.println("head on");
             TunerConstants.DriveTrain.setControl(driveForward);
         }
         }

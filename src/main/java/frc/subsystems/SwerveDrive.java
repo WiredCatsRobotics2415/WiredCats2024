@@ -24,7 +24,9 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -36,6 +38,8 @@ import frc.utils.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.utils.LimelightHelpers.PoseEstimate;
 import frc.utils.LimelightHelpers.RawFiducial;
 import frc.utils.LimelightHelpers.Results;
+import frc.utils.Logger.LogLevel;
+import frc.utils.Logger;
 import frc.utils.RobotPreferences;
 
 import java.util.function.Supplier;
@@ -65,6 +69,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
     private Vision vision;
     private int visionMeasurmentCounter = 0;
     private boolean shouldUseLimelight = false;
+    private SendableChooser<Boolean> useLimelightChooser = new SendableChooser<Boolean>();
     private Pose2d robotPose;
     private Pose2d lastLimelightPose;
 
@@ -76,6 +81,11 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
     // Has to be in its own function, because of the template code
     private void intialization() {
+        useLimelightChooser.setDefaultOption("Do not use", false);
+        useLimelightChooser.addOption("Use", true);
+        Shuffleboard.getTab("Auto")
+                .add("Use apriltags?", useLimelightChooser)
+                .withSize(2, 1);
         addExtraMotorConfigs();
         driveFacingAngle.HeadingController = Constants.Swerve.headingPIDController;
         configurePathPlanner();
@@ -160,8 +170,8 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
                 (speeds) -> this.setControl(autoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the robot
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely
                                                  // live in your Constants class
-                        new PIDConstants(0.3, 0.0, 0.05), // Translation PID constants
-                        new PIDConstants(0.2, 0.0, 0.0), // Rotation PID constants
+                        new PIDConstants(0.1, 0.0, 0), // Translation PID constants
+                        new PIDConstants(0.1, 0.0, 0), // Rotation PID constants
                         3, // Max module speed, in m/s
                         driveBaseRadius, // Drive base radius in meters. Distance from robot center
                                          // to furthest module.
@@ -243,7 +253,9 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
      * inputs.
      */
     public void setPreferences() {
-        shouldUseLimelight = RobotPreferences.shouldUseLimelight();
+        shouldUseLimelight = useLimelightChooser.getSelected();
+        if (shouldUseLimelight) Logger.log(this, LogLevel.INFO, "USING LIMELIGHT");
+        else Logger.log(this, LogLevel.INFO, "NOT USING LIMELIGHT");
     }
 
     /**
@@ -290,6 +302,7 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
                 VecBuilder.fill(xyStds, xyStds, 0.0d));
             m_odometry.addVisionMeasurement(
                 poseToGive, Timer.getFPGATimestamp() - (lastResults.latency/1000.0));
+            Logger.log(this, LogLevel.INFO, "Adding estimation", lastResults.rawFiducials.length, translationSpeed, poseToGive, deadReckPose, translationSpeed);
         }
     }
 

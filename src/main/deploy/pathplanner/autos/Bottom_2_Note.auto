@@ -18,6 +18,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOn"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Bottom_2_Note"
@@ -26,13 +32,19 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootWhileMoving"
+            "name": "ShootSubNoFly"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Bottom_Leave"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FlywheelOff"
           }
         }
       ]

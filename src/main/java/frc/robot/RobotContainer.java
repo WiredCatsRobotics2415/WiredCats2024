@@ -228,7 +228,7 @@ public class RobotContainer {
         //selectedOI.binds.get("ShootClose").onTrue(flywheel.on(6000, 8000)); // Subwoofer
         // selectedOI.binds.get("TargetHotspot").onTrue(new FixAll());
 
-        //selectedOI.binds.get("AutoIntake").whileTrue(new AutoNoteDetect());
+        selectedOI.binds.get("AutoIntake").whileTrue(new AutoNoteDetect());
 
         selectedOI.binds.get("FixArm").onTrue(new InstantCommand(() -> {
             arm.resetPotentiometerAndArm();

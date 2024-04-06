@@ -24,7 +24,7 @@ public final class Constants {
                 new String[] {"Front Left", "Front Right", "Back Left", "Back Right"};
 
         public static final PhoenixPIDController headingPIDController =
-                new PhoenixPIDController(3, 0, 0);
+                new PhoenixPIDController(3, 0, 0.3);
 
         static {
             headingPIDController.enableContinuousInput(-Math.PI, Math.PI);
