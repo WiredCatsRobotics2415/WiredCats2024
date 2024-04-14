@@ -8,6 +8,7 @@ import frc.robot.Robot;
 import frc.utils.LimelightHelpers.LimelightResults;
 import frc.utils.LimelightHelpers.PoseEstimate;
 import frc.utils.LimelightHelpers.RawFiducial;
+import frc.utils.DriverFeedback;
 import frc.utils.LimelightHelpers;
 import frc.utils.RobotPreferences;
 
@@ -67,10 +68,12 @@ public class Vision extends SubsystemBase {
         if (Robot.isSimulation()) {
             return SmartDashboard.getBoolean("Note Visible", false);
         }
-        if (LimelightHelpers.getTY(Constants.Vision.IntakeLimelightName) != 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return LimelightHelpers.getTY(Constants.Vision.IntakeLimelightName) != 0;
+    }
+
+    @Override
+    public void periodic() {
+        if (isNoteVisible()) DriverFeedback.rumbleSoft();
+        else DriverFeedback.noRumble();
     }
 }

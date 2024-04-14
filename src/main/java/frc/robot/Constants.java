@@ -138,6 +138,8 @@ public final class Constants {
         public static final double kMaxDriveMeterS = TunerConstants.kSpeedAt12VoltsMps;
         public static final double kMaxAngularRadS = Math.PI * 1.75d; // rad/second
         public static final double MinimumDrivePower = 0.05d;
+        public static final double RumbleSoftValue = 0.2d;
+        public static final double RumbleHardValue = 0.6d;
     }
 
     public static class Intake {

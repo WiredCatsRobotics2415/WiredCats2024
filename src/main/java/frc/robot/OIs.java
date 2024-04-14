@@ -5,6 +5,7 @@ import java.util.Map;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -49,6 +50,8 @@ public class OIs {
          * Should be called from teleopInit()
          */
         public abstract void setPreferences();
+
+        public abstract XboxController getHIDOfController();
     }
     
     public static class GulikitController extends OI {
@@ -169,6 +172,10 @@ public class OIs {
             } else {
                 return minimumPowerCompensation(deadbandCompensated);
             }
+        }
+
+        public XboxController getHIDOfController() {
+            return controller.getHID();
         }
     }
 }

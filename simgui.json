@@ -62,6 +62,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Auto/Auto Chooser": "String Chooser",
+      "/Shuffleboard/Auto/Use apriltags?": "String Chooser",
       "/Shuffleboard/Mechanism2d/Arm Mechanism": "Mechanism2d",
       "/Shuffleboard/Mechanism2d/Finger Mechanism": "Mechanism2d",
       "/Shuffleboard/Mechanism2d/Flywheel Mechanism": "Mechanism2d",
@@ -159,9 +160,6 @@
       "open": true
     },
     "Server": {
-      "Publishers": {
-        "open": true
-      },
       "open": true
     },
     "visible": true

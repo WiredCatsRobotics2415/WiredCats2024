@@ -62,7 +62,6 @@ public class AutoNoteDetect extends Command {
                 .withTargetDirection(pose.minus(Rotation2d.fromDegrees(vision.getNoteAngleOnX())))
             );
         } else {
-            System.out.println("head on");
             TunerConstants.DriveTrain.setControl(driveForward);
         }
         }
