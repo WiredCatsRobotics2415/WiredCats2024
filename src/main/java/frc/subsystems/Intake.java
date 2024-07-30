@@ -149,7 +149,7 @@ public class Intake extends SubsystemBase {
           new InstantCommand(() -> {state = true;}),
           new WaitUntilCommand(() -> hasNote()),
           new InstantCommand(() -> {state = false;}),
-          //new WaitCommand(0.2),
+          new WaitCommand(0.2),
           stopNoteForShooting() 
         ); 
     }
