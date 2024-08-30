@@ -287,6 +287,6 @@ public class RobotContainer {
     }
 
     public static Pose2d getStartingPose(String autoName) {
-        return new PathPlannerAuto(autoName).getStaringPoseFromAutoFile(autoName);
+        return PathPlannerAuto.getStaringPoseFromAutoFile(autoName);
     }
 }

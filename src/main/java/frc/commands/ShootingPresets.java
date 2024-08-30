@@ -47,7 +47,7 @@ public class ShootingPresets {
         }
 
         public static class amp {
-            public static double arm = 80.0;
+            public static double arm = 70.0;
         }
         public static class field {
             public static double middle_center = 16;

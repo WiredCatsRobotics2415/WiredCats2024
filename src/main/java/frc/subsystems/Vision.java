@@ -45,7 +45,7 @@ public class Vision extends SubsystemBase {
     }
 
     /**
-     * @return The targeting resuls object returned from the shooter limelight
+     * @return The targeting results object returned from the shooter limelight
      */
     public PoseEstimate getShooterResults() {
         if (Robot.isSimulation()) {

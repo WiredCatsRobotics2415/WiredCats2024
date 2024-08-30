@@ -1,6 +1,7 @@
 package frc.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkPIDController;
@@ -79,6 +80,7 @@ public class Finger extends SubsystemBase{
         //relativeEncoder = motor.getEncoder(SparkRelativeEncoder.Type.kQuadrature, 4096);
         //relativeEncoder = motor.getAlternateEncoder(kAltEncType, kCPR);
         pidController = motor.getPIDController();
+        pidController.setFeedbackDevice(relativeEncoder);
 
         relativeEncoder.setPositionConversionFactor(1/Constants.Finger.FINGER_GEAR_RATIO);
 
