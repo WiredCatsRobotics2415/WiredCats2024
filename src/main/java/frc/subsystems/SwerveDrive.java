@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.generated.TunerConstants;
 import frc.robot.Constants;
 import frc.robot.Constants.DriverControl;
+import frc.utils.LimelightHelpers;
 import frc.utils.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.utils.LimelightHelpers.PoseEstimate;
 import frc.utils.LimelightHelpers.RawFiducial;
@@ -317,9 +318,12 @@ public class SwerveDrive extends SwerveDrivetrain implements Subsystem {
 
     @Override
     public void periodic() {
-        if (shouldUseLimelight) {
-            //processMegatag();
-        }
+          LimelightHelpers.SetRobotOrientation("limelight", m_odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+        m_odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        m_odometry.addVisionMeasurement(
+            mt2.pose,
+            mt2.timestampSeconds);
+      }
     }
-}
 
